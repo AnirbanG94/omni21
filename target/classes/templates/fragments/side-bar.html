@@ -1,0 +1,1037 @@
+<!--begin::sidebar-->
+<!--begin::sidebar start side bar codes-->
+<div id="kt_app_sidebar" class="app-sidebar flex-column" data-kt-drawer="true" data-kt-drawer-name="app-sidebar"
+	data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px"
+	data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
+	<!--begin::Logo-->
+	<div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
+		<!--begin::Logo image-->
+		<a th:href="@{/home}"> <img alt="Logo" src="assets/media/logos/logo-white.png"
+				class="h-25px app-sidebar-logo-default" /> <img alt="Logo" src="assets/media/logos/logomini.png"
+				class="h-20px app-sidebar-logo-minimize" />
+		</a>
+		<!--end::Logo image-->
+		<!--begin::Sidebar toggle-->
+		<div id="kt_app_sidebar_toggle"
+			class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate"
+			data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
+			data-kt-toggle-name="app-sidebar-minimize">
+			<!--begin::Svg Icon | path: icons/duotune/arrows/arr079.svg-->
+			<span class="svg-icon svg-icon-2 rotate-180"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+					xmlns="http://www.w3.org/2000/svg">
+					<path opacity="0.5"
+						d="M14.2657 11.4343L18.45 7.25C18.8642 6.83579 18.8642 6.16421 18.45 5.75C18.0358 5.33579 17.3642 5.33579 16.95 5.75L11.4071 11.2929C11.0166 11.6834 11.0166 12.3166 11.4071 12.7071L16.95 18.25C17.3642 18.6642 18.0358 18.6642 18.45 18.25C18.8642 17.8358 18.8642 17.1642 18.45 16.75L14.2657 12.5657C13.9533 12.2533 13.9533 11.7467 14.2657 11.4343Z"
+						fill="currentColor" />
+					<path
+						d="M8.2657 11.4343L12.45 7.25C12.8642 6.83579 12.8642 6.16421 12.45 5.75C12.0358 5.33579 11.3642 5.33579 10.95 5.75L5.40712 11.2929C5.01659 11.6834 5.01659 12.3166 5.40712 12.7071L10.95 18.25C11.3642 18.6642 12.0358 18.6642 12.45 18.25C12.8642 17.8358 12.8642 17.1642 12.45 16.75L8.2657 12.5657C7.95328 12.2533 7.95328 11.7467 8.2657 11.4343Z"
+						fill="currentColor" />
+				</svg>
+			</span>
+			<!--end::Svg Icon-->
+		</div>
+		<!--end::Sidebar toggle-->
+
+	</div>
+	<!--end::Logo-->
+
+	<!--begin::sidebar menu-->
+	<div class="app-sidebar-menu overflow-hidden flex-column-fluid">
+		<!--begin::Menu wrapper-->
+		<div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5"
+			data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto"
+			data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
+			data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
+			<!--begin::Menu-->
+			<div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu"
+				data-kt-menu="true" data-kt-menu-expand="false">
+
+				<!--begin:Menu item-->
+
+				<div sec:authorize="hasAuthority('HOME')" class="menu-item">
+					<!--begin:Menu link-->
+					<a class="menu-link" th:href="@{/home}"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
+							<span class="svg-icon svg-icon-2"> <svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+									<rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+									<rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+									<rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">Home</span>
+					</a>
+					<!--end:Menu link-->
+				</div>
+				<!--end:Menu item-->
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('ADMINMENU')" data-kt-menu-trigger="click"
+					class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
+							<span class="svg-icon svg-icon-2"> <svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path
+										d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z"
+										fill="currentColor" />
+									<path opacity="0.3"
+										d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z"
+										fill="currentColor" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">Admin</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+						<!--begin:Menu item-->
+						<div class="menu-item" sec:authorize="hasAuthority('COMPANYSETUP')">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/company-setup}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Company</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+						<!--begin:Menu item-->
+
+						<div class="menu-item" sec:authorize="hasAuthority('MENUSETUP')">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/menu-setup}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Menu Setup</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<!--begin:Menu item-->
+						<div class="menu-item" sec:authorize="hasAuthority('DOCUMENTSETUP')">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/document-setup}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Statutory Documents</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<div sec:authorize="hasAuthority('APPLICATIONSETUP')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/application-setup}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Application Setup</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('YEARSETUP')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/year-setup}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Financial Year Setup</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('IDENTIFICATIONSETUP')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/identification-setup}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Identification Setup </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('EMAILSETUP')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/email-setup}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Trail Mail Setup</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('APPROVALSETUP')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/approval-setup}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Approval Setup </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('LOGINHISTORY')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/login-history}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Login History</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('USERMANAGEMENT')" data-kt-menu-trigger="click"
+					class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/general/gen022.svg-->
+							<span class="svg-icon svg-icon-2"> <svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path
+										d="M11.2929 2.70711C11.6834 2.31658 12.3166 2.31658 12.7071 2.70711L15.2929 5.29289C15.6834 5.68342 15.6834 6.31658 15.2929 6.70711L12.7071 9.29289C12.3166 9.68342 11.6834 9.68342 11.2929 9.29289L8.70711 6.70711C8.31658 6.31658 8.31658 5.68342 8.70711 5.29289L11.2929 2.70711Z"
+										fill="currentColor" />
+									<path
+										d="M11.2929 14.7071C11.6834 14.3166 12.3166 14.3166 12.7071 14.7071L15.2929 17.2929C15.6834 17.6834 15.6834 18.3166 15.2929 18.7071L12.7071 21.2929C12.3166 21.6834 11.6834 21.6834 11.2929 21.2929L8.70711 18.7071C8.31658 18.3166 8.31658 17.6834 8.70711 17.2929L11.2929 14.7071Z"
+										fill="currentColor" />
+									<path opacity="0.3"
+										d="M5.29289 8.70711C5.68342 8.31658 6.31658 8.31658 6.70711 8.70711L9.29289 11.2929C9.68342 11.6834 9.68342 12.3166 9.29289 12.7071L6.70711 15.2929C6.31658 15.6834 5.68342 15.6834 5.29289 15.2929L2.70711 12.7071C2.31658 12.3166 2.31658 11.6834 2.70711 11.2929L5.29289 8.70711Z"
+										fill="currentColor" />
+									<path opacity="0.3"
+										d="M17.2929 8.70711C17.6834 8.31658 18.3166 8.31658 18.7071 8.70711L21.2929 11.2929C21.6834 11.6834 21.6834 12.3166 21.2929 12.7071L18.7071 15.2929C18.3166 15.6834 17.6834 15.6834 17.2929 15.2929L14.7071 12.7071C14.3166 12.3166 14.3166 11.6834 14.7071 11.2929L17.2929 8.70711Z"
+										fill="currentColor" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">User Management</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+
+						<div sec:authorize="hasAuthority('ROLES')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/roles}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Roles</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('USERS')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/users}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Users</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+
+
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('MASTER')" data-kt-menu-trigger="click"
+					class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/files/fil003.svg-->
+							<span class="svg-icon svg-icon-2"> <svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path opacity="0.3"
+										d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22Z"
+										fill="currentColor" />
+									<path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="currentColor" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">Master</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+						<!--begin:Menu item-->
+						<div sec:authorize="hasAuthority('LOCATIONMASTER')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/location-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Location </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<div sec:authorize="hasAuthority('OUTLETMASTER')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/outlet-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Office/Store </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<!--begin:Menu item-->
+						<div sec:authorize="hasAuthority('CLUSTER')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/cluster-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Cluster </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<!--begin:Menu item-->
+						<div sec:authorize="hasAuthority('CLUSTERMAPPING')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/cluster-mapping-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Cluster Mapping </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<div sec:authorize="hasAuthority('REGIONMASTER')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/region-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Region </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+						<div sec:authorize="hasAuthority('PAYMENTMODEMASTER')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/payment-mode-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Payment Mode </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('TRANSPORTATION')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/transportation-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Transportation </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+						<div sec:authorize="hasAuthority('ASSETSTYPE')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/assetstype-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Asset Type </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('REASON')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/reason-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Rejection Reason </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!-- <div sec:authorize="hasAuthority('BAY')" class="menu-item">
+							<a class="menu-link" th:href="@{/bay-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Bay</span>
+							</a>
+						</div> -->
+
+						<div sec:authorize="hasAuthority('SCHEDULE')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/schedule-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Schedule</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('TOTMASTER')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/tot-master}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">TOT</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('TOTCREATION')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/tot-creation}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">TOT-Creation</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('PRODUCT')" data-kt-menu-trigger="click"
+					class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/files/fil003.svg-->
+							<span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path opacity="0.3"
+										d="M3 13H10C10.6 13 11 13.4 11 14V21C11 21.6 10.6 22 10 22H3C2.4 22 2 21.6 2 21V14C2 13.4 2.4 13 3 13Z"
+										fill="currentColor" />
+									<path d="M7 16H6C5.4 16 5 15.6 5 15V13H8V15C8 15.6 7.6 16 7 16Z"
+										fill="currentColor" />
+									<path opacity="0.3"
+										d="M14 13H21C21.6 13 22 13.4 22 14V21C22 21.6 21.6 22 21 22H14C13.4 22 13 21.6 13 21V14C13 13.4 13.4 13 14 13Z"
+										fill="currentColor" />
+									<path d="M18 16H17C16.4 16 16 15.6 16 15V13H19V15C19 15.6 18.6 16 18 16Z"
+										fill="currentColor" />
+									<path opacity="0.3"
+										d="M3 2H10C10.6 2 11 2.4 11 3V10C11 10.6 10.6 11 10 11H3C2.4 11 2 10.6 2 10V3C2 2.4 2.4 2 3 2Z"
+										fill="currentColor" />
+									<path d="M7 5H6C5.4 5 5 4.6 5 4V2H8V4C8 4.6 7.6 5 7 5Z" fill="currentColor" />
+									<path opacity="0.3"
+										d="M14 2H21C21.6 2 22 2.4 22 3V10C22 10.6 21.6 11 21 11H14C13.4 11 13 10.6 13 10V3C13 2.4 13.4 2 14 2Z"
+										fill="currentColor" />
+									<path d="M18 5H17C16.4 5 16 4.6 16 4V2H19V4C19 4.6 18.6 5 18 5Z"
+										fill="currentColor" />
+								</svg> </span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">Product</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+						<!--begin:Menu item-->
+						<div sec:authorize="hasAuthority('ITEM')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/item-product}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Product Hierarchy </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<div sec:authorize="hasAuthority('BRAND')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/brand-product}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Brand </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+						<div sec:authorize="hasAuthority('MANUFACTURE')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/manufacture-product}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Manufacturer </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<!-- <div sec:authorize="hasAuthority('PACKTYPE')" class="menu-item">
+							
+							<a class="menu-link" th:href="@{/pack-type-product}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Pack Type </span>
+							</a>
+						</div> -->
+
+
+						<!-- <div sec:authorize="hasAuthority('PURCHASEGROUP')" class="menu-item">
+							
+							<a class="menu-link" th:href="@{/purchase-group-product}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Purchase Group</span>
+							</a>
+						</div> -->
+						<div sec:authorize="hasAuthority('UOM')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/uom-product}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">UOM </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('ARTICLE')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/article-product}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Article </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('ARTICLESTATUS')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/article-status-product}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Article Status </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('VENDOR')" data-kt-menu-trigger="click"
+					class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/files/fil003.svg-->
+							<span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path opacity="0.3"
+										d="M21.25 18.525L13.05 21.825C12.35 22.125 11.65 22.125 10.95 21.825L2.75 18.525C1.75 18.125 1.75 16.725 2.75 16.325L4.04999 15.825L10.25 18.325C10.85 18.525 11.45 18.625 12.05 18.625C12.65 18.625 13.25 18.525 13.85 18.325L20.05 15.825L21.35 16.325C22.35 16.725 22.35 18.125 21.25 18.525ZM13.05 16.425L21.25 13.125C22.25 12.725 22.25 11.325 21.25 10.925L13.05 7.62502C12.35 7.32502 11.65 7.32502 10.95 7.62502L2.75 10.925C1.75 11.325 1.75 12.725 2.75 13.125L10.95 16.425C11.65 16.725 12.45 16.725 13.05 16.425Z"
+										fill="currentColor" />
+									<path
+										d="M11.05 11.025L2.84998 7.725C1.84998 7.325 1.84998 5.925 2.84998 5.525L11.05 2.225C11.75 1.925 12.45 1.925 13.15 2.225L21.35 5.525C22.35 5.925 22.35 7.325 21.35 7.725L13.05 11.025C12.45 11.325 11.65 11.325 11.05 11.025Z"
+										fill="currentColor" />
+								</svg> </span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">Vendor</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+						<!--begin:Menu item-->
+						<div sec:authorize="hasAuthority('INVITEVENDOR')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/invite-vendor}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Invite Vendor </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<div sec:authorize="hasAuthority('VENDORREGISTRATION')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/vendor-registration}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Vendor Registration </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('VENDORREPLACEMENT')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/vendor-replacement}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Vendor Replacement </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('VENDORMANUFACTURE')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/vendor-manufacture}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Vendor Manufacture Mapping </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+						<div sec:authorize="hasAuthority('VENDORAPPROVAL')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/vendor-approval}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Vendor Approval </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('VENDORPRODUCT')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/vendor-product}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">New Product Introduction(NPI) </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+						<div sec:authorize="hasAuthority('PRODUCTAPPROVAL')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/vendor-product-approval}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">NPI approval</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('SHIPPINGNOTIFICATION')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/vendor-shipping-notification}">
+								<span class="menu-bullet"> <span class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Advance Shipping Notifications </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('VENDORPROMO')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/vendor-promo}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Vendor Promo</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu Item-->
+
+
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('PROMO')" data-kt-menu-trigger="click"
+					class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/files/fil003.svg-->
+							<span class="svg-icon svg-icon-2"><svg width="24" height="25" viewBox="0 0 24 25"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path opacity="0.3"
+										d="M8.9 21L7.19999 22.6999C6.79999 23.0999 6.2 23.0999 5.8 22.6999L4.1 21H8.9ZM4 16.0999L2.3 17.8C1.9 18.2 1.9 18.7999 2.3 19.1999L4 20.9V16.0999ZM19.3 9.1999L15.8 5.6999C15.4 5.2999 14.8 5.2999 14.4 5.6999L9 11.0999V21L19.3 10.6999C19.7 10.2999 19.7 9.5999 19.3 9.1999Z"
+										fill="currentColor" />
+									<path
+										d="M21 15V20C21 20.6 20.6 21 20 21H11.8L18.8 14H20C20.6 14 21 14.4 21 15ZM10 21V4C10 3.4 9.6 3 9 3H4C3.4 3 3 3.4 3 4V21C3 21.6 3.4 22 4 22H9C9.6 22 10 21.6 10 21ZM7.5 18.5C7.5 19.1 7.1 19.5 6.5 19.5C5.9 19.5 5.5 19.1 5.5 18.5C5.5 17.9 5.9 17.5 6.5 17.5C7.1 17.5 7.5 17.9 7.5 18.5Z"
+										fill="currentColor" />
+								</svg> </span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">Promo</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+						<!--begin:Menu item-->
+
+						<div sec:authorize="hasAuthority('GENERALPROMO')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/general-promo}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Universal Promo </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('BUYERPROMO')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/buyer-promo}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Self Funded Promo </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('VENDORPROMOAPPROVAL')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/vendor-promo-approval}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Vendor Promo Approval</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<div sec:authorize="hasAuthority('BUYERPROMOAPPROVAL')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/buyer-promo-approval}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Buyer Promo Approval</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('GKM')" data-kt-menu-trigger="click" class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/files/fil003.svg-->
+							<span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path opacity="0.3"
+										d="M21 2H13C12.4 2 12 2.4 12 3V13C12 13.6 12.4 14 13 14H21C21.6 14 22 13.6 22 13V3C22 2.4 21.6 2 21 2ZM15.7 8L14 10.1V5.80005L15.7 8ZM15.1 4H18.9L17 6.40002L15.1 4ZM17 9.59998L18.9 12H15.1L17 9.59998ZM18.3 8L20 5.90002V10.2L18.3 8ZM9 2H3C2.4 2 2 2.4 2 3V21C2 21.6 2.4 22 3 22H9C9.6 22 10 21.6 10 21V3C10 2.4 9.6 2 9 2ZM4.89999 12L4 14.8V9.09998L4.89999 12ZM4.39999 4H7.60001L6 8.80005L4.39999 4ZM6 15.2L7.60001 20H4.39999L6 15.2ZM7.10001 12L8 9.19995V14.9L7.10001 12Z"
+										fill="currentColor" />
+									<path
+										d="M21 18H13C12.4 18 12 17.6 12 17C12 16.4 12.4 16 13 16H21C21.6 16 22 16.4 22 17C22 17.6 21.6 18 21 18ZM19 21C19 20.4 18.6 20 18 20H13C12.4 20 12 20.4 12 21C12 21.6 12.4 22 13 22H18C18.6 22 19 21.6 19 21Z"
+										fill="currentColor" />
+								</svg> </span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">GKM</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+						<!--begin:Menu item-->
+						<div sec:authorize="hasAuthority('GKMARGIN')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/gate-keeper-margin}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Gate Keeper Margin</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('PURCHASE')" data-kt-menu-trigger="click"
+					class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/files/fil003.svg-->
+							<span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path opacity="0.3"
+										d="M18.041 22.041C18.5932 22.041 19.041 21.5932 19.041 21.041C19.041 20.4887 18.5932 20.041 18.041 20.041C17.4887 20.041 17.041 20.4887 17.041 21.041C17.041 21.5932 17.4887 22.041 18.041 22.041Z"
+										fill="currentColor" />
+									<path opacity="0.3"
+										d="M6.04095 22.041C6.59324 22.041 7.04095 21.5932 7.04095 21.041C7.04095 20.4887 6.59324 20.041 6.04095 20.041C5.48867 20.041 5.04095 20.4887 5.04095 21.041C5.04095 21.5932 5.48867 22.041 6.04095 22.041Z"
+										fill="currentColor" />
+									<path opacity="0.3"
+										d="M7.04095 16.041L19.1409 15.1409C19.7409 15.1409 20.141 14.7409 20.341 14.1409L21.7409 8.34094C21.9409 7.64094 21.4409 7.04095 20.7409 7.04095H5.44095L7.04095 16.041Z"
+										fill="currentColor" />
+									<path
+										d="M19.041 20.041H5.04096C4.74096 20.041 4.34095 19.841 4.14095 19.541C3.94095 19.241 3.94095 18.841 4.14095 18.541L6.04096 14.841L4.14095 4.64095L2.54096 3.84096C2.04096 3.64096 1.84095 3.04097 2.14095 2.54097C2.34095 2.04097 2.94096 1.84095 3.44096 2.14095L5.44096 3.14095C5.74096 3.24095 5.94096 3.54096 5.94096 3.84096L7.94096 14.841C7.94096 15.041 7.94095 15.241 7.84095 15.441L6.54096 18.041H19.041C19.641 18.041 20.041 18.441 20.041 19.041C20.041 19.641 19.641 20.041 19.041 20.041Z"
+										fill="currentColor" />
+								</svg> </span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">Purchase</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+
+
+						<!--begin:Menu item-->
+						<div sec:authorize="hasAuthority('PURCHASEORDER')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/purchase-order}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Purchase Order</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<div sec:authorize="hasAuthority('PURCHASEORDERAPPROVAL')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/purchase-order-approval}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Purchase Order Approval </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+						<div sec:authorize="hasAuthority('PURCHASEBILL')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/purchase-bill}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Purchase Bill </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+
+
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('ASSET')" data-kt-menu-trigger="click"
+					class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/files/fil003.svg-->
+							<span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path opacity="0.3" d="M18 10V20C18 20.6 18.4 21 19 21C19.6 21 20 20.6 20 20V10H18Z"
+										fill="currentColor" />
+									<path opacity="0.3"
+										d="M11 10V17H6V10H4V20C4 20.6 4.4 21 5 21H12C12.6 21 13 20.6 13 20V10H11Z"
+										fill="currentColor" />
+									<path opacity="0.3" d="M10 10C10 11.1 9.1 12 8 12C6.9 12 6 11.1 6 10H10Z"
+										fill="currentColor" />
+									<path opacity="0.3" d="M18 10C18 11.1 17.1 12 16 12C14.9 12 14 11.1 14 10H18Z"
+										fill="currentColor" />
+									<path opacity="0.3" d="M14 4H10V10H14V4Z" fill="currentColor" />
+									<path opacity="0.3" d="M17 4H20L22 10H18L17 4Z" fill="currentColor" />
+									<path opacity="0.3" d="M7 4H4L2 10H6L7 4Z" fill="currentColor" />
+									<path
+										d="M6 10C6 11.1 5.1 12 4 12C2.9 12 2 11.1 2 10H6ZM10 10C10 11.1 10.9 12 12 12C13.1 12 14 11.1 14 10H10ZM18 10C18 11.1 18.9 12 20 12C21.1 12 22 11.1 22 10H18ZM19 2H5C4.4 2 4 2.4 4 3V4H20V3C20 2.4 19.6 2 19 2ZM12 17C12 16.4 11.6 16 11 16H6C5.4 16 5 16.4 5 17C5 17.6 5.4 18 6 18H11C11.6 18 12 17.6 12 17Z"
+										fill="currentColor" />
+								</svg> </span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">Asset</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+
+
+						<!--begin:Menu item-->
+						<div sec:authorize="hasAuthority('ASSETREGISTRATION')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/asset-registration}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Asset Registration</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<div sec:authorize="hasAuthority('ASSETBOOKING')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/asset-booking}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Asset Booking </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+						<div sec:authorize="hasAuthority('ASSETBOOKINGAPPROVAL')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/asset-booking-approval}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Asset Booking Approval </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('ASSETEXECUTION')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/asset-execution}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Asset Execution </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('WAREHOUSE')" data-kt-menu-trigger="click"
+					class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/files/fil003.svg-->
+							<span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path opacity="0.3"
+										d="M18 21.6C16.3 21.6 15 20.3 15 18.6V2.50001C15 2.20001 14.6 1.99996 14.3 2.19996L13 3.59999L11.7 2.3C11.3 1.9 10.7 1.9 10.3 2.3L9 3.59999L7.70001 2.3C7.30001 1.9 6.69999 1.9 6.29999 2.3L5 3.59999L3.70001 2.3C3.50001 2.1 3 2.20001 3 3.50001V18.6C3 20.3 4.3 21.6 6 21.6H18Z"
+										fill="currentColor" />
+									<path
+										d="M12 12.6H11C10.4 12.6 10 12.2 10 11.6C10 11 10.4 10.6 11 10.6H12C12.6 10.6 13 11 13 11.6C13 12.2 12.6 12.6 12 12.6ZM9 11.6C9 11 8.6 10.6 8 10.6H6C5.4 10.6 5 11 5 11.6C5 12.2 5.4 12.6 6 12.6H8C8.6 12.6 9 12.2 9 11.6ZM9 7.59998C9 6.99998 8.6 6.59998 8 6.59998H6C5.4 6.59998 5 6.99998 5 7.59998C5 8.19998 5.4 8.59998 6 8.59998H8C8.6 8.59998 9 8.19998 9 7.59998ZM13 7.59998C13 6.99998 12.6 6.59998 12 6.59998H11C10.4 6.59998 10 6.99998 10 7.59998C10 8.19998 10.4 8.59998 11 8.59998H12C12.6 8.59998 13 8.19998 13 7.59998ZM13 15.6C13 15 12.6 14.6 12 14.6H10C9.4 14.6 9 15 9 15.6C9 16.2 9.4 16.6 10 16.6H12C12.6 16.6 13 16.2 13 15.6Z"
+										fill="currentColor" />
+									<path
+										d="M15 18.6C15 20.3 16.3 21.6 18 21.6C19.7 21.6 21 20.3 21 18.6V12.5C21 12.2 20.6 12 20.3 12.2L19 13.6L17.7 12.3C17.3 11.9 16.7 11.9 16.3 12.3L15 13.6V18.6Z"
+										fill="currentColor" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">Warehouse</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+
+
+						<!--begin:Menu item-->
+						<div sec:authorize="hasAuthority('WGRN')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/warehouse-grn}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">GRN</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<div sec:authorize="hasAuthority('WGDN')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/warehouse-gdn}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">GDN</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('WMRN')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/warehouse-mrn}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">MRN</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+						<div sec:authorize="hasAuthority('WPICKLIST')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/warehouse-pick-list}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Pick List </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('WSTOCK')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/warehouse-stock}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Stock</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('WSTOCKTRANSFER')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/warehouse-stock-transfer}"> <span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Stock Transfer</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('WOPENINGSTOCK')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/warehouse-openingstock}"> <span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Opening Stock</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+
+				<!--begin:Menu item-->
+				<div sec:authorize="hasAuthority('STORE')" data-kt-menu-trigger="click"
+					class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link"> <span class="menu-icon">
+							<!--begin::Svg Icon | path: icons/duotune/files/fil003.svg-->
+							<span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path opacity="0.3"
+										d="M21 2H13C12.4 2 12 2.4 12 3V13C12 13.6 12.4 14 13 14H21C21.6 14 22 13.6 22 13V3C22 2.4 21.6 2 21 2ZM15.7 8L14 10.1V5.80005L15.7 8ZM15.1 4H18.9L17 6.40002L15.1 4ZM17 9.59998L18.9 12H15.1L17 9.59998ZM18.3 8L20 5.90002V10.2L18.3 8ZM9 2H3C2.4 2 2 2.4 2 3V21C2 21.6 2.4 22 3 22H9C9.6 22 10 21.6 10 21V3C10 2.4 9.6 2 9 2ZM4.89999 12L4 14.8V9.09998L4.89999 12ZM4.39999 4H7.60001L6 8.80005L4.39999 4ZM6 15.2L7.60001 20H4.39999L6 15.2ZM7.10001 12L8 9.19995V14.9L7.10001 12Z"
+										fill="currentColor" />
+									<path
+										d="M21 18H13C12.4 18 12 17.6 12 17C12 16.4 12.4 16 13 16H21C21.6 16 22 16.4 22 17C22 17.6 21.6 18 21 18ZM19 21C19 20.4 18.6 20 18 20H13C12.4 20 12 20.4 12 21C12 21.6 12.4 22 13 22H18C18.6 22 19 21.6 19 21Z"
+										fill="currentColor" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</span> <span class="menu-title">Store</span> <span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion">
+
+
+						<!--begin:Menu item-->
+						<div sec:authorize="hasAuthority('SGRN')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/store-grn}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">GRN</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+						<div sec:authorize="hasAuthority('SGDN')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/store-gdn}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">GDN</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('SMRN')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/store-mrn}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">MRN</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+
+						<div sec:authorize="hasAuthority('SPICKLIST')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/store-pick-list}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Pick List </span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('SSTOCK')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/store-stock}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Stock</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('SSTOCKTRANSFER')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/store-stock-transfer}"> <span class="menu-bullet"> <span
+										class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Stock Transfer</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+						<div sec:authorize="hasAuthority('SOPENINGSTOCK')" class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{/store-openingstock}"> <span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span> <span class="menu-title">Opening Stock</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+
+
+			</div>
+			<!--end::Menu-->
+
+		</div>
+		<!--end::Menu wrapper-->
+	</div>
+	<!--end::sidebar menu-->
+
+</div>
+<!--end::sidebar-->

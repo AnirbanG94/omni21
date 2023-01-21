@@ -1,0 +1,1042 @@
+<div th:replace="fragments/head"></div>
+<link href="assets/css/semantic.min.css" rel="stylesheet" />
+<!--begin::Body-->
+<style>
+	pre {
+		overflow: auto;
+		word-wrap: normal;
+		white-space: pre;
+	}
+
+	[ng\:cloak],
+	[ng-cloak],
+	.ng-cloak {
+		display: none !important;
+	}
+
+	@media (min-width:992px) {
+		.app-container-content {
+			padding-left: 10px !important;
+			padding-right: 10px !important;
+		}
+
+
+	}
+
+	@media (max-width:991.98px) {
+		.app-container-content {
+			max-width: none;
+			padding-left: 9px !important;
+			padding-right: 9px !important;
+		}
+	}
+
+	.prime-td {
+		background-color: #f0f0f0 !important;
+		height: 25px !important;
+		padding: 0 0 0 10px !important;
+		margin: 0 0 0 0 !important;
+		vertical-align: middle !important;
+		/* border: 1px #727272 solid !important; */
+	}
+</style>
+
+<body ng-app="UserManagment" ng-controller="UserController" data-kt-name="metronic" id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
+
+
+	<!-- Header content top header codes-->
+	<div th:replace="fragments/header"></div>
+	<!--end::Header-->
+
+
+	<!--begin::Wrapper-->
+	<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+		<!--begin::sidebar-->
+		<div th:replace="fragments/side-bar"></div>
+		<!--end::sidebar-->
+
+
+		<!--begin::Main-->
+		<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+
+			<!--========================== Multiple Views Content ==============================-->
+
+			<!-- // List user view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.list">
+				<!--begin::Toolbar-->
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+
+								<span><i class="fa-solid fa-users fs-1"></i></span>
+								Users
+							</h3>
+							<!--end::Title-->
+						</div>
+
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+							<button sec:authorize="hasAuthority('ADD')" style="float:right;" type="button" class="btn btn-primary" ng-click="AddUser()">Add</button>
+
+							<button sec:authorize="hasAuthority('EXPORT')" style="float:right;" type="button" class="btn btn-light-primary me-3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Export</button>
+							<!--begin::Menu-->
+							<div sec:authorize="hasAuthority('EXPORT')" id="kt_datatable_example_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4" data-kt-menu="true">
+
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<a href="#" class="menu-link px-3" ng-click="exportToExcel('#kt_datatable_example')" data-kt-export="excel">
+										Export as Excel
+									</a>
+								</div>
+							</div>
+							<div id="kt_datatable_example_buttons" class="d-none"></div>
+
+						</div>
+						<!--end::Page title-->
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+				<!--end::Toolbar-->
+
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+
+					<div id="" class="app-container-content container-xxl">
+
+						<div class="card  card-flush">
+							<div class="card-header border-0">
+								<div class="card-title">
+									<!--begin::Search-->
+									<div class="d-flex align-items-center position-relative my-1">
+										<span class="svg-icon svg-icon-1 position-absolute ms-6">
+											<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor">
+												</rect>
+												<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor"></path>
+											</svg>
+										</span>
+										<input type="text" data-kt-filter="search" ng-model="searchText" class="form-control form-control-solid w-250px ps-15" placeholder="Search Report" />
+									</div>
+									<!--end::Search-->
+									<!--begin::Export buttons-->
+									<!-- <div id="kt_datatable_example_1_export" class="d-none"></div> -->
+									<!--end::Export buttons-->
+								</div>
+
+							</div>
+							<div class="card-body">
+								<table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" id="kt_datatable_example" datatable="ng" dt-options="vm.dtOptions">
+									<thead>
+										<!--begin::Table row-->
+										<tr style="font-weight: 700 !important;color: black !important;" class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+											<th class="min-w-10px">Sl.</th>
+											<th class="min-w-100px">Name</th>
+											<th class="min-w-100px">Mobile No.</th>
+											<th class="min-w-100px">Email</th>
+											<th class="min-w-100px">Username</th>
+											<th class="min-w-100px">#</th>
+										</tr>
+										<!--end::Table row-->
+									</thead>
+									<tbody class="fw-semibold text-gray-600">
+										<tr class="odd" ng-repeat="user in user_list | filter:searchText">
+											<td style="width: 10px">{{$index + 1}}</td>
+											<td>{{user.name}}</td>
+											<td>{{user.mobile}}</td>
+											<td>{{user.email}}</td>
+											<td>{{user.username}}</td>
+
+											<td>
+												<div sec:authorize="hasAnyAuthority('ADD', 'EDIT','USERSTATE')" class="btn-group" dropdown>
+													<button type="button" class="btn btn-outline-primary dropdown-toggle">
+														Action
+													</button>
+													<ul class="dropdown-menu" role="menu">
+														<li sec:authorize="hasAuthority('EDIT')"><a href="#" ng-click="editUser(user.id)">Edit</a>
+														</li>
+														<li sec:authorize="hasAuthority('USERSTATE')"><a ng-if="user.enabled == true" href="#" ng-click="ChangeStatus(user.id,'active')">Deactivate</a>
+															<a ng-if="user.enabled == false" href="#" ng-click="ChangeStatus(user.id,'inactive')">Activate</a>
+														</li>
+														<li sec:authorize="hasAuthority('DELETE')"><a href="#" ng-click="deleteUser(user.id)">Remove</a>
+														</li>
+													</ul>
+												</div>
+											</td>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+					<!--end::Content container-->
+				</div>
+			</div>
+
+			<!-- Add user view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.addUser">
+				<!--begin::Toolbar-->
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<span><i class="fa-solid fa-users fs-1"></i></span>
+								Add User Rights
+							</h3>
+							<!--end::Title-->
+
+						</div>
+						<!--end::Page title-->
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+							<button class="btn btn-outline-danger" ng-click="changeView('list')" title="Cancel" style="padding: calc(-0.425rem + 1px) calc(-0.5rem + 1px);">
+								<span class="svg-icon svg-icon-muted svg-icon-2hx">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 2.2rem !important;height: 2.5rem !important;">
+										<path d="M9.60001 11H21C21.6 11 22 11.4 22 12C22 12.6 21.6 13 21 13H9.60001V11Z" fill="currentColor" />
+										<path opacity="0.3" d="M9.6 20V4L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L9.6 20Z" fill="currentColor" />
+									</svg>
+								</span>
+							</button>
+						</div>
+
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+				<!--end::Toolbar-->
+				<!--begin::Content-->
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+					<!--begin::Content container-->
+					<div id="kt_app_content_container" class="app-container-content container-xxl">
+						<!--begin::Contacts App- Add New Contact-->
+						<div class="row g-7">
+							<!--begin::Contact groups-->
+
+
+							<!--begin::Content-->
+							<div class="col-xl-12">
+								<!--begin::Contacts-->
+								<div class="card card-flush h-lg-100" id="kt_contacts_main">
+
+									<!--begin::Card body-->
+									<div class="card-body pt-5">
+										<!--begin::Form-->
+										<form id="kt_ecommerce_settings_general_form" class="form" autocomplete='off' enctype="multipart/form-data" ng-submit="AddSaveprofilePicUpload()">
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+												<div class="col">
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3"> <span class="required"><b>Name</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="text" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" title="Only Letter and space Allowed" class="form-control form-control-solid" placeholder="Name" name="name" ng-model="form.name" />
+														<!--end::Input-->
+													</div>
+												</div>
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span class="required"><b>Username</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="text" class="form-control form-control-solid" name="username" ng-model="form.username" placeholder="Username" ng-change="checkUsername(form.username)" autocomplete="false" />
+														<span style="color: red;display:none;" id="username_msg">Username
+															already exist! Please try another one</span>
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+											</div>
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span class="required"><b>Password</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control form-control-solid" name="password" ng-model="form.password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span class="required"><b>Email</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="email" class="form-control form-control-solid" placeholder="Email" name="email" ng-model="form.email" oninvalid="this.setCustomValidity('Email cannot be empty.')" onchange="this.setCustomValidity('')" ng-change="CheckUserEmail(form.email)" />
+														<span style="color: red;display:none;" id="email_msg">Email
+															already exist! Please try another one</span>
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+											</div>
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span class="required"><b>Phone</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="text" minlength="10" maxlength="10" class="form-control form-control-solid" placeholder="Phone No" name="phone" ng-model="form.mobile" oninvalid="this.setCustomValidity('Enter ten digit mobile number.')" onchange="this.setCustomValidity('')" />
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span class="required"><b>Employee ID</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="text" class="form-control form-control-solid" name="employee id" placeholder="Employee Id" ng-model="form.employeeId" oninvalid="this.setCustomValidity('Employee ID cannot be empty.')" onchange="this.setCustomValidity('')" />
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+											</div>
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span><b>Manager</b></span>
+														</label>
+														<!--end::Label-->
+														<div class="w-100">
+															<div class="form-floating border rounded">
+																<!--begin::Select2-->
+																<select class="form-select form-select-solid lh-1 py-3" ng-model="form.hod_id" data-placeholder="Select a HOD">
+																	<option value="{{hod_list.id}}" ng-repeat="hod_list in hod_lists">
+																		{{hod_list.name}}
+																	</option>
+																</select>
+																<!--end::Select2-->
+															</div>
+														</div>
+													</div>
+													<!--end::Input group-->
+												</div>
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span><b>Location</b></span>
+														</label>
+														<!--end::Label-->
+														<div class="w-100">
+															<div class="form-floating border rounded">
+																<!--begin::Select2-->
+																<select required ng-model=form.locationId class="form-select form-select-solid lh-1 py-3" ng-options="location.id as location.name for location in locations">
+
+																</select>
+																<!--end::Select2-->
+															</div>
+														</div>
+													</div>
+													<!--end::Input group-->
+												</div>
+											</div>
+											<!--end::Row-->
+
+
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="form-check form-check-custom form-check-solid mt-2 mt-md-11">
+														<input class="form-check-input" type="checkbox" ng-model=form.hodstatus id="form_checkbox" /> <label class="form-check-label" for="form_checkbox"> Is
+															Manager? </label>
+													</div>
+													<!--end::Input group-->
+												</div>
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span><b>Adhoc Privilege</b></span>
+														</label>
+														<!--end::Label-->
+														<div class="w-100">
+															<span ng-repeat="privilege in hoc_privileges">
+																<input type="checkbox" name="hoc_privileges_id" ng-model="hoc_privileges_id[privilege.id]" value="{{privilege.id}}"> {{privilege.name}}
+															</span>
+														</div>
+													</div>
+													<!--end::Input group-->
+												</div>
+											</div>
+
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+												<div class="col">
+													<div class="fv-row mb-7">
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span><b>Role</b></span>
+														</label>
+														<div class="w-100">
+															<select id="foo_select" required oninvalid="this.setCustomValidity('Please Select atleast one role.')" onchange="this.setCustomValidity('')" name="role" ng-model="form.role_ids" multiple="" class="form-control label ui selection fluid dropdown">
+																<option value="{{role.id}}" ng-repeat="role in roles">
+																	{{role.name}}
+																</option>
+															</select>
+														</div>
+													</div>
+												</div>
+
+												<div class="col">
+
+													<div class="mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold mb-3"> <span><b>Upload
+																	Picture</b></span> <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Allowed file types: png, jpg, jpeg."></i>
+														</label>
+														<!--end::Label-->
+														<!--begin::Image input wrapper-->
+														<div class="mt-1">
+															<!--begin::Image placeholder-->
+															<style>
+																.image-input-placeholder {
+																	background-image: url('assets/media/svg/files/blank-image.svg');
+																}
+
+																[data-theme="dark"] .image-input-placeholder {
+																	background-image: url('assets/media/svg/files/blank-image-dark.svg');
+																}
+															</style>
+															<!--end::Image placeholder-->
+															<!--begin::Image input-->
+															<div class="image-input image-input-outline image-input-placeholder image-input-empty image-input-empty" data-kt-image-input="true">
+																<!--begin::Preview existing avatar-->
+																<div class="image-input-wrapper w-100px h-100px" style="background-image: url('')"></div>
+																<!--end::Preview existing avatar-->
+																<!--begin::Edit-->
+																<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+																	<i class="bi bi-pencil-fill fs-7"></i>
+																	<!--begin::Inputs-->
+																	<input type="file" name="avatar" accept=".png, .jpg, .jpeg" file-model="fileUpload.profilepic" class="avtar_file" /> <input type="hidden" name="avatar_remove" />
+																	<!--end::Inputs-->
+																</label>
+																<!--end::Edit-->
+																<!--begin::Cancel-->
+																<span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+																	<i class="bi bi-x fs-2"></i>
+																</span>
+																<!--end::Cancel-->
+																<!--begin::Remove-->
+																<span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+																	<i class="bi bi-x fs-2"></i>
+																</span>
+																<!--end::Remove-->
+															</div>
+															<!--end::Image input-->
+														</div>
+														<!--end::Image input wrapper-->
+													</div>
+												</div>
+
+											</div>
+											<div class="fv-row mb-7">
+												<table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" style="border: 1px solid black;">
+													<thead>
+														<tr>
+															<th colspan="12" style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																Adhoc Menu Permission</th>
+														</tr>
+													</thead>
+													<tbody class="fw-semibold text-gray-600">
+														<tr>
+															<td style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																<input type="checkbox" name="isAllSelected" ng-model="isAllSelected" ng-click="toggleAll()" value="1"> &nbsp;&nbsp;Module
+															</td>
+															<td colspan="11" style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																Menu
+															</td>
+														</tr>
+														<tr ng-repeat="module in view_privileges">
+															<td style="border: 1px solid black;padding-left: 10px;">
+																<input type="checkbox" name="module[]" ng-model="module_id[module.id]" value="{{module.id}}" ng-click="toggleAllModuleWise(module.id,$index)">
+																&nbsp;{{module.name}}
+															</td>
+															<td ng-if="module_id[module.id] == true" style="border: 1px solid black;" ng-repeat="(key, sub_module) in module.menu track by $index">
+																<span>
+																	<input type="checkbox" name="submodule[]" ng-model="sub_module_id[sub_module.id]" value="{{sub_module.id}}">
+																	&nbsp;{{sub_module.name}}
+																</span>
+
+															</td>
+														</tr>
+												</table>
+											</div>
+
+											<div class="separator mb-6"></div>
+											<!--end::Separator-->
+											<div class="" style="margin-bottom: 39px;padding-bottom: 16px;">
+												<div class="col-md-12" style="text-align: center;">
+
+													<button type="submit" class="btn btn-outline-primary me-3" id="kt_btn_ur">Submit</button>
+													<button data-kt-contacts-type="cancel" class="btn btn-outline-danger me-3" ng-click="changeView('list')">Cancel</button>
+													<!--end::Button-->
+													<!--begin::Button-->
+												</div>
+
+											</div>
+										</form>
+										<!--end::Form-->
+									</div>
+									<!--end::Card body-->
+								</div>
+								<!--end::Contacts-->
+							</div>
+							<!--end::Content-->
+						</div>
+						<!--end::Contacts App- Add New Contact-->
+					</div>
+					<!--end::Content container-->
+				</div>
+				<!--end::Content-->
+			</div>
+
+			<!-- edit user view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.editUser">
+				<!--begin::Toolbar-->
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<span><i class="fa-solid fa-users fs-1"></i></span>
+								Edit User Rights
+							</h3>
+							<!--end::Title-->
+
+						</div>
+						<!--end::Page title-->
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+							<button class="btn btn-outline-danger" ng-click="changeView('list')" title="Cancel" style="padding: calc(-0.425rem + 1px) calc(-0.5rem + 1px);">
+								<span class="svg-icon svg-icon-muted svg-icon-2hx">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 2.2rem !important;height: 2.5rem !important;">
+										<path d="M9.60001 11H21C21.6 11 22 11.4 22 12C22 12.6 21.6 13 21 13H9.60001V11Z" fill="currentColor" />
+										<path opacity="0.3" d="M9.6 20V4L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L9.6 20Z" fill="currentColor" />
+									</svg>
+								</span>
+							</button>
+						</div>
+
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+				<!--end::Toolbar-->
+				<!--begin::Content-->
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+					<!--begin::Content container-->
+					<div id="kt_app_content_container" class="app-container-content container-xxl">
+						<!--begin::Contacts App- Add New Contact-->
+						<div class="row g-7">
+							<!--begin::Contact groups-->
+
+
+							<!--begin::Content-->
+							<div class="col-xl-12">
+								<!--begin::Contacts-->
+								<div class="card card-flush h-lg-100" id="kt_contacts_main">
+
+									<!--begin::Card body-->
+									<div class="card-body pt-5">
+										<!--begin::Form-->
+										<form id="kt_ecommerce_settings_general_form" class="form" ng-submit="profilePicUpload()">
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+												<div class="col">
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3"> <span class="required"><b>Name</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="text" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" title="Only Letter and space Allowed" class="form-control form-control-solid" name="name" ng-model="form.name" />
+														<input hidden type="text" class="form-control form-control-solid" name="name" ng-model="form.id" />
+														<!--end::Input-->
+													</div>
+												</div>
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span class="required"><b>User Name</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="text" class="form-control form-control-solid" name="username" ng-model="form.username" ng-change="checkUsername(form.username)" />
+														<span style="color: red;display:none;" id="username_msg_edit">Username already exist! Please try
+															another one</span>
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+											</div>
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span class="required"><b>Password</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control form-control-solid" name="password" ng-model="form.password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span class="required"><b>Email</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="email" class="form-control form-control-solid" name="email" ng-model="form.email" oninvalid="this.setCustomValidity('Email cannot be empty.')" onchange="this.setCustomValidity('')" ng-change="CheckUserEmail(form.email)" />
+														<span style="color: red;display:none;" id="email_msg_edit">Email
+															already exist! Please try another one</span>
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+											</div>
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span class="required"><b>Phone</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="text" class="form-control form-control-solid" name="phone" ng-model="form.mobile" />
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span class="required"><b>Employee ID</b></span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input required type="text" class="form-control form-control-solid" name="employee id" ng-model="form.employeeId" oninvalid="this.setCustomValidity('Employee ID cannot be empty.')" onchange="this.setCustomValidity('')" />
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+											</div>
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span><b>Manager</b></span>
+														</label>
+														<!--end::Label-->
+														<div class="w-100">
+															<div class="form-floating border rounded">
+																<!--begin::Select2-->
+																<select class="form-select form-select-solid lh-1 py-3" ng-model="form.hod_id" ng-options="hod_list.id as hod_list.name for hod_list in hod_lists">
+
+																</select>
+																<!--end::Select2-->
+															</div>
+														</div>
+													</div>
+													<!--end::Input group-->
+												</div>
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span><b>Location</b></span>
+														</label>
+														<!--end::Label-->
+														<div class="w-100">
+															<div class="form-floating border rounded">
+																<!--begin::Select2-->
+																<select required ng-model=form.locationId class="form-select form-select-solid lh-1 py-3" ng-options="location.id as location.name for location in locations">
+
+																</select>
+																<!--end::Select2-->
+															</div>
+														</div>
+													</div>
+													<!--end::Input group-->
+												</div>
+											</div>
+											<!--end::Row-->
+
+
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="form-check form-check-custom form-check-solid mt-2 mt-md-11">
+														<input class="form-check-input" type="checkbox" ng-model=form.hodstatus id="form_checkbox" /> <label class="form-check-label" for="form_checkbox"> Is
+															Manager? </label>
+													</div>
+													<!--end::Input group-->
+												</div>
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span><b>Adhoc Privilege</b></span>
+														</label>
+														<!--end::Label-->
+														<div class="w-100">
+															<span ng-repeat="privilege in hoc_privileges">
+																<input type="checkbox" name="hoc_privileges_id" ng-model="hoc_privileges_id[privilege.id]" value="{{privilege.id}}"> {{privilege.name}}
+															</span>
+														</div>
+													</div>
+													<!--end::Input group-->
+												</div>
+											</div>
+
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+												<div class="col">
+													<div class="fv-row mb-7">
+														<label class="fs-6 fw-semibold form-label mt-3">
+															<span><b>Role</b></span>
+														</label>
+														<div class="w-100">
+															<select required oninvalid="this.setCustomValidity('Please Select atleast one role.')" onchange="this.setCustomValidity('')" name="role" ng-model="form.role_ids" multiple class="form-control label ui selection fluid dropdown">
+																<option value="{{role.id}}" ng-repeat="role in roles">
+																	{{role.name}}
+																</option>
+															</select>
+														</div>
+													</div>
+												</div>
+
+												<div class="col">
+
+													<div class="mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold mb-3"> <span><b>Upload
+																	Picture</b></span> <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Allowed file types: png, jpg, jpeg."></i>
+														</label>
+														<!--end::Label-->
+														<!--begin::Image input wrapper-->
+														<div class="mt-1">
+															<!--begin::Image placeholder-->
+															<style>
+																.image-input-placeholder {
+																	background-image: url('assets/media/svg/files/blank-image.svg');
+																}
+
+																[data-theme="dark"] .image-input-placeholder {
+																	background-image: url('assets/media/svg/files/blank-image-dark.svg');
+																}
+															</style>
+															<!--end::Image placeholder-->
+															<!--begin::Image input-->
+															<div class="image-input image-input-outline image-input-placeholder image-input-empty image-input-empty" data-kt-image-input="true">
+																<!--begin::Preview existing avatar-->
+																<div class="image-input-wrapper w-100px h-100px" style="background-image: url('')"></div>
+																<!--end::Preview existing avatar-->
+																<!--begin::Edit-->
+																<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+																	<i class="bi bi-pencil-fill fs-7"></i>
+																	<!--begin::Inputs-->
+																	<input type="file" file-model="fileUpload.file" accept=".png, .jpg, .jpeg" /> <input type="hidden" name="avatar_remove" />
+																	<!--end::Inputs-->
+																</label>
+																<!--end::Edit-->
+																<!--begin::Cancel-->
+																<span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+																	<i class="bi bi-x fs-2"></i>
+																</span>
+																<!--end::Cancel-->
+																<!--begin::Remove-->
+																<span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+																	<i class="bi bi-x fs-2"></i>
+																</span>
+																<!--end::Remove-->
+															</div>
+															<div class="col-6" style="float: right;">
+																<!-- <input type="file" name="profilePic" accept=".png, .jpg, .jpeg" file-model="fileUpload.file" onchange="angular.element(this).scope().saveEditFile()" /> -->
+																<label class="col-sm-12" style="margin-top: -32px;font-weight: 600;">Old
+																	Profile</label>
+
+																<img src="/Omni/uploads/profilepic/{{form.profilePicLink}}" alt="pic" style="height: 100px;">
+
+
+															</div>
+															<!--end::Image input-->
+														</div>
+														<!--end::Image input wrapper-->
+													</div>
+												</div>
+
+											</div>
+											<div class="fv-row mb-7">
+												<table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" style="border: 1px solid black;">
+													<thead>
+														<tr>
+															<th colspan="12" style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																Adhoc Menu Permission</th>
+														</tr>
+													</thead>
+													<tbody class="fw-semibold text-gray-600">
+														<tr>
+															<td style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																<input type="checkbox" name="isAllSelected" ng-model="isAllSelected" ng-click="toggleAll()" value="1"> &nbsp;&nbsp;Module
+															</td>
+															<td colspan="11" style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																Menu
+															</td>
+														</tr>
+														<tr ng-repeat="module in view_privileges">
+															<td style="border: 1px solid black;padding-left: 10px;">
+																<input type="checkbox" name="module[]" ng-model="module_id[module.id]" value="{{module.id}}" ng-click="toggleAllModuleWise(module.id,$index)">
+																&nbsp;{{module.name}}
+															</td>
+															<td ng-if="module_id[module.id] == true" style="border: 1px solid black;" ng-repeat="(key, sub_module) in module.menu track by $index">
+																<span>
+																	<input type="checkbox" name="submodule[]" ng-model="sub_module_id[sub_module.id]" value="{{sub_module.id}}">
+																	&nbsp;{{sub_module.name}}
+																</span>
+
+															</td>
+														</tr>
+
+
+
+												</table>
+											</div>
+
+											<div class="separator mb-6"></div>
+											<!--end::Separator-->
+											<div class="" style="margin-bottom: 39px;padding-bottom: 16px;">
+												<div class="col-md-12" style="text-align: center;">
+
+													<button type="submit" class="btn btn-outline-primary me-3" id="kt_btn_ur">Submit</button>
+													<button data-kt-contacts-type="cancel" class="btn btn-outline-danger me-3" ng-click="changeView('list')">Cancel</button>
+													<!--end::Button-->
+													<!--begin::Button-->
+												</div>
+
+											</div>
+										</form>
+										<!--end::Form-->
+									</div>
+									<!--end::Card body-->
+								</div>
+								<!--end::Contacts-->
+							</div>
+							<!--end::Content-->
+						</div>
+						<!--end::Contacts App- Add New Contact-->
+					</div>
+					<!--end::Content container-->
+				</div>
+				<!--end::Content-->
+			</div>
+
+
+			<!--========================== Multiple Views Content ==============================-->
+
+			<!--begin::Footer-->
+			<div th:replace="fragments/footer"></div>
+			<!--end::Footer-->
+		</div>
+		<!--end:::Main-->
+	</div>
+	<!--end::Wrapper-->
+	</div>
+	<!--end::Page-->
+	</div>
+	<!--end::App-->
+
+
+
+
+	<!--begin::Scrolltop-->
+	<div th:replace="fragments/scroll"></div>
+	<!--end::Scrolltop-->
+
+	<!-- ==================Model code content======================= -->
+
+	<!-- ==================End Model code content=================== -->
+
+
+	<!--begin::Page Javascript-->
+	<script src="private/userreg.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
+
+	<script>
+		"use strict";
+
+		// Class definition
+		var KTDatatablesExample = function() {
+			// Shared variables
+			var table;
+			var datatable;
+
+			// Private functions
+			var initDatatable = function() {
+				// Set date data order
+				const tableRows = table.querySelectorAll('tbody tr');
+
+				// tableRows.forEach(row => {
+				// 	const dateRow = row.querySelectorAll('td');
+				// 	const realDate = moment(dateRow[3].innerHTML, "DD MMM YYYY, LT").format(); // select date from 4th column in table
+				// 	dateRow[3].setAttribute('data-order', realDate);
+				// });
+
+				// Init datatable --- more info on datatables: https://datatables.net/manual/
+				datatable = $(table).DataTable({
+					"info": false,
+					'order': [],
+					'pageLength': 10,
+				});
+			}
+
+			// Hook export buttons
+			var exportButtons = () => {
+				const documentTitle = 'Customer Orders Report';
+				var buttons = new $.fn.dataTable.Buttons(table, {
+					buttons: [{
+							extend: 'copyHtml5',
+							title: documentTitle
+						},
+						{
+							extend: 'excelHtml5',
+							title: documentTitle
+						},
+						{
+							extend: 'csvHtml5',
+							title: documentTitle
+						},
+						{
+							extend: 'pdfHtml5',
+							title: documentTitle
+						}
+					]
+				}).container().appendTo($('#kt_datatable_example_buttons'));
+
+				// Hook dropdown menu click event to datatable export buttons
+				const exportButtons = document.querySelectorAll('#kt_datatable_example_export_menu [data-kt-export]');
+				exportButtons.forEach(exportButton => {
+					exportButton.addEventListener('click', e => {
+						e.preventDefault();
+
+						// Get clicked export value
+						const exportValue = e.target.getAttribute('data-kt-export');
+						console.log(exportValue);
+						const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
+						console.log(target);
+
+						// Trigger click event on hidden datatable export buttons
+						// target.click();
+					});
+				});
+			}
+
+			// Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+			var handleSearchDatatable = () => {
+				const filterSearch = document.querySelector('[data-kt-filter="search"]');
+				filterSearch.addEventListener('keyup', function(e) {
+					datatable.search(e.target.value).draw();
+				});
+			}
+
+			// Public methods
+			return {
+				init: function() {
+					table = document.querySelector('#kt_datatable_example');
+
+					if (!table) {
+						return;
+					}
+
+					initDatatable();
+					exportButtons();
+					handleSearchDatatable();
+				}
+			};
+		}();
+
+		// On document ready
+		KTUtil.onDOMContentLoaded(function() {
+			KTDatatablesExample.init();
+		});
+	</script>
+	<script>
+		$('.label.ui.dropdown')
+			.dropdown();
+
+		$('.no.label.ui.dropdown')
+			.dropdown({
+				useLabels: false
+			});
+
+		$('.ui.button').on('click', function() {
+			$('.ui.dropdown')
+				.dropdown('restore defaults')
+		})
+	</script>
+	<!--end::Page Javascript-->
+
+</body>
+<!--end::Body-->
+
+
+</html>

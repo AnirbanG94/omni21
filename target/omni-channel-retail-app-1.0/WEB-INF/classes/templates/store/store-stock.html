@@ -1,0 +1,465 @@
+<div th:replace="fragments/head"></div>
+
+<!--begin::Body-->
+<style>
+    pre {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+    }
+
+    [ng\:cloak],
+    [ng-cloak],
+    .ng-cloak {
+        display: none !important;
+    }
+
+    @media (min-width:992px) {
+        .app-container-content {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
+
+    }
+
+    @media (max-width:991.98px) {
+        .app-container-content {
+            max-width: none;
+            padding-left: 9px !important;
+            padding-right: 9px !important;
+        }
+    }
+
+    .prime-td {
+        background-color: #f0f0f0 !important;
+        height: 25px !important;
+        padding: 0 0 0 10px !important;
+        margin: 0 0 0 0 !important;
+        vertical-align: middle !important;
+        /* border: 1px #727272 solid !important; */
+    }
+</style>
+
+<body ng-app="StockManagment" ng-controller="StockStatusController" data-kt-name="metronic" id="kt_app_body"
+    data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
+    data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
+    data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
+    class="app-default">
+
+
+    <!-- Header content top header codes-->
+    <div th:replace="fragments/header"></div>
+    <!--end::Header-->
+
+
+    <!--begin::Wrapper-->
+    <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+        <!--begin::sidebar-->
+        <div th:replace="fragments/side-bar"></div>
+        <!--end::sidebar-->
+
+
+        <!--begin::Main-->
+        <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+
+            <!--========================== Multiple Views Content ==============================-->
+
+            <!-- // List user view -->
+            <div class="d-flex flex-column flex-column-fluid" ng-show="views.list">
+                <!--begin::Toolbar-->
+                <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+                    <!--begin::Toolbar container-->
+                    <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+                        <!--begin::Page title-->
+                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                            <!--begin::Title-->
+                            <h3 class="">
+
+                                <span><i class="fa-solid fa-door-open fs-1"></i></span>
+                                Stock Status View
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+
+                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+
+
+                            <button style="float:right;" type="button" class="btn btn-light-primary me-3"
+                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Export</button>
+                            <!--begin::Menu-->
+                            <div id="kt_datatable_example_export_menu"
+                                class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4"
+                                data-kt-menu="true">
+
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-3">
+                                    <a href="#" class="menu-link px-3" ng-click="exportToExcel('#kt_datatable_example')"
+                                        data-kt-export="excel">
+                                        Export as Excel
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="kt_datatable_example_buttons" class="d-none"></div>
+
+                        </div>
+                        <!--end::Page title-->
+                    </div>
+                    <!--end::Toolbar container-->
+                </div>
+                <!--end::Toolbar-->
+
+                <div id="kt_app_content" class="app-content flex-column-fluid">
+
+                    <div id="" class="app-container-content container-xxl">
+
+
+                        <div class="card  card-flush">
+                            <div class="card-header border-0">
+                                <div class="card-title">
+                                    <!--begin::Search-->
+                                    <div class="d-flex align-items-center position-relative my-1">
+                                        <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
+                                                    rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor">
+                                                </rect>
+                                                <path
+                                                    d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                    fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                        <input type="text" data-kt-filter="search" ng-model="searchText"
+                                            class="form-control form-control-solid w-250px ps-15"
+                                            placeholder="Search Report" />
+                                    </div>
+                                    <!--end::Search-->
+                                    <!--begin::Export buttons-->
+                                    <!-- <div id="kt_datatable_example_1_export" class="d-none"></div> -->
+                                    <!--end::Export buttons-->
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+
+                                <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+                                    <div class="col-md-3 fv-row">
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span class="required"><b>Outlet</b></span>
+                                        </label>
+                                        <select class="form-control form-control-solid" ng-model="form.id" name="pick"
+                                            ng-options="pick.id as pick.name for pick in outlet_pick" required>
+                                            <option>--select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 fv-row">
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span class="required"><b>Year</b></span>
+                                        </label>
+                                        <select class="form-control form-control-solid" ng-model="form.yearCd"
+                                            ng-options="yr.year       as yr.year for yr in years">
+                                            <option>--select--</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 fv-row" id="article_normal">
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span class="required"><b>Article</b></span>
+                                        </label>
+                                        <select class="form-control form-control-solid" ng-model="form.articleId"
+                                            ng-options="article.id as article.name for article in articles">
+                                            <option>--select--</option>
+
+                                        </select>
+
+
+                                    </div>
+                                    <div class="col-md-3 fv-row" id="article_fam">
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span class="required"><b>Article</b></span>
+                                        </label>
+                                        <select class="form-control form-control-solid" ng-model="form.articleId"
+                                            ng-options="article.id as article.name for article in articleByFamily">
+                                            <option>--select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 fv-row">
+
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span><b>Advanced Search</b></span>
+                                        </label><br>
+
+                                        <input type="radio" name="advancedSearch_one" id="advancedSearch_one"
+                                            ng-click="show1()">
+                                    </div>
+
+                                </div>
+                                <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3" id="pro_item">
+                                    <div class="col-md-3 fv-row">
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span class="required"><b>Family</b></span>
+                                        </label>
+                                        <select class="form-control form-control-solid" name="pro_family"
+                                            ng-model="form.id" ng-options="fam.id as fam.pro_family for fam in families"
+                                            ng-change="getArticleByFamilyForStock(form.id);getDivisionByFamilyForStock(form.id)">
+                                            <option value="">--select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 fv-row" id="div_normal">
+                                        <label class="fs-6 fw-semibold form-label mt-3" id="div_normal">
+                                            <span class="required"><b>Division</b></span>
+                                        </label>
+                                        <select class="form-control form-control-solid" ng-model="form.id"
+                                            ng-options="div.id as div.pro_division for div in families">
+                                            <option>--select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 fv-row" id="divByFam">
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span class="required"><b>Division</b></span>
+                                        </label>
+                                        <select class="form-control form-control-solid" ng-model="form.pro_division"
+                                            ng-options="div.pro_division as div.pro_division for div in divisionByFamily"
+                                            ng-change="getClassByDivForStock(form.pro_division)">
+                                            <option>--select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 fv-row" id="clsByDiv">
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span class="required"><b>Class</b></span>
+                                        </label>
+                                        <select class="form-control form-control-solid" ng-model="form.pro_class"
+                                            ng-options="class.pro_class as class.pro_class for class in classByDivision"
+                                            ng-change="getSubClassByClassForStock(form.pro_class)">
+                                            <option>--select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 fv-row" id="cls_normal">
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span class="required"><b>Class</b></span>
+                                        </label>
+                                        <select class="form-control form-control-solid" ng-model="form.id"
+                                            ng-options="class.id as class.pro_class for class in families ">
+                                            <option>--select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 fv-row" id="sub_normal">
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span class="required"><b>Sub-Class</b></span>
+                                        </label>
+
+                                        <select class="form-control form-control-solid" ng-model="form.id"
+                                            ng-options="sub.id as sub.pro_sub_class for sub in families">
+                                            <option>--select--</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-3 fv-row" id="sub_cls">
+                                        <label class="fs-6 fw-semibold form-label mt-3">
+                                            <span class="required"><b>Sub-Class</b></span>
+                                        </label>
+
+                                        <select class="form-control form-control-solid" ng-model="form.pro_sub_class"
+                                            ng-options="sub.pro_sub_class as sub.pro_sub_class for sub in subclassByclass">
+                                            <option>--select--</option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                                <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+
+                                    <div class="col-md-3 fv-row" id="stk_nrm">
+
+                                        <button type="button" class="btn btn-outline-primary me-3"
+                                            style="float: left;margin-top:38px"
+                                            ng-click="fetchStockDetails(form.articleId,form.yearCd,form.articleId)">VIEW</button>
+
+                                    </div>
+                                    <!-- 								  <div class="col-md-3 fv-row" id="stk_by_fam"> -->
+
+                                    <!-- 								    <button type="button" class="btn btn-outline-primary me-3" style="float: left;margin-top:38px" ng-click="getStockByFamily(form.id)">VIEW</button> -->
+
+                                    <!-- 								 </div>	 -->
+                                </div>
+                                <br><br>
+                                <div class="separator mb-6" style="border-bottom: 1px solid #707274;"></div>
+                                <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+                                    id="kt_datatable_example" datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <!--begin::Table row-->
+                                        <tr style="font-weight: 700 !important;color: black !important;"
+                                            class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+                                            <th class="min-w-100px">SL No.</th>
+                                            <th class="min-w-100px">Opening Quantity</th>
+                                            <th class="min-w-100px">Grn Quantity</th>
+                                            <th class="min-w-100px">Transfer Out Quantity</th>
+                                            <th class="min-w-100px">Transfer In Quantity</th>
+                                            <th class="min-w-100px">Damage Quantity</th>
+                                            <th class="min-w-100px">Dump Quantity</th>
+                                            <th class="min-w-100px">Stock Quantity</th>
+
+                                        </tr>
+                                        <!--end::Table row-->
+                                    </thead>
+                                    <tbody class="fw-semibold text-gray-600">
+                                        <tr class="odd" ng-repeat="stock in stock_details | filter:searchText">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{stock.opnQty}}</td>
+                                            <td>{{stock.grnQty}}</td>
+                                            <td>{{stock.toQty}}</td>
+                                            <td>{{stock.tiQty}}</td>
+                                            <td>{{stock.dmgQty}}</td>
+                                            <td>{{stock.dumpQty}}</td>
+                                            <td>{{stock.stckQty}}</td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--end::Content container-->
+                </div>
+            </div>
+
+
+
+            <!--========================== Multiple Views Content ==============================-->
+
+            <!--begin::Footer-->
+            <div th:replace="fragments/footer"></div>
+            <!--end::Footer-->
+        </div>
+        <!--end:::Main-->
+    </div>
+    <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    </div>
+    <!--end::App-->
+
+
+
+
+    <!--begin::Scrolltop-->
+    <div th:replace="fragments/scroll"></div>
+    <!--end::Scrolltop-->
+
+    <!-- ==================Model code content======================= -->
+
+    <!-- ==================End Model code content=================== -->
+
+
+    <!--begin::Page Javascript-->
+    <script src="private/stockController.js"></script>
+    <script>
+        "use strict";
+
+        // Class definition
+        var KTDatatablesExample = function () {
+            // Shared variables
+            var table;
+            var datatable;
+
+            // Private functions
+            var initDatatable = function () {
+                // Set date data order
+                const tableRows = table.querySelectorAll('tbody tr');
+
+                // tableRows.forEach(row => {
+                // 	const dateRow = row.querySelectorAll('td');
+                // 	const realDate = moment(dateRow[3].innerHTML, "DD MMM YYYY, LT").format(); // select date from 4th column in table
+                // 	dateRow[3].setAttribute('data-order', realDate);
+                // });
+
+                // Init datatable --- more info on datatables: https://datatables.net/manual/
+                datatable = $(table).DataTable({
+                    "info": false,
+                    'order': [],
+                    'pageLength': 10,
+                });
+            }
+
+            // Hook export buttons
+            var exportButtons = () => {
+                const documentTitle = 'Customer Orders Report';
+                var buttons = new $.fn.dataTable.Buttons(table, {
+                    buttons: [{
+                        extend: 'copyHtml5',
+                        title: documentTitle
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        title: documentTitle
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: documentTitle
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: documentTitle
+                    }
+                    ]
+                }).container().appendTo($('#kt_datatable_example_buttons'));
+
+                // Hook dropdown menu click event to datatable export buttons
+                const exportButtons = document.querySelectorAll('#kt_datatable_example_export_menu [data-kt-export]');
+                exportButtons.forEach(exportButton => {
+                    exportButton.addEventListener('click', e => {
+                        e.preventDefault();
+
+                        // Get clicked export value
+                        const exportValue = e.target.getAttribute('data-kt-export');
+                        console.log(exportValue);
+                        const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
+                        console.log(target);
+
+                        // Trigger click event on hidden datatable export buttons
+                        // target.click();
+                    });
+                });
+            }
+
+            // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+            var handleSearchDatatable = () => {
+                const filterSearch = document.querySelector('[data-kt-filter="search"]');
+                filterSearch.addEventListener('keyup', function (e) {
+                    datatable.search(e.target.value).draw();
+                });
+            }
+
+            // Public methods
+            return {
+                init: function () {
+                    table = document.querySelector('#kt_datatable_example');
+
+                    if (!table) {
+                        return;
+                    }
+
+                    initDatatable();
+                    exportButtons();
+                    handleSearchDatatable();
+                }
+            };
+        }();
+
+        // On document ready
+        KTUtil.onDOMContentLoaded(function () {
+            KTDatatablesExample.init();
+        });
+    </script>
+    <!--end::Page Javascript-->
+
+</body>
+<!--end::Body-->
+
+
+</html>

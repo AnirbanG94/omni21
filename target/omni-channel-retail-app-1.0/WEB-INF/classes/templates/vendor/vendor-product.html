@@ -1,0 +1,1801 @@
+<div th:replace="fragments/head"></div>
+
+<!--begin::Body-->
+<style>
+    pre {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+    }
+
+    [ng\:cloak],
+    [ng-cloak],
+    .ng-cloak {
+        display: none !important;
+    }
+
+    @media (min-width:992px) {
+        .app-container-content {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
+
+    }
+
+    @media (max-width:991.98px) {
+        .app-container-content {
+            max-width: none;
+            padding-left: 9px !important;
+            padding-right: 9px !important;
+        }
+    }
+
+    .prime-td {
+        background-color: #f0f0f0 !important;
+        height: 25px !important;
+        padding: 0 0 0 10px !important;
+        margin: 0 0 0 0 !important;
+        vertical-align: middle !important;
+        /* border: 1px #727272 solid !important; */
+    }
+</style>
+
+<body ng-app="VendorManagment" ng-controller="VendorProductController" data-kt-name="metronic" id="kt_app_body"
+    data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
+    data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
+    data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
+    class="app-default">
+
+
+    <!-- Header content top header codes-->
+    <div th:replace="fragments/header"></div>
+    <!--end::Header-->
+
+
+    <!--begin::Wrapper-->
+    <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+        <!--begin::sidebar-->
+        <div th:replace="fragments/side-bar"></div>
+        <!--end::sidebar-->
+
+
+        <!--begin::Main-->
+        <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+
+            <!--========================== Multiple Views Content ==============================-->
+
+            <!-- // List company view -->
+            <div class="d-flex flex-column flex-column-fluid" ng-show="views.list">
+                <!--begin::Toolbar-->
+                <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+                    <!--begin::Toolbar container-->
+                    <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+                        <!--begin::Page title-->
+                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                            <!--begin::Title-->
+                            <h3 class="">
+                                <span>
+                                    <i class="fa-solid fa-industry fs-1"></i>
+                                </span>
+                                Vendor Article Mapping(NPI)
+                            </h3>
+                            <!--end::Title-->
+                        </div>
+
+                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+                            <button sec:authorize="hasAuthority('ADD')" style="float:right;" type="button"
+                                class="btn btn-primary" ng-click="AddVendorProduct()">Add</button>
+
+                            <button sec:authorize="hasAuthority('EXPORT')" style="float:right;" type="button"
+                                class="btn btn-light-primary me-3" data-kt-menu-trigger="click"
+                                data-kt-menu-placement="bottom-end">Export</button>
+                            <!--begin::Menu-->
+                            <div sec:authorize="hasAuthority('EXPORT')" id="kt_datatable_example_export_menu"
+                                class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4"
+                                data-kt-menu="true">
+
+                                <!--begin::Menu item-->
+                                <div class="menu-item px-3">
+                                    <a href="#" class="menu-link px-3" ng-click="exportToExcel('#kt_datatable_example')"
+                                        data-kt-export="excel">
+                                        Export as Excel
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="kt_datatable_example_buttons" class="d-none"></div>
+
+                        </div>
+                        <!--end::Page title-->
+                    </div>
+                    <!--end::Toolbar container-->
+                </div>
+                <!--end::Toolbar-->
+
+                <div id="kt_app_content" class="app-content flex-column-fluid">
+
+                    <div id="" class="app-container-content container-xxl">
+
+                        <div class="card  card-flush">
+                            <div class="card-header border-0">
+                                <div class="card-title">
+                                    <!--begin::Search-->
+                                    <div class="d-flex align-items-center position-relative my-1">
+                                        <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
+                                                    rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor">
+                                                </rect>
+                                                <path
+                                                    d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                    fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                        <input type="text" data-kt-filter="search" ng-model="searchText"
+                                            class="form-control form-control-solid w-250px ps-15"
+                                            placeholder="Search Report" />
+                                    </div>
+                                    <!--end::Search-->
+                                    <!--begin::Export buttons-->
+                                    <!-- <div id="kt_datatable_example_1_export" class="d-none"></div> -->
+                                    <!--end::Export buttons-->
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+                                    id="kt_datatable_example" datatable="ng" dt-options="vm.dtOptions">
+                                    <thead>
+                                        <!--begin::Table row-->
+                                        <tr style="font-weight: 700 !important;color: black !important;"
+                                            class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+                                            <th class="min-w-100px">Sl.</th>
+                                            <th class="min-w-100px">Vendor Name</th>
+                                            <th class="min-w-100px">Article Name</th>
+                                            <th class="min-w-100px">EAN Code</th>
+                                            <th class="min-w-100px">Brand</th>
+                                            <th class="min-w-100px">Manufacture</th>
+                                            <th class="min-w-100px">UOM</th>
+                                            <th class="min-w-100px">Status</th>
+                                            <th class="min-w-100px">File</th>
+                                            <th class="min-w-100px">#</th>
+                                        </tr>
+                                        <!--end::Table row-->
+                                    </thead>
+                                    <tbody class="fw-semibold text-gray-600">
+                                        <tr class="odd" ng-repeat="product in products | filter:searchText">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{product.vendorName}}</td>
+                                            <td>{{product.articleName}}</td>
+                                            <td>{{product.eanCD}}</td>
+                                            <td>{{product.brandName}}</td>
+                                            <td>{{product.manufName}}</td>
+                                            <td>{{product.uomName}}</td>
+                                            <td>
+                                                <span ng-if="product.status == 'O'"
+                                                    style="color: #e34900;">Pending</span>
+                                                <span
+                                                    ng-if="product.status != 'O' && product.status != 'A' && product.status != 'D'"
+                                                    style="color: #e34900;">Pending</span>
+                                                <span ng-if="product.status == 'A'"
+                                                    style="color: green;">Approved</span>
+                                                <span ng-if="product.status == 'D'" style="color: red;">Reject</span>
+                                            </td>
+                                            <td>
+                                                <span ng-if="product.productPic && product.productPic != ''">
+                                                    <a href="#" ng-click="downloadFile(product.productPic)">Download</a>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" dropdown>
+                                                    <button type="button"
+                                                        class="btn btn-outline-primary dropdown-toggle">
+                                                        Action
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a href="#"
+                                                                ng-click="editVendorProduct(product.id)">Edit</a>
+                                                        </li>
+                                                        <!-- <li><a href="#" ng-click="deleteCompany(company.id)">Delete</a>
+														</li> -->
+                                                    </ul>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--end::Content container-->
+                </div>
+            </div>
+
+            <!-- Add company view -->
+            <div class="d-flex flex-column flex-column-fluid" ng-show="views.add">
+                <!--begin::Toolbar-->
+                <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+                    <!--begin::Toolbar container-->
+                    <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+                        <!--begin::Page title-->
+                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                            <!--begin::Title-->
+                            <h3 class="">
+                                <span>
+                                    <i class="fa-solid fa-industry fs-1"></i>
+                                </span>
+                                Vendor Article Mapping(NPI): Add
+                            </h3>
+                            <!--end::Title-->
+
+                        </div>
+                        <!--end::Page title-->
+                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+                            <button class="btn btn-outline-danger" ng-click="changeView('list')" title="Cancel"
+                                style="padding: calc(-0.425rem + 1px) calc(-0.5rem + 1px);">
+                                <span class="svg-icon svg-icon-muted svg-icon-2hx">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        style="width: 2.2rem !important;height: 2.5rem !important;">
+                                        <path d="M9.60001 11H21C21.6 11 22 11.4 22 12C22 12.6 21.6 13 21 13H9.60001V11Z"
+                                            fill="currentColor" />
+                                        <path opacity="0.3" d="M9.6 20V4L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L9.6 20Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <!--end::Toolbar container-->
+                </div>
+                <!--end::Toolbar-->
+                <!--begin::Content-->
+                <div id="kt_app_content" class="app-content flex-column-fluid">
+                    <!--begin::Content container-->
+                    <div id="kt_app_content_container" class="app-container-content container-xxl">
+                        <!--begin::Contacts App- Add New Contact-->
+                        <div class="row g-7">
+                            <!--begin::Contact groups-->
+
+
+                            <!--begin::Content-->
+                            <div class="col-xl-12">
+                                <!--begin::Contacts-->
+                                <div class="card card-flush h-lg-100" id="kt_contacts_main">
+
+                                    <!--begin::Card body-->
+                                    <div class="card-body pt-5">
+                                        <form id="kt_ecommerce_settings_general_form" class="form"
+                                            ng-submit="addSaveVendorProduct()">
+                                            <!--begin::Form-->
+
+                                            <!--begin::Row-->
+                                            <div class="row">
+
+                                                <div class="col-md-4 fv-row">
+                                                    <!--begin::Label-->
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Vendor</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.vendorId" name="vendorId"
+                                                        ng-options="vendor.id as vendor.name for vendor in vendors"
+                                                        ng-change="fetchManufacturers(form.vendorId)" required>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4 fv-row">
+                                                    <!--begin::Label-->
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Manufacture</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.manufacId" name="manufacId"
+                                                        ng-options="manufacturer.id as manufacturer.manufacname for manufacturer in manufacturers"
+                                                        ng-change="setInvoiceMarginValue(form.manufacId)" required>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Article
+                                                                Description</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control  form-control-solid "
+                                                        ng-model="form.articleName" placeholder="Article Description"
+                                                        oninvalid="this.setCustomValidity('Only Letter and space Allowed')"
+                                                        oninput="this.setCustomValidity('')" />
+
+                                                </div>
+
+                                            </div>
+                                            <!--end::Row-->
+                                            <!--begin::Row-->
+                                            <div class="row">
+
+
+                                                <div class="col-md-4 fv-row">
+                                                    <!--begin::Label-->
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Article
+                                                                Name</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control  form-control-solid "
+                                                        ng-model="form.articleShortName" placeholder="Article Name" />
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>EAN
+                                                                Code</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control  form-control-solid "
+                                                        ng-model="form.eanCD" placeholder="EAN Code" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+                                                    <!--begin::Label-->
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Brand</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.brandId" name="brandId"
+                                                        ng-options="brand.id as brand.brandName for brand in brands"
+                                                        required>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>HSN Code</b></span>
+                                                    </label>
+
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="form.hsnCD" placeholder="HSN Code"
+                                                        pattern="[A-Za-z0-9]+"
+                                                        oninvalid="this.setCustomValidity('Only Letter and Number Allowed')"
+                                                        oninput="this.setCustomValidity('')" required />
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>UOM</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.uomId" name="uomId"
+                                                        ng-options="uom.id as uom.name for uom in uoms" required>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label
+                                                        class="fs-6 fw-semibold form-label mt-3"><span><b>Size</b></span>
+                                                    </label>
+
+                                                    <input type="text" ng-model="form.size"
+                                                        class="form-control form-control-solid" placeholder="Size" />
+
+                                                </div>
+                                                <!--end::Col-->
+                                            </div>
+                                            <div class="row">
+                                                <!--begin::Col-->
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Weight</b></span>
+                                                    </label>
+
+                                                    <input required type="text" ng-model="form.weight"
+                                                        class="form-control form-control-solid" placeholder="Weight"
+                                                        pattern="[A-Za-z0-9]+"
+                                                        oninvalid="this.setCustomValidity('Only Letter and Number Allowed')"
+                                                        oninput="this.setCustomValidity('')" />
+
+                                                </div>
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Product
+                                                                Type</b></span>
+                                                    </label>
+
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.productType" name="productType">
+                                                        <option value="L">Loose</option>
+                                                        <option value="P">Pack</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Select Item</b></span>
+                                                    </label>
+
+                                                    <input type="text" readonly ng-model="form.item_name"
+                                                        class="form-control form-control-solid"
+                                                        ng-click="openFetchItems()" placeholder="Select Item" />
+                                                    <input type="text" hidden ng-model="form.itemId"
+                                                        class="form-control form-control-solid" />
+
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Concessionaire Indicator</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.concesInd" name="concesInd" required>
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                    </select>
+                                                </div>
+
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>DSP Indicator</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.dspInd" name="dspInd" required>
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label
+                                                        class="fs-6 fw-semibold form-label mt-3"><span><b>MOQ</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.mbq" placeholder="MBQ" />
+
+                                                </div>
+                                                <!-- <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Basic Cost</b></span></label>
+
+                                                    <input type="text" class="form-control form-control-solid" ng-model="form.fsa_no" placeholder="Basic Cost" />
+
+                                                </div> -->
+                                            </div>
+                                            <!-- <div class="row">
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>GST (In percentage)</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid " ng-model="form.tin_no" placeholder="GST" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Final Cost</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid " ng-model="form.tin_no" placeholder="Final Cost" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span class="required"><b>MRP</b></span>
+                                                    </label>
+
+                                                    <input required type="text" class="form-control form-control-solid" ng-model="form.pan_no" placeholder="MRP" />
+
+                                                </div>
+                                            </div> -->
+                                            <div class="row">
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>On Invoice
+                                                                Margin(in %)</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.onInvMargin" placeholder="On Invoice Margin"
+                                                        pattern="[0-9]{0,2}" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Off Invoice
+                                                                Margin(in %)</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid " readonly
+                                                        ng-model="form.offInvMargin" placeholder="Off Invoice Margin"
+                                                        pattern="[0-9]{0,2}" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Dimesnion
+                                                                Depth(in CM)</b></span>
+                                                    </label>
+
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="form.dimDepth" placeholder="Dimesnion Depth(in CM)" />
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Dimesnion
+                                                                Width(in CM)</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.dimWidth" placeholder="Dimesnion Width(in CM)" />
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Dimesnion
+                                                                Height(in CM) </b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.dimHeight"
+                                                        placeholder="Dimesnion Height(in CM)" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Net Content
+                                                                (In GM)</b></span>
+                                                    </label>
+
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="form.netContent" placeholder="Net Content (In GM)" />
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Carton
+                                                                Units</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.cartonUnits" placeholder="Carton Units" />
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Inner
+                                                                Units</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.innerUnits" placeholder="Inner Units" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Distribution
+                                                                Type</b></span>
+                                                    </label>
+
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.distrType" name="distrType">
+                                                        <option value="FT">Flow Through</option>
+                                                        <option value="PA">Put Away</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Outer
+                                                                Case</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.outerCase" placeholder="Outer Case" />
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Inner
+                                                                Case</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.innerCase" placeholder="Inner Case" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Order
+                                                                Day</b></span>
+                                                    </label>
+
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="form.orderDay" placeholder="Order Day" />
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Delivery
+                                                                Day</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.delvDay" placeholder="Delivery Day" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label
+                                                        class="fs-6 fw-semibold form-label mt-3"><span><b>Movement</b></span>
+                                                    </label>
+
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.movement" name="movement">
+                                                        <option value="W">Warehouse</option>
+                                                        <option value="S">Store</option>
+                                                        <option value="B">Both</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row"
+                                                    ng-if="form.movement == 'S' || form.movement == 'B'">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Order
+                                                                Schedule Store</b></span>
+                                                    </label>
+
+                                                    <!-- <input type="text" class="form-control form-control-solid" ng-model="form.orderSch" placeholder="Order Schedule" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.storeOrderSch" name="orderSch"
+                                                        ng-options="schedule.id as schedule.des for schedule in schedules">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- </div>
+                                            <div class="row"> -->
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row"
+                                                    ng-if="form.movement == 'S' || form.movement == 'B'">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Delivery
+                                                                Schedule Store</b></span>
+                                                    </label>
+                                                    <!-- <input type="text" class="form-control form-control-solid " ng-model="form.delivSch" placeholder="Delivery Schedule" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.storeDelivSch" name="delivSch"
+                                                        ng-options="schedule.id as schedule.des for schedule in schedules">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row"
+                                                    ng-if="form.movement == 'W' || form.movement == 'B'">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Order
+                                                                Schedule Warehouse</b></span>
+                                                    </label>
+                                                    <!-- <input type="text" class="form-control form-control-solid " ng-model="form.warehouseOrderSch" placeholder="Delivery Schedule" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.warehouseOrderSch" name="warehouseOrderSch"
+                                                        ng-options="schedule.id as schedule.des for schedule in schedules">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row"
+                                                    ng-if="form.movement == 'W' || form.movement == 'B'">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Delivery
+                                                                Schedule Warehouse</b></span>
+                                                    </label>
+                                                    <!-- <input type="text" class="form-control form-control-solid " ng-model="form.warehouseDelivSch" placeholder="Delivery Schedule" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.warehouseDelivSch" name="warehouseDelivSch"
+                                                        ng-options="schedule.id as schedule.des for schedule in schedules">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Region</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid" ng-model="form.countrycode" name="countrycode" ng-change="fetchState(form.countrycode)" ng-options="country.id as country.name for country in countries" required>
+                                                        <option></option>
+                                                    </select>
+                                                </div> -->
+
+                                                <!-- </div>
+                                            <div class="row"> -->
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Buying
+                                                                Pattern</b></span>
+                                                    </label>
+                                                    <!-- <input type="text" class="form-control form-control-solid " ng-model="form.buyingPattern" placeholder="Buying Pattern" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.buyingPattern" name="buyingPattern">
+                                                        <option value="ARS">ARS Buying</option>
+                                                        <option value="PO">Open PO</option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Price
+                                                                Based</b></span>
+                                                    </label>
+                                                    <!-- <input type="text" class="form-control form-control-solid " ng-model="form.hd1" placeholder="Price Based" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.priceBased" name="priceBased">
+                                                        <option value="C">Cost</option>
+                                                        <option value="G">GKM</option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Return
+                                                                Type</b></span>
+                                                    </label>
+
+                                                    <!-- <input type="text" class="form-control form-control-solid" ng-model="form.returnType" placeholder="Return Type" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.returnType" name="returnType">
+                                                        <option value="RTV">Return</option>
+                                                        <option value="NRTV">Non-Return</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <div class="col-md-12">
+
+                                                        <label class="fs-6 fw-semibold form-label mt-3"><span><b>Upload
+                                                                    Image</b></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input type="file" class="form-control form-control-solid "
+                                                            file-model="fileUpload.productPicFile" />
+
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <a class="border border-secondary btn btn-icon btn-light-primary"
+                                                            ng-click="uploadAnyFile(fileUpload.productPicFile)"
+                                                            title="Upload"><i class="fa fa-upload fs-3"></i></a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+                                            <hr style="border-top: 2px solid #000;">
+                                            <div class="row">
+                                                <div class="col-md-12 fv-row">
+                                                    <h4>Details</h4>
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>MRP</b></span>
+                                                    </label>
+
+                                                    <input required type="text" class="form-control form-control-solid"
+                                                        ng-model="form.tempDetails.mrp"
+                                                        ng-change="calculateFinalCost(form.tempDetails.mrp)"
+                                                        pattern="[0-9]{0,5}" placeholder="MRP" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Final
+                                                                Cost</b></span>
+                                                    </label>
+                                                    <input type="text" readonly class="form-control form-control-solid "
+                                                        ng-model="form.tempDetails.finalCost" pattern="[0-9]{0,2}"
+                                                        placeholder="Final Cost" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>GST (In
+                                                                percentage)</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-change="calculateGST(form.tempDetails.gstPer)"
+                                                        ng-model="form.tempDetails.gstPer" pattern="[0-9]{0,2}"
+                                                        placeholder="GST" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Basic
+                                                                Cost</b></span></label>
+
+                                                    <input type="text" readonly class="form-control form-control-solid"
+                                                        ng-model="form.tempDetails.basicCost" placeholder="Basic Cost"
+                                                        pattern="[0-9]{0,2}" />
+
+                                                </div>
+
+
+
+
+
+                                            </div>
+                                            <br>
+                                            <div class="" style="margin-bottom: 39px;padding-bottom: 16px;">
+                                                <div class="col-md-12" style="text-align:center;">
+
+                                                    <button type="submit" data-kt-contacts-type="submit"
+                                                        class="btn btn-outline-primary me-3">
+                                                        <span class="indicator-label">Submit</span> <span
+                                                            class="indicator-progress">Please wait... <span
+                                                                class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                                    </button>
+
+                                                    <button type="button" ng-click="changeView('list')"
+                                                        data-kt-contacts-type="cancel"
+                                                        class="btn btn-outline-danger me-3">Cancel</button>
+                                                    <!--end::Button-->
+                                                    <!--begin::Button-->
+                                                </div>
+
+                                            </div>
+                                            <!--end::Action buttons-->
+                                        </form>
+                                    </div>
+                                    <!--end::Form-->
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Contacts-->
+                        </div>
+                        <!--end::Content-->
+                    </div>
+                    <!--end::Contacts App- Add New Contact-->
+                </div>
+                <!--end::Content container-->
+            </div>
+
+            <!-- Edit company view -->
+            <div class="d-flex flex-column flex-column-fluid" ng-show="views.edit">
+                <!--begin::Toolbar-->
+                <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+                    <!--begin::Toolbar container-->
+                    <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+                        <!--begin::Page title-->
+                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                            <!--begin::Title-->
+                            <h3 class="">
+                                <span>
+                                    <i class="fa-solid fa-industry fs-1"></i>
+                                </span>
+                                Vendor Article Mapping(NPI): Edit
+                            </h3>
+                            <!--end::Title-->
+
+                        </div>
+                        <!--end::Page title-->
+                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+                            <button class="btn btn-outline-danger" ng-click="changeView('list')" title="Cancel"
+                                style="padding: calc(-0.425rem + 1px) calc(-0.5rem + 1px);">
+                                <span class="svg-icon svg-icon-muted svg-icon-2hx">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        style="width: 2.2rem !important;height: 2.5rem !important;">
+                                        <path d="M9.60001 11H21C21.6 11 22 11.4 22 12C22 12.6 21.6 13 21 13H9.60001V11Z"
+                                            fill="currentColor" />
+                                        <path opacity="0.3" d="M9.6 20V4L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L9.6 20Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <!--end::Toolbar container-->
+                </div>
+                <!--end::Toolbar-->
+                <!--begin::Content-->
+                <div id="kt_app_content" class="app-content flex-column-fluid">
+                    <!--begin::Content container-->
+                    <div id="kt_app_content_container" class="app-container-content container-xxl">
+                        <!--begin::Contacts App- Add New Contact-->
+                        <div class="row g-7">
+                            <!--begin::Contact groups-->
+
+
+                            <!--begin::Content-->
+                            <div class="col-xl-12">
+                                <!--begin::Contacts-->
+                                <div class="card card-flush h-lg-100" id="kt_contacts_main">
+
+                                    <!--begin::Card body-->
+                                    <div class="card-body pt-5">
+                                        <form id="kt_ecommerce_settings_general_form" class="form"
+                                            ng-submit="editSaveVendorProduct()">
+                                            <!--begin::Form-->
+
+                                            <!--begin::Row-->
+                                            <div class="row">
+
+                                                <div class="col-md-4 fv-row">
+                                                    <!--begin::Label-->
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Vendor</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.vendorId" name="vendorId"
+                                                        ng-options="vendor.id as vendor.name for vendor in vendors"
+                                                        ng-change="fetchManufacturers(form.vendorId)" required>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4 fv-row">
+                                                    <!--begin::Label-->
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Manufacture</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.manufacId" name="manufacId"
+                                                        ng-options="manufacturer.id as manufacturer.manufacname for manufacturer in manufacturers"
+                                                        ng-change="setInvoiceMarginValue(form.manufacId)" required>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Article
+                                                                Description</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control  form-control-solid "
+                                                        ng-model="form.articleName" placeholder="Article Description" />
+
+                                                </div>
+
+                                            </div>
+                                            <!--end::Row-->
+                                            <!--begin::Row-->
+                                            <div class="row">
+
+                                                <div class="col-md-4 fv-row">
+                                                    <!--begin::Label-->
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Article
+                                                                Name</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control  form-control-solid "
+                                                        ng-model="form.articleShortName" placeholder="Article Name" />
+                                                </div>
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>EAN
+                                                                Code</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control  form-control-solid "
+                                                        ng-model="form.eanCD" placeholder="EAN Code" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+                                                    <!--begin::Label-->
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Brand</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.brandId" name="brandId"
+                                                        ng-options="brand.id as brand.brandName for brand in brands"
+                                                        required>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>HSN Code</b></span>
+                                                    </label>
+
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="form.hsnCD" placeholder="HSN Code"
+                                                        pattern="[A-Za-z0-9]+"
+                                                        oninvalid="this.setCustomValidity('Only Letter and Number Allowed')"
+                                                        oninput="this.setCustomValidity('')" required />
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>UOM</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.uomId" name="uomId"
+                                                        ng-options="uom.id as uom.name for uom in uoms" required>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label
+                                                        class="fs-6 fw-semibold form-label mt-3"><span><b>Size</b></span>
+                                                    </label>
+
+                                                    <input type="text" ng-model="form.size"
+                                                        class="form-control form-control-solid" placeholder="Size" />
+
+                                                </div>
+                                                <!--end::Col-->
+                                            </div>
+                                            <div class="row">
+                                                <!--begin::Col-->
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Weight</b></span>
+                                                    </label>
+
+                                                    <input required type="text" ng-model="form.weight"
+                                                        class="form-control form-control-solid" placeholder="Weight"
+                                                        pattern="[A-Za-z0-9]+"
+                                                        oninvalid="this.setCustomValidity('Only Letter and Number Allowed')"
+                                                        oninput="this.setCustomValidity('')" />
+
+                                                </div>
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Product
+                                                                Type</b></span>
+                                                    </label>
+
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.productType" name="productType">
+                                                        <option value="L">Loose</option>
+                                                        <option value="P">Pack</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Select Item</b></span>
+                                                    </label>
+
+                                                    <input type="text" readonly ng-model="form.item_name"
+                                                        class="form-control form-control-solid"
+                                                        ng-click="openFetchItems()" placeholder="Select Item" />
+                                                    <input type="text" hidden ng-model="form.itemId"
+                                                        class="form-control form-control-solid" />
+
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>Concessionaire Indicator</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.concesInd" name="concesInd" required>
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                    </select>
+                                                </div>
+
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class="required"><b>DSP Indicator</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.dspInd" name="dspInd" required>
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label
+                                                        class="fs-6 fw-semibold form-label mt-3"><span><b>MOQ</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.mbq" placeholder="MBQ" />
+
+                                                </div>
+                                                <!-- <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Basic Cost</b></span></label>
+
+                                                    <input type="text" class="form-control form-control-solid" ng-model="form.fsa_no" placeholder="Basic Cost" />
+
+                                                </div> -->
+                                            </div>
+                                            <!-- <div class="row">
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>GST (In percentage)</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid " ng-model="form.tin_no" placeholder="GST" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Final Cost</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid " ng-model="form.tin_no" placeholder="Final Cost" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span class="required"><b>MRP</b></span>
+                                                    </label>
+
+                                                    <input required type="text" class="form-control form-control-solid" ng-model="form.pan_no" placeholder="MRP" />
+
+                                                </div>
+                                            </div> -->
+                                            <div class="row">
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>On Invoice
+                                                                Margin(in %)</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.onInvMargin" placeholder="On Invoice Margin"
+                                                        pattern="[0-9]{0,2}" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Off Invoice
+                                                                Margin(in %)</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid " readonly
+                                                        ng-model="form.offInvMargin" placeholder="Off Invoice Margin"
+                                                        pattern="[0-9]{0,2}" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Dimesnion
+                                                                Depth(in CM)</b></span>
+                                                    </label>
+
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="form.dimDepth" placeholder="Dimesnion Depth(in CM)" />
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Dimesnion
+                                                                Width(in CM)</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.dimWidth" placeholder="Dimesnion Width(in CM)" />
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Dimesnion
+                                                                Height(in CM) </b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.dimHeight"
+                                                        placeholder="Dimesnion Height(in CM)" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Net Content
+                                                                (In GM)</b></span>
+                                                    </label>
+
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="form.netContent" placeholder="Net Content (In GM)" />
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Carton
+                                                                Units</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.cartonUnits" placeholder="Carton Units" />
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Inner
+                                                                Units</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.innerUnits" placeholder="Inner Units" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Distribution
+                                                                Type</b></span>
+                                                    </label>
+
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.distrType" name="distrType">
+                                                        <option value="FT">Flow Through</option>
+                                                        <option value="PA">Put Away</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Outer
+                                                                Case</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.outerCase" placeholder="Outer Case" />
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Inner
+                                                                Case</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.innerCase" placeholder="Inner Case" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Order
+                                                                Day</b></span>
+                                                    </label>
+
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="form.orderDay" placeholder="Order Day" />
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Delivery
+                                                                Day</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-model="form.delvDay" placeholder="Delivery Day" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label
+                                                        class="fs-6 fw-semibold form-label mt-3"><span><b>Movement</b></span>
+                                                    </label>
+
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.movement" name="movement">
+                                                        <option value="W">Warehouse</option>
+                                                        <option value="S">Store</option>
+                                                        <option value="B">Both</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row"
+                                                    ng-if="form.movement == 'S' || form.movement == 'B'">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Order
+                                                                Schedule Store</b></span>
+                                                    </label>
+
+                                                    <!-- <input type="text" class="form-control form-control-solid" ng-model="form.orderSch" placeholder="Order Schedule" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.storeOrderSch" name="orderSch"
+                                                        ng-options="schedule.id as schedule.des for schedule in schedules">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- </div>
+                                            <div class="row"> -->
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row"
+                                                    ng-if="form.movement == 'S' || form.movement == 'B'">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Delivery
+                                                                Schedule Store</b></span>
+                                                    </label>
+                                                    <!-- <input type="text" class="form-control form-control-solid " ng-model="form.delivSch" placeholder="Delivery Schedule" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.storeDelivSch" name="delivSch"
+                                                        ng-options="schedule.id as schedule.des for schedule in schedules">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row"
+                                                    ng-if="form.movement == 'W' || form.movement == 'B'">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Order
+                                                                Schedule Warehouse</b></span>
+                                                    </label>
+                                                    <!-- <input type="text" class="form-control form-control-solid " ng-model="form.warehouseOrderSch" placeholder="Delivery Schedule" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.warehouseOrderSch" name="warehouseOrderSch"
+                                                        ng-options="schedule.id as schedule.des for schedule in schedules">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row"
+                                                    ng-if="form.movement == 'W' || form.movement == 'B'">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Delivery
+                                                                Schedule Warehouse</b></span>
+                                                    </label>
+                                                    <!-- <input type="text" class="form-control form-control-solid " ng-model="form.warehouseDelivSch" placeholder="Delivery Schedule" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.warehouseDelivSch" name="warehouseDelivSch"
+                                                        ng-options="schedule.id as schedule.des for schedule in schedules">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Region</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid" ng-model="form.countrycode" name="countrycode" ng-change="fetchState(form.countrycode)" ng-options="country.id as country.name for country in countries" required>
+                                                        <option></option>
+                                                    </select>
+                                                </div> -->
+
+                                                <!-- </div>
+                                            <div class="row"> -->
+                                                <!--begin::Col-->
+
+
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Buying
+                                                                Pattern</b></span>
+                                                    </label>
+                                                    <!-- <input type="text" class="form-control form-control-solid " ng-model="form.buyingPattern" placeholder="Buying Pattern" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.buyingPattern" name="buyingPattern">
+                                                        <option value="ARS">ARS Buying</option>
+                                                        <option value="PO">Open PO</option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Price
+                                                                Based</b></span>
+                                                    </label>
+                                                    <!-- <input type="text" class="form-control form-control-solid " ng-model="form.hd1" placeholder="Price Based" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.priceBased" name="priceBased">
+                                                        <option value="C">Cost</option>
+                                                        <option value="G">GKM</option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Return
+                                                                Type</b></span>
+                                                    </label>
+
+                                                    <!-- <input type="text" class="form-control form-control-solid" ng-model="form.returnType" placeholder="Return Type" /> -->
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.returnType" name="returnType">
+                                                        <option value="RTV">Return</option>
+                                                        <option value="NRTV">Non-Return</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+                                                    <div class="col-md-12">
+
+                                                        <label class="fs-6 fw-semibold form-label mt-3"><span><b>Upload
+                                                                    Image</b></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input type="file" class="form-control form-control-solid "
+                                                            file-model="fileUpload.productPicFile" />
+                                                        <span style="color: red;"
+                                                            ng-if="form.productPic && form.productPic != ''">Already
+                                                            Uploaded</span>
+                                                        <a href="" ng-click="downloadFile(form.productPic)"><span
+                                                                style="color: blue;"
+                                                                ng-if="form.productPic && form.productPic != ''">Download
+                                                                File</span></a>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <a class="border border-secondary btn btn-icon btn-light-primary"
+                                                            ng-click="uploadAnyFile(fileUpload.productPicFile)"
+                                                            title="Upload"><i class="fa fa-upload fs-3"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <hr style="border-top: 2px solid #000;">
+                                            <div class="row">
+                                                <div class="col-md-12 fv-row">
+                                                    <h4>Details</h4>
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span
+                                                            class=""><b>MRP</b></span>
+                                                    </label>
+                                                    <select class="form-control form-control-solid"
+                                                        ng-model="form.tempDetails.full_data" name="mrp"
+                                                        ng-change="fetchAmountsForedit(form.tempDetails.full_data)">
+                                                        <option ng-repeat="detail in form.details" value="{{detail}}">
+                                                            {{detail.mrp}}
+                                                        </option>
+                                                    </select>
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="form.tempDetails.mrp"
+                                                        ng-change="calculateFinalCost(form.tempDetails.mrp)" hidden />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Final
+                                                                Cost</b></span>
+                                                    </label>
+                                                    <input type="text" readonly class="form-control form-control-solid "
+                                                        ng-model="form.tempDetails.finalCost" pattern="[0-9]{0,2}"
+                                                        placeholder="Final Cost" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>GST (In
+                                                                percentage)</b></span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-solid "
+                                                        ng-change="calculateGST(form.tempDetails.gstPer)"
+                                                        ng-model="form.tempDetails.gstPer" pattern="[0-9]{0,2}"
+                                                        placeholder="GST" />
+
+                                                </div>
+                                                <div class="col-md-4 fv-row">
+
+                                                    <label class="fs-6 fw-semibold form-label mt-3"><span><b>Basic
+                                                                Cost</b></span></label>
+
+                                                    <input type="text" readonly class="form-control form-control-solid"
+                                                        ng-model="form.tempDetails.basicCost" placeholder="Basic Cost"
+                                                        pattern="[0-9]{0,2}" />
+
+                                                </div>
+
+
+
+
+
+                                            </div>
+                                            <br>
+                                            <div class="" style="margin-bottom: 39px;padding-bottom: 16px;">
+                                                <div class="col-md-12" style="text-align:center;">
+
+                                                    <button type="submit" data-kt-contacts-type="submit"
+                                                        class="btn btn-outline-primary me-3">
+                                                        <span class="indicator-label">Submit</span> <span
+                                                            class="indicator-progress">Please wait... <span
+                                                                class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                                    </button>
+
+                                                    <button type="button" ng-click="changeView('list')"
+                                                        data-kt-contacts-type="cancel"
+                                                        class="btn btn-outline-danger me-3">Cancel</button>
+                                                    <!--end::Button-->
+                                                    <!--begin::Button-->
+                                                </div>
+
+                                            </div>
+                                            <!--end::Action buttons-->
+                                        </form>
+                                    </div>
+                                    <!--end::Form-->
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Contacts-->
+                        </div>
+                        <!--end::Content-->
+                    </div>
+                    <!--end::Contacts App- Add New Contact-->
+                </div>
+                <!--end::Content container-->
+            </div>
+            <!--========================== Multiple Views Content ==============================-->
+        </div>
+
+
+        <!--begin::Footer-->
+        <div th:replace="fragments/footer"></div>
+        <!--end::Footer-->
+    </div>
+    <!--end:::Main-->
+    </div>
+    <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    </div>
+    <!--end::App-->
+
+
+
+
+    <!--begin::Scrolltop-->
+    <div th:replace="fragments/scroll"></div>
+    <!--end::Scrolltop-->
+
+    <!-- ==================Model code content======================= -->
+    <div class="modal fade modal-lg" tabindex="-1" id="list_itms_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Item List</h3>
+                    <div class="d-flex align-items-center position-relative my-1">
+                        <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
+                                    transform="rotate(45 17.0365 15.1223)" fill="currentColor">
+                                </rect>
+                                <path
+                                    d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                    fill="currentColor"></path>
+                            </svg>
+                        </span>
+                        <input type="text" data-kt-filter="search" ng-model="searchTextItem"
+                            class="form-control form-control-solid w-250px ps-15" placeholder="Search Report" />
+                    </div>
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <span class="svg-icon svg-icon-muted svg-icon-2hx"><svg width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.3"
+                                    d="M6 19.7C5.7 19.7 5.5 19.6 5.3 19.4C4.9 19 4.9 18.4 5.3 18L18 5.3C18.4 4.9 19 4.9 19.4 5.3C19.8 5.7 19.8 6.29999 19.4 6.69999L6.7 19.4C6.5 19.6 6.3 19.7 6 19.7Z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M18.8 19.7C18.5 19.7 18.3 19.6 18.1 19.4L5.40001 6.69999C5.00001 6.29999 5.00001 5.7 5.40001 5.3C5.80001 4.9 6.40001 4.9 6.80001 5.3L19.5 18C19.9 18.4 19.9 19 19.5 19.4C19.3 19.6 19 19.7 18.8 19.7Z"
+                                    fill="currentColor" />
+                            </svg>
+                        </span>
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <!-- <div class="card  card-flush"> -->
+                <div class="modal-body">
+
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                        <thead>
+                            <!--begin::Table row-->
+                            <tr style="font-weight: 700 !important;color: black !important;"
+                                class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+                                <th class="min-w-100px">Sl.</th>
+                                <!-- <th class="min-w-100px">Name</th> -->
+                                <th class="min-w-100px">Division</th>
+                                <th class="min-w-100px">Family</th>
+                                <th class="min-w-100px">Class</th>
+                                <th class="min-w-100px">Sub Class</th>
+                                <th class="min-w-100px">#</th>
+                            </tr>
+                            <!--end::Table row-->
+                        </thead>
+                        <tbody class="fw-semibold text-gray-600">
+                            <tr class="odd" ng-repeat="item in items | filter:searchTextItem">
+                                <td>{{$index + 1}}</td>
+                                <!-- <td>{{item.name}}</td> -->
+                                <td>{{item.pro_division}}</td>
+                                <td>{{item.pro_family}}</td>
+                                <td>{{item.pro_class}}</td>
+                                <td>{{item.pro_sub_class}}</td>
+                                <td><a href=""
+                                        ng-click="selectItemId(item.id,item.pro_division,item.pro_family,item.pro_class,item.pro_sub_class)">Select</a>
+                                </td>
+
+                                <!-- <td>
+                                                        <div class="btn-group" dropdown>
+                                                            <button type="button" class="btn btn-outline-primary dropdown-toggle">
+                                                                Action
+                                                            </button>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <li><a href="#" ng-click="editCompany(company.id)">Edit</a>
+                                                                </li>
+                                                                <li><a href="#" ng-click="deleteCompany(company.id)">Delete</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td> -->
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- ==================End Model code content=================== -->
+
+
+    <!--begin::Page Javascript-->
+    <script src="private/vendorController.js"></script>
+    <script>
+        "use strict";
+
+        // Class definition
+        var KTDatatablesExample = function () {
+            // Shared variables
+            var table;
+            var datatable;
+
+            // Private functions
+            var initDatatable = function () {
+                // Set date data order
+                const tableRows = table.querySelectorAll('tbody tr');
+
+                // tableRows.forEach(row => {
+                // 	const dateRow = row.querySelectorAll('td');
+                // 	const realDate = moment(dateRow[3].innerHTML, "DD MMM YYYY, LT").format(); // select date from 4th column in table
+                // 	dateRow[3].setAttribute('data-order', realDate);
+                // });
+
+                // Init datatable --- more info on datatables: https://datatables.net/manual/
+                datatable = $(table).DataTable({
+                    "info": false,
+                    'order': [],
+                    'pageLength': 10,
+                });
+            }
+
+            // Hook export buttons
+            var exportButtons = () => {
+                const documentTitle = 'Customer Orders Report';
+                var buttons = new $.fn.dataTable.Buttons(table, {
+                    buttons: [{
+                        extend: 'copyHtml5',
+                        title: documentTitle
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        title: documentTitle
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: documentTitle
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: documentTitle
+                    }
+                    ]
+                }).container().appendTo($('#kt_datatable_example_buttons'));
+
+                // Hook dropdown menu click event to datatable export buttons
+                const exportButtons = document.querySelectorAll('#kt_datatable_example_export_menu [data-kt-export]');
+                exportButtons.forEach(exportButton => {
+                    exportButton.addEventListener('click', e => {
+                        e.preventDefault();
+
+                        // Get clicked export value
+                        const exportValue = e.target.getAttribute('data-kt-export');
+                        console.log(exportValue);
+                        const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
+                        console.log(target);
+
+                        // Trigger click event on hidden datatable export buttons
+                        // target.click();
+                    });
+                });
+            }
+
+            // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+            var handleSearchDatatable = () => {
+                const filterSearch = document.querySelector('[data-kt-filter="search"]');
+                filterSearch.addEventListener('keyup', function (e) {
+                    datatable.search(e.target.value).draw();
+                });
+            }
+
+            // Public methods
+            return {
+                init: function () {
+                    table = document.querySelector('#kt_datatable_example');
+
+                    if (!table) {
+                        return;
+                    }
+
+                    initDatatable();
+                    exportButtons();
+                    handleSearchDatatable();
+                }
+            };
+        }();
+
+        // On document ready
+        KTUtil.onDOMContentLoaded(function () {
+            KTDatatablesExample.init();
+        });
+    </script>
+    <!--end::Page Javascript-->
+
+</body>
+<!--end::Body-->
+
+
+</html>

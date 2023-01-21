@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--begin::Head-->
+
+<head>
+    <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <!--begin::Global Stylesheets Bundle(used by all pages)-->
+    <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <!--end::Global Stylesheets Bundle-->
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+
+<body ng-app="VendorOnbardingManagment" ng-controller="VendorRegisterOnboardingController" data-kt-name="metronic"
+    id="kt_body" class="app-blank app-blank">
+    <!--begin::Theme mode setup on page load-->
+    <script>
+        if (document.documentElement) {
+            const defaultThemeMode = "system";
+            const name = document.body.getAttribute("data-kt-name");
+            let themeMode = localStorage.getItem("kt_" + (name !== null ? name + "_" : "") + "theme_mode_value");
+            if (themeMode === null) {
+                if (defaultThemeMode === "system") {
+                    themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+                } else {
+                    themeMode = defaultThemeMode;
+                }
+            }
+            document.documentElement.setAttribute("data-theme", themeMode);
+        }
+    </script>
+    <!--end::Theme mode setup on page load-->
+    <!--begin::Root-->
+    <div class="d-flex flex-column flex-root" id="kt_app_root">
+        <!--begin::Authentication - Multi-steps-->
+        <div class="d-flex flex-column flex-lg-row flex-column-fluid stepper stepper-pills stepper-column stepper-multistep"
+            id="kt_create_account_stepper">
+            <!--begin::Aside-->
+            <div class="d-flex flex-column flex-lg-row-auto w-lg-350px w-xl-500px">
+                <div class="d-flex flex-column position-lg-fixed top-0 bottom-0 w-lg-350px w-xl-500px scroll-y bgi-size-cover bgi-position-center"
+                    style="background-image: url(assets/media/misc/auth-bg.png)">
+                    <!--begin::Header-->
+                    <div class="d-flex flex-center py-10 py-lg-20 mt-lg-20">
+                        <!--begin::Logo-->
+                        <a href="../../demo1/dist/index.html">
+                            <img alt="Logo" src="assets/media/logos/LOGOOMNILOGIN.png" class="h-70px" />
+                        </a>
+                        <!--end::Logo-->
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="d-flex flex-row-fluid justify-content-center p-10">
+                        <!--begin::Nav-->
+                        <div class="stepper-nav">
+                            <!--begin::Step 1-->
+                            <div class="stepper-item current" data-kt-stepper-element="nav">
+                                <!--begin::Wrapper-->
+                                <div class="stepper-wrapper">
+                                    <!--begin::Icon-->
+                                    <div class="stepper-icon rounded-3">
+                                        <i class="stepper-check fas fa-check"></i>
+                                        <span class="stepper-number">1</span>
+                                    </div>
+                                    <!--end::Icon-->
+                                    <!--begin::Label-->
+                                    <div class="stepper-label">
+                                        <h3 class="stepper-title fs-2">Credential</h3>
+                                        <div class="stepper-desc fw-normal">Add your credential</div>
+                                    </div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Wrapper-->
+                                <!--begin::Line-->
+                                <div class="stepper-line h-40px"></div>
+                                <!--end::Line-->
+                            </div>
+                            <!--end::Step 1-->
+                            <!--begin::Step 2-->
+                            <div class="stepper-item" data-kt-stepper-element="nav">
+                                <!--begin::Wrapper-->
+                                <div class="stepper-wrapper">
+                                    <!--begin::Icon-->
+                                    <div class="stepper-icon rounded-3">
+                                        <i class="stepper-check fas fa-check"></i>
+                                        <span class="stepper-number">2</span>
+                                    </div>
+                                    <!--end::Icon-->
+                                    <!--begin::Label-->
+                                    <div class="stepper-label">
+                                        <h3 class="stepper-title fs-2">Personal Details</h3>
+                                        <div class="stepper-desc fw-normal">Setup your personal details</div>
+                                    </div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Wrapper-->
+                                <!--begin::Line-->
+                                <div class="stepper-line h-40px"></div>
+                                <!--end::Line-->
+                            </div>
+                            <!--end::Step 2-->
+                            <!--begin::Step 3-->
+                            <div class="stepper-item" data-kt-stepper-element="nav">
+                                <!--begin::Wrapper-->
+                                <div class="stepper-wrapper">
+                                    <!--begin::Icon-->
+                                    <div class="stepper-icon">
+                                        <i class="stepper-check fas fa-check"></i>
+                                        <span class="stepper-number">3</span>
+                                    </div>
+                                    <!--end::Icon-->
+                                    <!--begin::Label-->
+                                    <div class="stepper-label">
+                                        <h3 class="stepper-title fs-2">Business Details</h3>
+                                        <div class="stepper-desc fw-normal">Setup your Business details</div>
+                                    </div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Wrapper-->
+                            </div>
+                            <!--end::Step 3-->
+
+                        </div>
+                        <!--end::Nav-->
+                    </div>
+                    <div class="d-flex flex-center flex-wrap px-5 py-10">
+                        <!--begin::Links-->
+                        <div class="d-flex fw-normal">
+                            <h3 class="text-dark fw-bolder mb-3" style="color: #ffffff !important;">Already Signup ?
+                            </h3>
+                            <a href="/Omni" style="color: #ffffff !important;" class="text-success px-5"
+                                target="_blank">
+                                <h3>login</h3>
+                            </a>
+                        </div>
+                        <!--end::Links-->
+                    </div>
+                </div>
+            </div>
+            <!--begin::Aside-->
+            <!--begin::Body-->
+            <div class="d-flex flex-column flex-lg-row-fluid py-10">
+                <!--begin::Content-->
+                <div class="d-flex flex-center flex-column flex-column-fluid">
+                    <!--begin::Wrapper-->
+                    <div class="w-lg-650px w-xl-700px p-10 p-lg-15 mx-auto">
+                        <!--begin::Form-->
+                        <form class="my-auto pb-5" novalidate="novalidate" id="kt_create_account_form">
+                            <!--begin::Step 1-->
+                            <div class="current" data-kt-stepper-element="content">
+                                <!--begin::Wrapper-->
+                                <div class="w-100">
+                                    <div class="pb-10 pb-lg-15">
+                                        <!--begin::Title-->
+                                        <h2 class="fw-bold text-dark">Credential</h2>
+                                        <!--end::Title-->
+                                    </div>
+                                    <!--begin::Input group-->
+                                    <div class="fv-row">
+                                        <!--begin::Row-->
+                                        <div class="row">
+                                            <!--begin::Col-->
+                                            <div class="col-lg-6">
+                                                <label class="form-label mb-3">Username</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    id="username" ng-change="checkUsername(form.username)"
+                                                    ng-model="form.username" name="username" placeholder="Username" />
+                                                <span style="color: red;display:none;" id="username_msg">Username
+                                                    already exist! Please try another one</span>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="form-label mb-3">Password</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.password" name="password" placeholder="Password"
+                                                    required />
+                                            </div>
+
+                                        </div>
+                                        <!--end::Row-->
+                                    </div>
+                                    <!--end::Input group-->
+                                </div>
+                                <!--end::Wrapper-->
+                            </div>
+                            <!--end::Step 1-->
+                            <!--begin::Step 2-->
+                            <div class="" data-kt-stepper-element="content">
+                                <!--begin::Wrapper-->
+                                <div class="w-100">
+                                    <!--begin::Heading-->
+                                    <div class="pb-10 pb-lg-15">
+                                        <!--begin::Title-->
+                                        <h2 class="fw-bold text-dark">Personal Details</h2>
+                                        <!--end::Title-->
+                                    </div>
+                                    <div class="fv-row">
+                                        <div class="row">
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Vendor Name</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.name" name="name" placeholder="Vendor Name" />
+                                                <input type="text" hidden ng-model="form.invitee" name="invitee"
+                                                    id="invitee" />
+                                            </div>
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Address 1</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.add1" name="add1" placeholder="Address 1" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Address 2</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.add2" name="add2" placeholder="Address 2" />
+                                            </div>
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Address 3</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.add3" name="add3" placeholder="Address 3" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Location</label>
+                                                <input class="form-control form-control-solid" list="location_list"
+                                                    type="text" ng-model="form.locationname" name="location"
+                                                    ng-change="fetchLocationsDetailsById(form.locationname )"
+                                                    autocomplete="off" required />
+                                                <datalist id="location_list">
+                                                    <option></option>
+                                                    <option ng-repeat="location in locations" value="{{location.name}}">
+                                                    </option>
+                                                </datalist>
+
+                                            </div>
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Country</label>
+                                                <select class="form-select form-select-lg form-select-solid"
+                                                    ng-model="form.countrycode" name="countrycode"
+                                                    ng-change="fetchState(form.countrycode)"
+                                                    ng-options="country.id as country.name for country in countries">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">State</label>
+                                                <select class="form-select form-select-lg form-select-solid"
+                                                    ng-model="form.stateid" name="stateid"
+                                                    ng-options="state.id as state.state for state in states">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Pincode</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.pin" name="pin" placeholder="Pincode" />
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Mobile No.</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.mobile" name="mobile" placeholder="Mobile No." />
+                                            </div>
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Phone No.</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.phone" name="phone" placeholder="Phone No." />
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Fax</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.fax" name="fax" placeholder="Fax" />
+                                            </div>
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Primary Email</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.email1" name="email1" placeholder="Primary Email"
+                                                    ng-change="CheckUserEmail(form.email1)" />
+                                                <span style="color: red;display:none;" id="email_msg">Email
+                                                    already exist! Please try another one</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 fv-row">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Finance SPOC</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.email2" name="email2" placeholder="Finance SPOC" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Wrapper-->
+                            </div>
+                            <!--end::Step 2-->
+                            <!--begin::Step 3-->
+                            <div class="" data-kt-stepper-element="content">
+                                <!--begin::Wrapper-->
+                                <div class="w-100">
+                                    <!--begin::Heading-->
+                                    <div class="pb-10 pb-lg-12">
+                                        <!--begin::Title-->
+                                        <h2 class="fw-bold text-dark">Business Details</h2>
+                                        <!--end::Title-->
+                                    </div>
+                                    <div class="fv-row">
+                                        <div class="row">
+
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3">GST No.</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.gst_no" name="gst_no" placeholder="GST No." />
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Credit Days</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.credit_days" name="credit_days"
+                                                    placeholder="Credit Days" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Payment Mode</label>
+                                                <select class="form-select form-select-lg form-select-solid"
+                                                    ng-model="form.paym_mode_id" name="paym_mode_id"
+                                                    ng-options="payment_mode.id as payment_mode.paymentmode for payment_mode in payment_modes">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Contact Person</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.cont_pers" name="cont_pers"
+                                                    placeholder="Contact Person" required />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Contact Mobile</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.cont_mobile" name="cont_mobile"
+                                                    placeholder="Contact Mobile" required />
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Order Schedule </label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.order_sch" name="order_sch"
+                                                    placeholder="Order Schedule" />
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3"> Delivery
+                                                    Schedule</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.delv_sch" name="delv_sch"
+                                                    placeholder=" Delivery Schedule" />
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Lead Time</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.lead_time" name="lead_time"
+                                                    placeholder="Lead Time" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Min Order Quantity
+                                                </label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.min_ord_qty" name="min_ord_qty"
+                                                    placeholder="Min Order Quantity " />
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Min Order Value </label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.min_ord_val" name="min_ord_val"
+                                                    placeholder="Min Order Value " />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label class="fs-6 fw-semibold form-label mt-3">Payment Terms</label>
+                                                <input type="text"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    ng-model="form.paym_terms" name="paym_terms"
+                                                    placeholder="Payment Terms" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--end::Step 4-->
+                            <!--begin::Actions-->
+                            <div class="d-flex flex-stack pt-15">
+                                <div class="mr-2">
+                                    <button type="button" class="btn btn-lg btn-light-primary me-3"
+                                        data-kt-stepper-action="previous">
+                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr063.svg-->
+                                        <span class="svg-icon svg-icon-4 me-1">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect opacity="0.5" x="6" y="11" width="13" height="2" rx="1"
+                                                    fill="currentColor" />
+                                                <path
+                                                    d="M8.56569 11.4343L12.75 7.25C13.1642 6.83579 13.1642 6.16421 12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75L5.70711 11.2929C5.31658 11.6834 5.31658 12.3166 5.70711 12.7071L11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25C13.1642 17.8358 13.1642 17.1642 12.75 16.75L8.56569 12.5657C8.25327 12.2533 8.25327 11.7467 8.56569 11.4343Z"
+                                                    fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->Previous
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-lg btn-primary" data-kt-stepper-action="submit"
+                                        ng-click="addSaveVendorRegOnboarding()">
+                                        <span class="indicator-label">Submit</span>
+                                        <span class="indicator-progress">Please wait...
+                                            <span
+                                                class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                    </button>
+                                    <button type="button" class="btn btn-lg btn-primary"
+                                        data-kt-stepper-action="next">Continue
+                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
+                                        <span class="svg-icon svg-icon-4 ms-1">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1"
+                                                    transform="rotate(-180 18 13)" fill="currentColor" />
+                                                <path
+                                                    d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
+                                                    fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </button>
+                                </div>
+                            </div>
+                            <!--end::Actions-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Wrapper-->
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Authentication - Multi-steps-->
+    </div>
+    <!--end::Root-->
+    <!--begin::Javascript-->
+    <!--begin::Global Javascript Bundle(used by all pages)-->
+    <script src="assets/plugins/global/plugins.bundle.js"></script>
+    <script src="assets/js/scripts.bundle.js"></script>
+    <!--end::Global Javascript Bundle-->
+    <!--begin::Custom Javascript(used by this page)-->
+    <script src="assets/js/custom/utilities/modals/create-account.js"></script>
+    <!--end::Custom Javascript-->
+    <!--end::Javascript-->
+
+    <script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <script src="assets/js/anguler.js"></script>
+    <script src="assets/js/angularModule.js"></script>
+    <script src="assets/js/angular-datatables.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28//angular-route.min.js"></script>
+    <script src="private/onboarding/vendorOnboardingController.js"></script>
+    <script src="assets/js/omni.js" type="text/javascript"></script>
+</body>
+<!--end::Body-->
+
+</html>

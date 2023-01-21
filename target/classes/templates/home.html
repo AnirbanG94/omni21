@@ -1,0 +1,222 @@
+<div th:replace="fragments/head"></div>
+<!--begin::Body-->
+<style>
+	pre {
+		overflow: auto;
+		word-wrap: normal;
+		white-space: pre;
+	}
+
+	[ng\:cloak],
+	[ng-cloak],
+	.ng-cloak {
+		display: none !important;
+	}
+
+	@media (min-width :992px) {
+		.app-container-content {
+			padding-left: 10px !important;
+			padding-right: 10px !important;
+		}
+	}
+
+	@media (max-width :991.98px) {
+		.app-container-content {
+			max-width: none;
+			padding-left: 9px !important;
+			padding-right: 9px !important;
+		}
+	}
+
+	.prime-td {
+		background-color: #f0f0f0 !important;
+		height: 25px !important;
+		padding: 0 0 0 10px !important;
+		margin: 0 0 0 0 !important;
+		vertical-align: middle !important;
+		/* border: 1px #727272 solid !important; */
+	}
+
+	img {
+		width: 100%;
+	}
+
+	#background {
+		width: 100%;
+		height: 100%;
+		/* position: fixed; */
+		left: 0px;
+		top: 0px;
+		z-index: -1;
+		/* Ensure div tag stays behind content; -999 might work, too. */
+	}
+
+	.stretch {
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+<body ng-app="DashboardManagement" ng-controller="DashboardController" data-kt-name="metronic" id="kt_app_body"
+	data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
+	data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
+	data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
+	class="app-default">
+
+
+	<!-- Header content top header codes-->
+	<div th:replace="fragments/header"></div>
+	<!--end::Header-->
+
+
+	<!--begin::Wrapper-->
+	<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+		<!--begin::sidebar-->
+		<div th:replace="fragments/side-bar"></div>
+		<!--end::sidebar-->
+
+
+		<!--begin::Main-->
+		<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+
+			<!--========================== Multiple Views Content ==============================-->
+
+			<!-- // List company view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.list">
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<h3 class="">
+								<span>
+									<i class="fa-solid fa-gauge fs-1"></i>
+								</span>
+								Home
+							</h3>
+
+						</div>
+
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+					<div id="" class="app-container-content container-fluid">
+						<div class="row">
+							<div class="col-xxl-12">
+								<!-- <div class="card  card-flush">
+									<div class="card-body"> -->
+								<div id="background">
+									<img style="height: 380px;" src="assets/media/omni/omni-channel-retail-banner.jpg"
+										alt="banner">
+
+								</div>
+								<!-- </div>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="kt_app_content" class="app-content flex-column-fluid" style="margin-top: -26px;">
+					<div id="" class="app-container-content container-fluid">
+						<div class="row">
+							<div class="col-xxl-12">
+								<div class="card  card-flush">
+									<div class="card-body">
+										<div id="kt_carousel_3_carousel" class="carousel carousel-custom slide"
+											data-bs-ride="carousel" data-bs-interval="8000">
+											<!--begin::Heading-->
+											<div class="d-flex align-items-center justify-content-between flex-wrap">
+												<!--begin::Label-->
+												<h3>
+
+													<span>OMNICHANNEL</span>
+												</h3>
+												<!--end::Label-->
+
+												<!--begin::Carousel Indicators-->
+												<ol
+													class="p-0 m-0 carousel-indicators carousel-indicators-bullet carousel-indicators-active-primary">
+													<li data-bs-target="#kt_carousel_3_carousel" data-bs-slide-to="0"
+														class="ms-1 active"></li>
+													<li data-bs-target="#kt_carousel_3_carousel" data-bs-slide-to="1"
+														class="ms-1"></li>
+													<li data-bs-target="#kt_carousel_3_carousel" data-bs-slide-to="2"
+														class="ms-1"></li>
+												</ol>
+												<!--end::Carousel Indicators-->
+											</div>
+											<!--end::Heading-->
+
+											<!--begin::Carousel-->
+											<div class="carousel-inner pt-8">
+												<!--begin::Item-->
+												<div class="carousel-item active"
+													style="font-size: 17px;text-align:center;">
+													********************************************** About OMNI CHNNEL
+													**********************************************
+													<br><br><br><br><br><br><br><br>
+												</div>
+												<!--end::Item-->
+
+												<!--begin::Item-->
+												<div class="carousel-item" style="font-size: 17px;text-align:center;">
+													********************************************** About OMNI CHNNEL
+													**********************************************
+													<br><br><br><br><br><br><br><br>
+												</div>
+												<!--end::Item-->
+
+												<!--begin::Item-->
+												<div class="carousel-item" style="font-size: 17px;text-align:center;">
+													********************************************** About OMNI CHNNEL
+													**********************************************
+													<br><br><br><br><br><br><br><br>
+												</div>
+												<!--end::Item-->
+											</div>
+											<!--end::Carousel-->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--========================== Multiple Views Content ==============================-->
+
+			<!--begin::Footer-->
+			<div th:replace="fragments/footer"></div>
+			<!--end::Footer-->
+		</div>
+		<!--end:::Main-->
+	</div>
+	<!--end::Wrapper-->
+	</div>
+	<!--end::Page-->
+	</div>
+	<!--end::App-->
+
+
+
+
+	<!--begin::Scrolltop-->
+	<div th:replace="fragments/scroll"></div>
+	<!--end::Scrolltop-->
+
+	<!-- ==================Model code content======================= -->
+
+	<!-- ==================End Model code content=================== -->
+
+
+	<!--begin::Page Javascript-->
+	<script src="private/dashboard.js"></script>
+	<script src="assets/js/widgets.bundle.js"></script>
+</body>
+<!--end::Body-->
+
+
+</html>

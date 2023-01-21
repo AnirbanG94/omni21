@@ -1,0 +1,1120 @@
+<div th:replace="fragments/head"></div>
+
+<!--begin::Body-->
+<style>
+	pre {
+		overflow: auto;
+		word-wrap: normal;
+		white-space: pre;
+	}
+
+	[ng\:cloak],
+	[ng-cloak],
+	.ng-cloak {
+		display: none !important;
+	}
+
+	@media (min-width:992px) {
+		.app-container-content {
+			padding-left: 10px !important;
+			padding-right: 10px !important;
+		}
+
+
+	}
+
+	@media (max-width:991.98px) {
+		.app-container-content {
+			max-width: none;
+			padding-left: 9px !important;
+			padding-right: 9px !important;
+		}
+	}
+
+	.prime-td {
+		background-color: #f0f0f0 !important;
+		height: 25px !important;
+		padding: 0 0 0 10px !important;
+		margin: 0 0 0 0 !important;
+		vertical-align: middle !important;
+		/* border: 1px #727272 solid !important; */
+	}
+</style>
+
+<body ng-app="AdminManagment" ng-controller="CompanyController" data-kt-name="metronic" id="kt_app_body"
+	data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
+	data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
+	data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
+	class="app-default">
+
+
+	<!-- Header content top header codes-->
+	<div th:replace="fragments/header"></div>
+	<!--end::Header-->
+
+
+	<!--begin::Wrapper-->
+	<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+		<!--begin::sidebar-->
+		<div th:replace="fragments/side-bar"></div>
+		<!--end::sidebar-->
+
+
+		<!--begin::Main-->
+		<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+
+			<!--========================== Multiple Views Content ==============================-->
+
+			<!-- // List company view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.list">
+				<!--begin::Toolbar-->
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<span>
+									<i class="fa-solid fa-industry fs-1"></i>
+								</span>
+								Company Details
+							</h3>
+							<!--end::Title-->
+						</div>
+
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+							<button sec:authorize="hasAuthority('ADD')" ng-if="company_length == 0" style="float:right;"
+								type="button" class="btn btn-primary" ng-click="AddCompany()">Add</button>
+							<button sec:authorize="hasAuthority('EDIT')" ng-if="company_length > 0" style="float:right;"
+								type="button" class="btn btn-primary" ng-click="editCompany(1)">Edit</button>
+
+							<button sec:authorize="hasAuthority('EXPORT')" style="float:right;" type="button"
+								class="btn btn-light-primary me-3" data-kt-menu-trigger="click"
+								data-kt-menu-placement="bottom-end">Export</button>
+							<!--begin::Menu-->
+							<div sec:authorize="hasAuthority('EXPORT')" id="kt_datatable_example_export_menu"
+								class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4"
+								data-kt-menu="true">
+
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<a href="#" class="menu-link px-3" ng-click="exportToExcel('#kt_datatable_example')"
+										data-kt-export="excel">
+										Export as Excel
+									</a>
+								</div>
+							</div>
+							<div id="kt_datatable_example_buttons" class="d-none"></div>
+
+						</div>
+						<!--end::Page title-->
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+				<!--end::Toolbar-->
+
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+
+					<div id="" class="app-container-content container-xxl">
+
+						<div class="card  card-flush">
+							<div class="card-header border-0">
+								<div class="card-title">
+									<!--begin::Search-->
+									<div class="d-flex align-items-center position-relative my-1">
+										<span class="svg-icon svg-icon-1 position-absolute ms-6">
+											<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+												xmlns="http://www.w3.org/2000/svg">
+												<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
+													rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor">
+												</rect>
+												<path
+													d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+													fill="currentColor"></path>
+											</svg>
+										</span>
+										<input type="text" data-kt-filter="search" ng-model="searchText"
+											class="form-control form-control-solid w-250px ps-15"
+											placeholder="Search Report" />
+									</div>
+									<!--end::Search-->
+									<!--begin::Export buttons-->
+									<!-- <div id="kt_datatable_example_1_export" class="d-none"></div> -->
+									<!--end::Export buttons-->
+								</div>
+
+							</div>
+							<div class="card-body">
+								<table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+									id="kt_datatable_example" datatable="ng" dt-options="vm.dtOptions">
+									<thead>
+										<!--begin::Table row-->
+										<tr style="font-weight: 700 !important;color: black !important;"
+											class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+											<th class="min-w-10px">Sl.</th>
+											<th class="min-w-100px">Name</th>
+											<th class="min-w-100px">Address</th>
+											<th class="min-w-100px">Email</th>
+											<th class="min-w-100px">Mobile No.</th>
+											<th class="min-w-100px">Files</th>
+											<!-- <th class="min-w-100px">#</th> -->
+										</tr>
+										<!--end::Table row-->
+									</thead>
+									<tbody class="fw-semibold text-gray-600">
+										<tr class="odd" ng-repeat="company in companies | filter:searchText">
+											<td style="width: 10px">{{$index + 1}}</td>
+											<td>{{company.name}}</td>
+											<td>{{company.addr1}}</td>
+											<td>{{company.email}}</td>
+											<td>{{company.mobile}}</td>
+											<td>
+												<div class="btn-group" dropdown>
+													<button type="button"
+														class="btn btn-outline-primary dropdown-toggle">
+														Download
+													</button>
+													<ul class="dropdown-menu" role="menu">
+														<li ng-repeat="files in company.details track by $index"><a
+																href="#"
+																ng-click="downloadFile(files.link)">{{files.document}}</a>
+														</li>
+													</ul>
+												</div>
+											</td>
+
+											<!-- <td>
+												<div class="btn-group" dropdown>
+													<button type="button" class="btn btn-outline-primary dropdown-toggle">
+														Action
+													</button>
+													<ul class="dropdown-menu" role="menu">
+														<li><a href="#" ng-click="editCompany(company.id)">Edit</a>
+														</li>
+														<li><a href="#" ng-click="deleteCompany(company.id)">Delete</a>
+														</li>
+													</ul>
+												</div>
+											</td> -->
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+					<!--end::Content container-->
+				</div>
+			</div>
+
+			<!-- Add company view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.add">
+				<!--begin::Toolbar-->
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<span>
+									<i class="fa-solid fa-industry fs-1"></i>
+								</span>
+								Add Company Details
+							</h3>
+							<!--end::Title-->
+
+						</div>
+						<!--end::Page title-->
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+							<button class="btn btn-outline-danger" ng-click="changeView('list')" title="Cancel"
+								style="padding: calc(-0.425rem + 1px) calc(-0.5rem + 1px);">
+								<span class="svg-icon svg-icon-muted svg-icon-2hx">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+										style="width: 2.2rem !important;height: 2.5rem !important;">
+										<path d="M9.60001 11H21C21.6 11 22 11.4 22 12C22 12.6 21.6 13 21 13H9.60001V11Z"
+											fill="currentColor" />
+										<path opacity="0.3" d="M9.6 20V4L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L9.6 20Z"
+											fill="currentColor" />
+									</svg>
+								</span>
+							</button>
+						</div>
+
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+				<!--end::Toolbar-->
+				<!--begin::Content-->
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+					<!--begin::Content container-->
+					<div id="kt_app_content_container" class="app-container-content container-xxl">
+						<!--begin::Contacts App- Add New Contact-->
+						<div class="row g-7">
+							<!--begin::Contact groups-->
+
+
+							<!--begin::Content-->
+							<div class="col-xl-12">
+								<!--begin::Contacts-->
+								<div class="card card-flush h-lg-100" id="kt_contacts_main">
+
+									<!--begin::Card body-->
+									<div class="card-body pt-5">
+										<form id="kt_ecommerce_settings_general_form" class="form"
+											ng-submit="addSaveCompany()">
+											<!--begin::Form-->
+
+											<!--begin::Row-->
+											<div class="row">
+
+												<div class="col-md-4 fv-row">
+													<!--begin::Label-->
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Name
+
+															</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid"
+														placeholder="Company Name" ng-model="form.name" name="name"
+														required pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
+														oninvalid="this.setCustomValidity('Only Letter and space Allowed')"
+														oninput="this.setCustomValidity('')" />
+												</div>
+
+												<!--end::Col-->
+												<!--begin::Col-->
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Address 1</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.addr1" placeholder="Address 1" name="addr1"
+														required />
+
+												</div>
+												<!--end::Col-->
+												<!--begin::Col-->
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>Address
+																2</b></span>
+													</label>
+													<input type="text" class="form-control  form-control-solid "
+														ng-model="form.addr2" placeholder="Address 2" />
+
+												</div>
+											</div>
+											<!--end::Row-->
+											<!--begin::Row-->
+											<div class="row">
+
+
+												<div class="col-md-4 fv-row">
+													<!--begin::Label-->
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>Address 3
+
+															</b></span>
+													</label>
+													<input type="text" class="form-control  form-control-solid "
+														ng-model="form.addr3" placeholder="Address 3" />
+													<!--end::Input-->
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>City</b></span>
+													</label>
+
+													<input class="form-control form-control-solid" list="location_list"
+														type="text" ng-model="form.locationname"
+														ng-change="form.locationname = (form.locationname | uppercase)"
+														autocomplete="off" required />
+													<datalist id="location_list">
+														<option ng-repeat="location in locations"
+															value="{{location.name}}"></option>
+													</datalist>
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Country</b></span>
+													</label>
+													<select class="form-control form-control-solid"
+														ng-model="form.countrycode" name="countrycode"
+														ng-change="fetchState(form.countrycode)"
+														ng-options="country.id as country.name for country in countries"
+														required>
+														<option></option>
+													</select>
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>State</b></span>
+													</label>
+
+													<select class="form-control form-control-solid"
+														ng-model="form.stateid" name="stateid"
+														ng-options="state.id as state.state for state in states"
+														required>
+														<option></option>
+													</select>
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Pin Code</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.pincode" placeholder="Pin Code" required />
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label
+														class="fs-6 fw-semibold form-label mt-3"><span><b>Phone</b></span>
+													</label>
+
+													<input type="text" id="phn_no" ng-model="form.phone"
+														class="form-control form-control-solid"
+														placeholder="Phone No" />
+
+												</div>
+												<!--end::Col-->
+											</div>
+											<div class="row">
+												<!--begin::Col-->
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Mobile</b></span>
+													</label>
+
+													<input required type="text" id="phn_no" minlength="10"
+														maxlength="12" ng-model="form.mobile"
+														class="form-control form-control-solid"
+														placeholder="Mobile No" />
+
+												</div>
+
+												<div class="col-md-4 fv-row">
+
+													<label
+														class="fs-6 fw-semibold form-label mt-3"><span><b>Fax</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.fax" placeholder="Fax" name="fax" />
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Email</b></span>
+													</label>
+													<input type="email" class="form-control form-control-solid "
+														ng-model="form.email" placeholder="email" required />
+
+												</div>
+
+											</div>
+											<div class="row">
+
+												<!--begin::Col-->
+												<div class="col-md-4 fv-row">
+
+													<label
+														class="fs-6 fw-semibold form-label mt-3"><span><b>Website</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.website" placeholder="Website" />
+
+												</div>
+
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>GST</b></span>
+													</label>
+													<input required type="text" class="form-control form-control-solid "
+														ng-model="form.gst" placeholder="Enter GST" />
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>FSA
+																No</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.fsa_no" placeholder="FSA No" />
+
+												</div>
+											</div>
+											<div class="row">
+												<!--begin::Col-->
+
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>CIN
+																No</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.cin_no" placeholder="CIN No" name="State Code" />
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>TIN
+																No</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid "
+														ng-model="form.tin_no" placeholder="Enter TIN No" />
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>PAN No</b></span>
+													</label>
+
+													<input required type="text" class="form-control form-control-solid"
+														ng-model="form.pan_no" placeholder="PAN No" />
+
+												</div>
+											</div>
+											<div class="row">
+												<!--begin::Col-->
+
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>CST
+																No</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.cst_no" placeholder="CST No" name="CST No" />
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>Note
+																1</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid "
+														ng-model="form.hd1" placeholder="Enter Note 1" />
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>Note
+																2</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.hd2" placeholder="Note 2" />
+
+												</div>
+
+											</div>
+
+
+											<br>
+
+											<div class="" style="margin-bottom: 39px;padding-bottom: 16px;">
+												<div class="col-md-12" style="text-align:center;">
+
+													<button type="submit" data-kt-contacts-type="submit"
+														class="btn btn-outline-primary me-3">
+														<span class="indicator-label">Submit</span> <span
+															class="indicator-progress">Please wait... <span
+																class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+													</button>
+
+													<button type="button" ng-click="changeView('list')"
+														data-kt-contacts-type="cancel"
+														class="btn btn-outline-danger me-3">Cancel</button>
+													<!--end::Button-->
+													<!--begin::Button-->
+												</div>
+
+											</div>
+											<!--end::Action buttons-->
+										</form>
+									</div>
+									<!--end::Form-->
+								</div>
+								<!--end::Card body-->
+							</div>
+							<!--end::Contacts-->
+						</div>
+						<!--end::Content-->
+					</div>
+					<!--end::Contacts App- Add New Contact-->
+				</div>
+				<!--end::Content container-->
+			</div>
+
+			<!-- edit company view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.edit">
+				<!--begin::Toolbar-->
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<span>
+									<i class="fa-solid fa-industry fs-1"></i>
+								</span>
+								Edit Company Details
+							</h3>
+							<!--end::Title-->
+
+						</div>
+						<!--end::Page title-->
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+							<button class="btn btn-outline-danger" ng-click="changeView('list')" title="Cancel"
+								style="padding: calc(-0.425rem + 1px) calc(-0.5rem + 1px);">
+								<span class="svg-icon svg-icon-muted svg-icon-2hx">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+										style="width: 2.2rem !important;height: 2.5rem !important;">
+										<path d="M9.60001 11H21C21.6 11 22 11.4 22 12C22 12.6 21.6 13 21 13H9.60001V11Z"
+											fill="currentColor" />
+										<path opacity="0.3" d="M9.6 20V4L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L9.6 20Z"
+											fill="currentColor" />
+									</svg>
+								</span>
+							</button>
+						</div>
+
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+				<!--end::Toolbar-->
+				<!--begin::Content-->
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+					<!--begin::Content container-->
+					<div id="kt_app_content_container" class="app-container-content container-xxl">
+						<!--begin::Contacts App- Add New Contact-->
+						<div class="row g-7">
+							<!--begin::Contact groups-->
+
+
+							<!--begin::Content-->
+							<div class="col-xl-12">
+								<!--begin::Contacts-->
+								<div class="card card-flush h-lg-100" id="kt_contacts_main">
+
+									<!--begin::Card body-->
+									<div class="card-body pt-5">
+										<!--begin::Form-->
+										<form id="kt_ecommerce_settings_general_form" class="form"
+											ng-submit="addSaveCompany()">
+											<!--begin::Form-->
+
+											<!--begin::Row-->
+											<div class="row">
+
+												<div class="col-md-4 fv-row">
+													<!--begin::Label-->
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Name
+
+															</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid"
+														placeholder="Company Name" ng-model="form.name" name="name"
+														required />
+												</div>
+
+												<!--end::Col-->
+												<!--begin::Col-->
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Address 1</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.addr1" placeholder="Address 1" name="addr1"
+														required />
+
+												</div>
+												<!--end::Col-->
+												<!--begin::Col-->
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>Address
+																2</b></span>
+													</label>
+													<input type="text" class="form-control  form-control-solid "
+														ng-model="form.addr2" placeholder="Address 2" />
+
+												</div>
+											</div>
+											<!--end::Row-->
+											<!--begin::Row-->
+											<div class="row">
+
+
+												<div class="col-md-4 fv-row">
+													<!--begin::Label-->
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>Address 3
+
+															</b></span>
+													</label>
+													<input type="text" class="form-control  form-control-solid "
+														ng-model="form.addr3" placeholder="Address 3" />
+													<!--end::Input-->
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>City</b></span>
+													</label>
+
+													<input class="form-control form-control-solid" list="location_list"
+														type="text" ng-model="form.locationname"
+														ng-change="form.locationname = (form.locationname | uppercase)"
+														autocomplete="off" required />
+													<datalist id="location_list">
+														<option ng-repeat="location in locations"
+															value="{{location.name}}"></option>
+													</datalist>
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Country</b></span>
+													</label>
+													<select class="form-control form-control-solid"
+														ng-model="form.countrycode" name="countrycode"
+														ng-change="fetchState(form.countrycode)"
+														ng-options="country.id as country.name for country in countries"
+														required>
+
+													</select>
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>State</b></span>
+													</label>
+
+													<select class="form-control form-control-solid"
+														ng-model="form.stateid" name="stateid"
+														ng-options="state.id as state.state for state in states"
+														required>
+
+													</select>
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Pin Code</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.pincode" placeholder="Pin Code" required />
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label
+														class="fs-6 fw-semibold form-label mt-3"><span><b>Phone</b></span>
+													</label>
+
+													<input type="text" id="phn_no" minlength="10" maxlength="12"
+														ng-model="form.phone" class="form-control form-control-solid"
+														placeholder="Phone No" />
+
+												</div>
+												<!--end::Col-->
+											</div>
+											<div class="row">
+												<!--begin::Col-->
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Mobile</b></span>
+													</label>
+
+													<input type="text" id="phn_no" minlength="10" maxlength="12"
+														ng-model="form.mobile" class="form-control form-control-solid"
+														placeholder="Mobile No" />
+
+												</div>
+
+												<div class="col-md-4 fv-row">
+
+													<label
+														class="fs-6 fw-semibold form-label mt-3"><span><b>Fax</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.fax" placeholder="Fax" name="fax" />
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Email</b></span>
+													</label>
+													<input type="email" class="form-control form-control-solid "
+														ng-model="form.email" placeholder="email" required />
+
+												</div>
+
+											</div>
+											<div class="row">
+
+												<!--begin::Col-->
+												<div class="col-md-4 fv-row">
+
+													<label
+														class="fs-6 fw-semibold form-label mt-3"><span><b>Website</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.website" placeholder="Website" />
+
+												</div>
+
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>GST</b></span>
+													</label>
+													<input required type="text" class="form-control form-control-solid "
+														ng-model="form.gst" placeholder="Enter GST" />
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>FSA
+																No</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.fsa_no" placeholder="FSA No" />
+
+												</div>
+											</div>
+											<div class="row">
+												<!--begin::Col-->
+
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>CIN
+																No</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.cin_no" placeholder="CIN No" name="State Code" />
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>TIN
+																No</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid "
+														ng-model="form.tin_no" placeholder="Enter TIN No" />
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>PAN No</b></span>
+													</label>
+
+													<input required type="text" class="form-control form-control-solid"
+														ng-model="form.pan_no" placeholder="PAN No" />
+
+												</div>
+											</div>
+											<div class="row">
+												<!--begin::Col-->
+
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>CST
+																No</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.cst_no" placeholder="CST No" name="CST No" />
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>Note
+																1</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid "
+														ng-model="form.hd1" placeholder="Enter Note 1" />
+
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>Note
+																2</b></span>
+													</label>
+
+													<input type="text" class="form-control form-control-solid"
+														ng-model="form.hd2" placeholder="Enter Note 2" />
+
+												</div>
+
+											</div>
+											<div class="row" ng-repeat="(kee, upload_file) in form.details">
+												<div class="col-md-6 fv-row">
+													<div class="col-md-12">
+														<label class="fs-6 fw-semibold form-label mt-3"><span><b>{{upload_file.document}}
+																	<a href=""
+																		ng-click="downloadFile(upload_file.file)"><span
+																			style="color: blue;"
+																			ng-if="upload_file.file && upload_file.file != ''">Download
+																			Sample</span></a> <span style="color: red;"
+																		ng-if="upload_file.required == true">*</span></b></span>
+														</label>
+													</div>
+													<div class="col-md-10">
+														<input type="file" class="form-control form-control-solid"
+															file-model="upload_file.file_upload" />
+
+														<span id="docReq" style="display:none;">This field is
+															required</span>
+
+
+														<span style="color: red;"
+															ng-if="upload_file.link && upload_file.link != ''">Already
+															Uploaded</span>
+														<a href="" ng-click="downloadFile(upload_file.link)"><span
+																style="color: blue;"
+																ng-if="upload_file.link && upload_file.link != ''">Download
+																File</span></a>
+														<a href="" ng-click="removeFile(kee, upload_file.id)"><span
+																style="color: blue;"
+																ng-if="upload_file.link && upload_file.link != ''">Remove</span></a>
+													</div>
+													<div class="col-md-2">
+														<!-- <label class="fs-6 fw-semibold form-label mt-3"><span><b>.</b></span>
+														</label> -->
+														<a class="border border-secondary btn btn-icon btn-light-primary"
+															ng-click="uploadAnyFile(kee, upload_file.file_upload)"
+															title="Upload"><i class="fa fa-upload fs-3"></i></a>
+													</div>
+												</div>
+												<div class="col-md-6 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3"><span><b>Valid Upto
+															</b></span>
+													</label>
+													<input type="text" class="form-control form-control-solid"
+														name="file_upto" ng-model="upload_file.validity" id=""
+														placeholder="Valid Upto" />
+													<input type="text" hidden class="form-control form-control-solid"
+														name="refId" ng-model="upload_file.refId" />
+
+												</div>
+											</div>
+
+											<br>
+
+											<div class="" style="margin-bottom: 39px;padding-bottom: 16px;">
+												<div class="col-md-12" style="text-align:center;">
+
+													<button type="submit" data-kt-contacts-type="submit"
+														class="btn btn-outline-primary me-3">
+														<span class="indicator-label">Submit</span> <span
+															class="indicator-progress">Please wait... <span
+																class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+													</button>
+
+													<button type="button" ng-click="changeView('list')"
+														data-kt-contacts-type="cancel"
+														class="btn btn-outline-danger me-3">Cancel</button>
+													<!--end::Button-->
+													<!--begin::Button-->
+												</div>
+
+											</div>
+											<!--end::Action buttons-->
+										</form>
+										<!--end::Form-->
+									</div>
+									<!--end::Card body-->
+								</div>
+								<!--end::Contacts-->
+							</div>
+							<!--end::Content-->
+						</div>
+						<!--end::Contacts App- Add New Contact-->
+					</div>
+					<!--end::Content container-->
+				</div>
+				<!--end::Content-->
+			</div>
+
+
+			<!--========================== Multiple Views Content ==============================-->
+		</div>
+
+
+		<!--begin::Footer-->
+		<div th:replace="fragments/footer"></div>
+		<!--end::Footer-->
+	</div>
+	<!--end:::Main-->
+	</div>
+	<!--end::Wrapper-->
+	</div>
+	<!--end::Page-->
+	</div>
+	<!--end::App-->
+
+
+
+
+	<!--begin::Scrolltop-->
+	<div th:replace="fragments/scroll"></div>
+	<!--end::Scrolltop-->
+
+	<!-- ==================Model code content======================= -->
+
+	<!-- ==================End Model code content=================== -->
+
+
+	<!--begin::Page Javascript-->
+	<script src="private/adminController.js"></script>
+	<script>
+		$("#kt_datepicker_0").flatpickr();
+		$("#kt_datepicker_1").flatpickr();
+		$("#kt_datepicker_2").flatpickr();
+		$("#kt_datepicker_3").flatpickr();
+		$("#kt_datepicker_4").flatpickr();
+		$("#kt_datepicker_5").flatpickr();
+		$("#kt_datepicker_6").flatpickr();
+		$("#kt_datepicker_7").flatpickr();
+		$(".kt_datepicker").flatpickr();
+	</script>
+	<script>
+		"use strict";
+
+		// Class definition
+		var KTDatatablesExample = function () {
+			// Shared variables
+			var table;
+			var datatable;
+
+			// Private functions
+			var initDatatable = function () {
+				// Set date data order
+				const tableRows = table.querySelectorAll('tbody tr');
+
+				// tableRows.forEach(row => {
+				// 	const dateRow = row.querySelectorAll('td');
+				// 	const realDate = moment(dateRow[3].innerHTML, "DD MMM YYYY, LT").format(); // select date from 4th column in table
+				// 	dateRow[3].setAttribute('data-order', realDate);
+				// });
+
+				// Init datatable --- more info on datatables: https://datatables.net/manual/
+				datatable = $(table).DataTable({
+					"info": false,
+					'order': [],
+					'pageLength': 10,
+				});
+			}
+
+			// Hook export buttons
+			var exportButtons = () => {
+				const documentTitle = 'Customer Orders Report';
+				var buttons = new $.fn.dataTable.Buttons(table, {
+					buttons: [{
+						extend: 'copyHtml5',
+						title: documentTitle
+					},
+					{
+						extend: 'excelHtml5',
+						title: documentTitle
+					},
+					{
+						extend: 'csvHtml5',
+						title: documentTitle
+					},
+					{
+						extend: 'pdfHtml5',
+						title: documentTitle
+					}
+					]
+				}).container().appendTo($('#kt_datatable_example_buttons'));
+
+				// Hook dropdown menu click event to datatable export buttons
+				const exportButtons = document.querySelectorAll('#kt_datatable_example_export_menu [data-kt-export]');
+				exportButtons.forEach(exportButton => {
+					exportButton.addEventListener('click', e => {
+						e.preventDefault();
+
+						// Get clicked export value
+						const exportValue = e.target.getAttribute('data-kt-export');
+						console.log(exportValue);
+						const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
+						console.log(target);
+
+						// Trigger click event on hidden datatable export buttons
+						// target.click();
+					});
+				});
+			}
+
+			// Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+			var handleSearchDatatable = () => {
+				const filterSearch = document.querySelector('[data-kt-filter="search"]');
+				filterSearch.addEventListener('keyup', function (e) {
+					datatable.search(e.target.value).draw();
+				});
+			}
+
+			// Public methods
+			return {
+				init: function () {
+					table = document.querySelector('#kt_datatable_example');
+
+					if (!table) {
+						return;
+					}
+
+					initDatatable();
+					exportButtons();
+					handleSearchDatatable();
+				}
+			};
+		}();
+
+		// On document ready
+		KTUtil.onDOMContentLoaded(function () {
+			KTDatatablesExample.init();
+		});
+	</script>
+	<!--end::Page Javascript-->
+
+</body>
+<!--end::Body-->
+
+
+</html>

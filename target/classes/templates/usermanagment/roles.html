@@ -1,0 +1,960 @@
+<div th:replace="fragments/head"></div>
+
+<!--begin::Body-->
+<style>
+	pre {
+		overflow: auto;
+		word-wrap: normal;
+		white-space: pre;
+	}
+
+	@media (min-width:992px) {
+		.app-container-content {
+			padding-left: 10px !important;
+			padding-right: 10px !important;
+		}
+
+
+	}
+
+	@media (max-width:991.98px) {
+		.app-container-content {
+			max-width: none;
+			padding-left: 9px !important;
+			padding-right: 9px !important;
+		}
+	}
+
+	.prime-td {
+		background-color: #f0f0f0 !important;
+		height: 25px !important;
+		padding: 0 0 0 10px !important;
+		margin: 0 0 0 0 !important;
+		vertical-align: middle !important;
+		/* border: 1px #727272 solid !important; */
+	}
+
+	.svg-icon.svg-icon-2hx svg {
+		height: 2.5rem !important;
+		width: 3rem !important;
+	}
+</style>
+
+<body ng-app="UserManagment" ng-controller="RolesController" data-kt-name="metronic" id="kt_app_body"
+	data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
+	data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
+	data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
+	class="app-default">
+
+
+	<!-- Header content top header codes-->
+	<div th:replace="fragments/header"></div>
+	<!--end::Header-->
+
+
+	<!--begin::Wrapper-->
+	<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+		<!--begin::sidebar-->
+		<div th:replace="fragments/side-bar"></div>
+		<!--end::sidebar-->
+
+
+		<!--begin::Main-->
+		<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+			<!--========================== Multiple Views Content ==============================-->
+
+			<!-- //list view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.list">
+
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<span>
+									<i class="fa-solid fa-users-gear fs-1"></i>
+								</span>
+
+								Role Master
+							</h3>
+							<!--end::Title-->
+
+						</div>
+
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+							<button sec:authorize="hasAuthority('ADD')" style="float:right;" type="button"
+								class="btn btn-primary" ng-click="AddRole()">Add</button>
+
+							<!--begin::Export dropdown-->
+							<button sec:authorize="hasAuthority('EXPORT')" style="float:right;" type="button"
+								class="btn btn-light-primary me-3" data-kt-menu-trigger="click"
+								data-kt-menu-placement="bottom-end">
+								Export
+							</button>
+							<!--begin::Menu-->
+							<div sec:authorize="hasAuthority('EXPORT')" id="kt_datatable_example_export_menu"
+								class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4"
+								data-kt-menu="true">
+
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<a href="#" class="menu-link px-3" ng-click="exportToExcel('#kt_datatable_example')"
+										data-kt-export="excel">
+										Export as Excel
+									</a>
+								</div>
+							</div>
+							<div id="kt_datatable_example_buttons" class="d-none"></div>
+
+
+						</div>
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+
+				<!--begin::Content-->
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+
+					<div id="" class="app-container-content container-xxl">
+
+						<div class="card  card-flush">
+							<div class="card-header border-0">
+								<div class="card-title">
+									<!--begin::Search-->
+									<div class="d-flex align-items-center position-relative my-1">
+										<span class="svg-icon svg-icon-1 position-absolute ms-6">
+											<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+												xmlns="http://www.w3.org/2000/svg">
+												<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
+													rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor">
+												</rect>
+												<path
+													d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+													fill="currentColor"></path>
+											</svg>
+										</span>
+										<input type="text" data-kt-filter="search" ng-model="searchText"
+											class="form-control form-control-solid w-250px ps-15"
+											placeholder="Search Report" />
+									</div>
+									<!--end::Search-->
+									<!--begin::Export buttons-->
+									<!-- <div id="kt_datatable_example_1_export" class="d-none"></div> -->
+									<!--end::Export buttons-->
+								</div>
+							</div>
+
+							<div class="card-body">
+								<table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+									id="kt_datatable_example" datatable="ng" dt-options="vm.dtOptions">
+									<thead>
+										<!--begin::Table row-->
+										<tr style="font-weight: 700 !important;color: black !important;"
+											class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+											<th class="min-w-10px">Sl.</th>
+											<th class="min-w-100px">Name</th>
+											<th class="min-w-100px">Description</th>
+											<th class="min-w-100px">#</th>
+										</tr>
+										<!--end::Table row-->
+									</thead>
+									<tbody class="fw-semibold text-gray-600">
+										<tr class="odd" ng-repeat="role in role_list | filter:searchText">
+											<td style="width: 10px">{{$index + 1}}</td>
+											<td>{{role.name}}</td>
+											<td>{{role.decription}}</td>
+
+											<td>
+												<div sec:authorize="hasAnyAuthority('ADD', 'EDIT')" class="btn-group"
+													dropdown>
+													<button type="button"
+														class="btn btn-outline-primary dropdown-toggle">
+														Action
+													</button>
+													<ul class="dropdown-menu" role="menu">
+														<!-- <li><a href="#" data-bs-toggle="modal" data-bs-target="#view_privilege_modal">View
+																Privilege</a></li> -->
+														<li sec:authorize="hasAuthority('EDIT')"><a href="#"
+																ng-click="editRole(role.id)">Edit</a></li>
+														<li sec:authorize="hasAuthority('DELETE')"><a href="#"
+																ng-click="deleteRole(role.id)">Delete</a></li>
+													</ul>
+												</div>
+											</td>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+				<!--end::Content-->
+
+			</div>
+
+			<!-- //add view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.addRole">
+
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<span>
+									<i class="fa-solid fa-users-gear fs-1"></i>
+								</span>
+
+								Add Role
+							</h3>
+							<!--end::Title-->
+
+						</div>
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+							<button class="btn btn-outline-danger" ng-click="changeView('list')" title="Cancel"
+								style="padding: calc(-0.425rem + 1px) calc(-0.5rem + 1px);">
+								<span class="svg-icon svg-icon-muted svg-icon-2hx">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+										style="width: 2.2rem !important;height: 2.5rem !important;">
+										<path d="M9.60001 11H21C21.6 11 22 11.4 22 12C22 12.6 21.6 13 21 13H9.60001V11Z"
+											fill="currentColor" />
+										<path opacity="0.3" d="M9.6 20V4L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L9.6 20Z"
+											fill="currentColor" />
+									</svg>
+								</span>
+							</button>
+						</div>
+						<!--end::Page title-->
+						<!--begin::Actions-->
+
+						<!--end::Actions-->
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+
+					<div id="" class="app-container-content container-xxl">
+
+						<div class="card  card-flush">
+							<div class="col-xl-12">
+								<!--begin::Contacts-->
+								<div class="card card-flush h-lg-100" id="kt_contacts_main">
+
+									<!--end::Card header-->
+									<!--begin::Card body-->
+									<div class="card-body pt-5">
+										<!--begin::Form-->
+										<form id="kt_ecommerce_settings_general_form" class="form"
+											ng-submit="submitRole()">
+
+											<!--begin::Row-->
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+												<!--begin::Col-->
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3"><span
+																class="required"><b>Name</b></span>
+														</label> <input type="text"
+															class="form-control form-control-solid" placeholder="Name"
+															ng-model="form.name" name="Name" required
+															oninvalid="this.setCustomValidity('Role name required')"
+															oninput="this.setCustomValidity('')" />
+													</div>
+													<!--end::Input group-->
+												</div>
+												<!--end::Col-->
+
+												<!--begin::Col-->
+												<div class="col-md-6 fv-row">
+													<!--begin::Label-->
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Description</b></span>
+													</label>
+													<textarea class="form-control form-control-solid"
+														placeholder="Description" ng-model="form.description"
+														id="floatingTextarea1" required
+														oninvalid="this.setCustomValidity('Role description required')"
+														oninput="this.setCustomValidity('')"></textarea>
+
+												</div>
+												<div class="col-md-6 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3">
+														<span><b>Privilege</b></span>
+													</label>
+													<div class="">
+														<span ng-repeat="privilege in hoc_privileges">
+															<input type="checkbox" name="hoc_privileges_id"
+																ng-model="privilages[privilege.id]"
+																value="{{privilege.id}}"> {{privilege.name}}
+														</span>
+													</div>
+												</div>
+												<div class="col-md-6 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>View Permissions</b></span></label>
+													<div class="">
+														<div class="radio-list">
+															<label>
+																<input type="radio" name="customPermissionsType"
+																	value="full" ng-model="form.customPermissionsType"
+																	required title="Please select atleast one menu">
+																Full Permissions
+															</label>
+															<label>
+																<input type="radio" name="customPermissionsType"
+																	value="custom" ng-model="form.customPermissionsType"
+																	required title="Please select atleast one menu">
+																Custom Permissions
+															</label>
+														</div>
+													</div>
+
+
+												</div>
+												<div class="col-md-12 fv-row"
+													ng-show="form.customPermissionsType == 'custom'">
+													<table
+														class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+														style="border: 1px solid black;">
+														<thead>
+															<tr>
+																<th colspan="10"
+																	style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																	Custom Permissions</th>
+															</tr>
+														</thead>
+														<tbody class="fw-semibold text-gray-600">
+															<tr>
+																<td
+																	style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																	<input type="checkbox" name="isAllSelected"
+																		ng-model="isAllSelected" ng-click="toggleAll()"
+																		value="1"> Module
+																</td>
+																<td colspan="9"
+																	style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																	Menu
+																</td>
+															</tr>
+															<tr ng-repeat="module in view_privileges">
+																<td style="border: 1px solid black;">
+																	<input type="checkbox" name="module[]"
+																		ng-model="module_id[module.id]"
+																		value="{{module.id}}"
+																		ng-click="toggleAllModuleWise(module.id,$index)">
+																	{{module.name}}
+																</td>
+																<td ng-if="module_id[module.id] == true"
+																	style="border: 1px solid black;"
+																	ng-repeat="(key, sub_module) in module.menu track by $index">
+																	<span>
+																		<input type="checkbox" name="submodule[]"
+																			ng-model="sub_module_id[sub_module.id]"
+																			value="{{sub_module.id}}">
+																		{{sub_module.name}}
+																	</span>
+
+																</td>
+															</tr>
+													</table>
+												</div>
+											</div>
+											<!--end::Row-->
+
+
+
+											<!--begin::Separator-->
+											<div class="separator mb-6"></div>
+											<!--end::Separator-->
+											<!--begin::Action buttons-->
+											<div class="" style="margin-bottom: 39px;padding-bottom: 16px;">
+												<div class="col-md-12" style="text-align: center;">
+
+													<button type="submit" class="btn btn-outline-primary me-3">
+														<span class="indicator-label">Submit</span> <span
+															class="indicator-progress">Please wait... <span
+																class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+													</button>
+
+													<button type="reset" class="btn btn-outline-danger me-3"
+														ng-click="changeView('list')">Cancel</button>
+													<!--end::Button-->
+													<!--begin::Button-->
+												</div>
+
+											</div>
+											<!--end::Action buttons-->
+										</form>
+										<!--end::Form-->
+									</div>
+									<!--end::Card body-->
+								</div>
+								<!--end::Contacts-->
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+
+			<!-- //edit view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.edit">
+
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<span>
+									<i class="fa-solid fa-users-gear fs-1"></i>
+								</span>
+
+								Edit Role
+							</h3>
+							<!--end::Title-->
+
+						</div>
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align:right;">
+							<button class="btn btn-outline-danger" ng-click="changeView('list')" title="Cancel"
+								style="padding: calc(-0.425rem + 1px) calc(-0.5rem + 1px);">
+								<span class="svg-icon svg-icon-muted svg-icon-2hx">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+										style="width: 2.2rem !important;height: 2.5rem !important;">
+										<path d="M9.60001 11H21C21.6 11 22 11.4 22 12C22 12.6 21.6 13 21 13H9.60001V11Z"
+											fill="currentColor" />
+										<path opacity="0.3" d="M9.6 20V4L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L9.6 20Z"
+											fill="currentColor" />
+									</svg>
+								</span>
+							</button>
+						</div>
+						<!--end::Page title-->
+						<!--begin::Actions-->
+
+						<!--end::Actions-->
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+
+					<div id="" class="app-container-content container-xxl">
+
+						<div class="card  card-flush">
+							<div class="col-xl-12">
+								<!--begin::Contacts-->
+								<div class="card card-flush h-lg-100" id="kt_contacts_main">
+
+									<!--end::Card header-->
+									<!--begin::Card body-->
+									<div class="card-body pt-5">
+										<!--begin::Form-->
+										<form id="kt_ecommerce_settings_general_form" class="form"
+											ng-submit="editSaveRole()">
+
+											<!--begin::Row-->
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+												<!--begin::Col-->
+												<div class="col">
+													<!--begin::Input group-->
+													<div class="fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fs-6 fw-semibold form-label mt-3"><span
+																class="required"><b>Name</b></span>
+														</label> <input type="text"
+															class="form-control form-control-solid" placeholder="Name"
+															ng-model="form.name" name="Name" required
+															oninvalid="this.setCustomValidity('Role name required')"
+															oninput="this.setCustomValidity('')" />
+													</div>
+													<!--end::Input group-->
+												</div>
+												<!--end::Col-->
+
+												<!--begin::Col-->
+												<div class="col-md-6 fv-row">
+													<!--begin::Label-->
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Description</b></span>
+													</label>
+													<textarea class="form-control form-control-solid"
+														placeholder="Description" ng-model="form.description"
+														id="floatingTextarea1" required
+														oninvalid="this.setCustomValidity('Role description required')"
+														oninput="this.setCustomValidity('')"></textarea>
+
+												</div>
+												<div class="col-md-6 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3">
+														<span><b>Privilege</b></span>
+													</label>
+													<div class="">
+														<span ng-repeat="privilege in hoc_privileges">
+															<input type="checkbox" name="privilages"
+																ng-model="privilages[privilege.id]"
+																value="{{privilege.id}}"> {{privilege.name}}
+														</span>
+													</div>
+												</div>
+												<div class="col-md-6 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3"><span
+															class="required"><b>Permissions</b></span></label>
+													<div class="">
+														<div class="radio-list">
+															<label>
+																<input type="radio" name="customPermissionsType"
+																	value="full" ng-model="form.customPermissionsType"
+																	required title="Please select atleast one menu">
+																Full Permissions
+															</label>
+															<label>
+																<input type="radio" name="customPermissionsType"
+																	value="custom" ng-model="form.customPermissionsType"
+																	required title="Please select atleast one menu">
+																Custom Permissions
+															</label>
+														</div>
+													</div>
+
+
+												</div>
+												<div class="col-md-12 fv-row"
+													ng-show="form.customPermissionsType == 'custom'">
+													<table
+														class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+														style="border: 1px solid black;">
+														<thead>
+															<tr>
+																<th colspan="10"
+																	style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																	Custom Permissions</th>
+															</tr>
+														</thead>
+														<tbody class="fw-semibold text-gray-600">
+															<tr>
+																<td
+																	style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																	<input type="checkbox" name="isAllSelected"
+																		ng-model="isAllSelected" ng-click="toggleAll()"
+																		value="1"> Module
+																</td>
+																<td colspan="9"
+																	style="border: 1px solid black;color: black;font-weight: 700;text-align: center;">
+																	Menu
+																</td>
+															</tr>
+															<tr ng-repeat="module in view_privileges">
+																<td style="border: 1px solid black;">
+																	<input type="checkbox" name="module[]"
+																		ng-model="module_id[module.id]"
+																		value="{{module.id}}"
+																		ng-click="toggleAllModuleWise(module.id,$index)">
+																	{{module.name}}
+																</td>
+																<td ng-if="module_id[module.id] == true"
+																	style="border: 1px solid black;"
+																	ng-repeat="(key, sub_module) in module.menu track by $index">
+																	<span>
+																		<input type="checkbox" name="submodule[]"
+																			ng-model="sub_module_id[sub_module.id]"
+																			value="{{sub_module.id}}">
+																		{{sub_module.name}}
+																	</span>
+
+																</td>
+															</tr>
+
+
+															<!-- <tr ng-repeat="view_privilege in form.view_privileges">
+																<td ng-repeat="sub_module in view_privilege.menu">
+																	<input type="checkbox" name="customPermissions[]" ng-model="form.module.submodule" value="{{sub_module}}"> {{sub_module}}
+																</td> -->
+															<!-- <td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.access_settings" value="access_settings"> Company</td>
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.admins" value="admins"> Application Setup</td> -->
+															<!-- </tr> -->
+															<!-- <tr ng-if="form.customPermissions.administration_prime">
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.certificate_settings" value="certificate_settings"> Year Setup</td>
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.document_settings" value="document_settings"> Document Setup</td>
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.instructors" value="instructors"> Email Setup</td>
+															</tr>
+															<tr ng-if="form.customPermissions.administration_prime">
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.marksheet_settings" value="marksheet_settings"> Approval Setup</td>
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.schools_registered" value="schools_registered"> Login History</td>
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.web_portal" value="web_portal"> Transaction Log</td>
+															</tr> -->
+															<!-- <tr>
+																<td colspan="3" class="prime-td"><input type="checkbox" checklist-model="form.customPermissions" name="customPermissions[]" ng-model="form.customPermissions.account_payable_prime" value="account_payable_prime"> User Management
+																</td>
+															</tr>
+															<tr ng-if="form.customPermissions.account_payable_prime">
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.expenses" value="expenses"> User Management</td>
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.expense_categories" value="expense_categories"> User Registration
+																</td>
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.user_regis" value="user_regis"> Users</td>
+															</tr>
+															<tr ng-if="form.customPermissions.account_payable_prime">
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.roles" value="roles">Roles</td>
+																<td></td>
+																<td></td>
+															</tr>
+															<tr>
+																<td colspan="3" class="prime-td"><input type="checkbox" checklist-model="form.customPermissions" name="customPermissions[]" ng-model="form.customPermissions.account_recievable_prime" value="account_recievable_prime"> Master</td>
+															</tr>
+															<tr ng-if="form.customPermissions.account_recievable_prime">
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.invoices" value="invoices"> Master</td>
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.fee_groups" value="fee_groups"> Location Master</td>
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.bank_accounts" value="bank_accounts"> Outlet Master</td>
+															</tr>
+															<tr ng-if="form.customPermissions.account_recievable_prime">
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.online_transactions" value="online_transactions"> Region Master</td>
+																<td><input type="checkbox" name="customPermissions[]" ng-model="form.customPermissions.ar_settings" value="ar_settings"> Payment Mode Master</td>
+																<td>
+																</td>
+															</tr> -->
+
+
+													</table>
+												</div>
+											</div>
+											<!--end::Row-->
+
+
+
+											<!--begin::Separator-->
+											<div class="separator mb-6"></div>
+											<!--end::Separator-->
+											<!--begin::Action buttons-->
+											<div class="" style="margin-bottom: 39px;padding-bottom: 16px;">
+												<div class="col-md-12" style="text-align: center;">
+
+													<button type="submit" class="btn btn-outline-primary me-3">
+														<span class="indicator-label">Submit</span> <span
+															class="indicator-progress">Please wait... <span
+																class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+													</button>
+
+													<button type="reset" class="btn btn-outline-danger me-3"
+														ng-click="changeView('list')">Cancel</button>
+													<!--end::Button-->
+													<!--begin::Button-->
+												</div>
+
+											</div>
+											<!--end::Action buttons-->
+										</form>
+										<!--end::Form-->
+									</div>
+									<!--end::Card body-->
+								</div>
+								<!--end::Contacts-->
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+			<!--========================== Multiple Views Content ==============================-->
+
+			<!--begin::Footer-->
+			<div th:replace="fragments/footer"></div>
+			<!--end::Footer-->
+		</div>
+		<!--end:::Main-->
+	</div>
+	<!--end::Wrapper-->
+	</div>
+	<!--end::Page-->
+	</div>
+	<!--end::App-->
+
+
+
+
+	<!--begin::Scrolltop-->
+	<div th:replace="fragments/scroll"></div>
+	<!--end::Scrolltop-->
+
+
+	<!-- ==================Model code content======================= -->
+	<div class="modal fade" tabindex="-1" id="add_role_modal">
+		<div class="modal-dialog modal-dialog-centered mw-650px">
+			<!--begin::Modal content-->
+			<div class="modal-content">
+				<!--begin::Form-->
+				<form class="form" action="#" id="kt_modal_add_customer_form"
+					data-kt-redirect="../../demo1/dist/apps/customers/list.html">
+					<!--begin::Modal header-->
+					<div class="modal-header" id="kt_modal_add_customer_header">
+						<!--begin::Modal title-->
+						<h2 class="fw-bold">Add Role</h2>
+						<!--end::Modal title-->
+						<!--begin::Close-->
+						<div id="kt_modal_add_customer_close" class="btn btn-icon btn-sm btn-active-icon-primary">
+							<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+							<span class="svg-icon svg-icon-1"> <svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+										transform="rotate(-45 6 17.3137)" fill="currentColor" />
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+										transform="rotate(45 7.41422 6)" fill="currentColor" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</div>
+						<!--end::Close-->
+					</div>
+					<!--end::Modal header-->
+					<!--begin::Modal body-->
+					<div class="modal-body py-10 px-lg-17">
+						<!--begin::Scroll-->
+						<div class="scroll-y me-n7 pe-7" id="kt_modal_add_customer_scroll" data-kt-scroll="true"
+							data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
+							data-kt-scroll-dependencies="#kt_modal_add_customer_header"
+							data-kt-scroll-wrappers="#kt_modal_add_customer_scroll" data-kt-scroll-offset="300px">
+							<!--begin::Input group-->
+							<div class="fv-row mb-7">
+								<!--begin::Label-->
+								<label class="required fs-6 fw-semibold mb-2">Name</label>
+								<!--end::Label-->
+								<!--begin::Input-->
+								<input type="text" class="form-control form-control-solid" placeholder="" name="name"
+									value="Sean Bean" />
+								<!--end::Input-->
+							</div>
+							<!--begin::Input group-->
+							<div class="fv-row mb-15">
+								<!--begin::Label-->
+								<label class="fs-6 fw-semibold mb-2">Description</label>
+								<!--end::Label-->
+								<!--begin::Input-->
+								<input type="text" class="form-control form-control-solid" placeholder=""
+									name="description" />
+								<!--end::Input-->
+							</div>
+						</div>
+						<!--end::Modal body-->
+						<!--begin::Modal footer-->
+						<div class="modal-footer flex-center">
+							<!--begin::Button-->
+							<button type="reset" id="kt_modal_add_customer_cancel"
+								class="btn btn-light me-3">Discard</button>
+							<!--end::Button-->
+							<!--begin::Button-->
+							<button type="submit" id="kt_modal_add_customer_submit" class="btn btn-primary">
+								<span class="indicator-label">Submit</span> <span class="indicator-progress">Please
+									wait... <span
+										class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+							</button>
+							<!--end::Button-->
+						</div>
+						<!--end::Modal footer-->
+				</form>
+				<!--end::Form-->
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" tabindex="-1" id="view_privilege_modal">
+		<div class="modal-dialog modal-dialog-centered mw-650px">
+			<!--begin::Modal content-->
+			<div class="modal-content">
+				<!--begin::Form-->
+				<form class="form" action="#" id="kt_modal_add_customer_form"
+					data-kt-redirect="../../demo1/dist/apps/customers/list.html">
+					<!--begin::Modal header-->
+					<div class="modal-header" id="kt_modal_add_customer_header">
+						<!--begin::Modal title-->
+						<h2 class="fw-bold">View Privilege</h2>
+						<!--end::Modal title-->
+						<!--begin::Close-->
+						<div id="kt_modal_add_customer_close" class="btn btn-icon btn-sm btn-active-icon-primary">
+							<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+							<span class="svg-icon svg-icon-1"> <svg width="24" height="24" viewBox="0 0 24 24"
+									fill="none" xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+										transform="rotate(-45 6 17.3137)" fill="currentColor" />
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+										transform="rotate(45 7.41422 6)" fill="currentColor" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</div>
+						<!--end::Close-->
+					</div>
+					<!--end::Modal header-->
+					<!--begin::Modal body-->
+					<div class="modal-body py-10 px-lg-17">
+						<!--begin::Scroll-->
+						<div class="scroll-y me-n7 pe-7" id="kt_modal_add_customer_scroll" data-kt-scroll="true"
+							data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
+							data-kt-scroll-dependencies="#kt_modal_add_customer_header"
+							data-kt-scroll-wrappers="#kt_modal_add_customer_scroll" data-kt-scroll-offset="300px">
+							<!--begin::Input group-->
+							<div class="fv-row mb-7">
+								<!--begin::Label-->
+								<label class="required fs-6 fw-semibold mb-2">Name</label>
+								<!--end::Label-->
+								<!--begin::Input-->
+								<input type="text" class="form-control form-control-solid" placeholder="" name="name"
+									value="Sean Bean" />
+								<!--end::Input-->
+							</div>
+							<!--begin::Input group-->
+							<div class="fv-row mb-15">
+								<!--begin::Label-->
+								<label class="fs-6 fw-semibold mb-2">Description</label>
+								<!--end::Label-->
+								<!--begin::Input-->
+								<input type="text" class="form-control form-control-solid" placeholder=""
+									name="description" />
+								<!--end::Input-->
+							</div>
+						</div>
+						<!--end::Modal body-->
+						<!--begin::Modal footer-->
+						<div class="modal-footer flex-center">
+							<!--begin::Button-->
+							<button type="reset" id="kt_modal_add_customer_cancel"
+								class="btn btn-light me-3">Discard</button>
+							<!--end::Button-->
+							<!--begin::Button-->
+							<button type="submit" id="kt_modal_add_customer_submit" class="btn btn-primary">
+								<span class="indicator-label">Submit</span> <span class="indicator-progress">Please
+									wait... <span
+										class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+							</button>
+							<!--end::Button-->
+						</div>
+						<!--end::Modal footer-->
+				</form>
+				<!--end::Form-->
+			</div>
+		</div>
+	</div>
+	<!-- ==================End Model code content=================== -->
+
+	<!--begin::Page Javascript-->
+
+	<script src="private/userreg.js"></script>
+
+	<script>
+		"use strict";
+
+		// Class definition
+		var KTDatatablesExample = function () {
+			// Shared variables
+			var table;
+			var datatable;
+
+			// Private functions
+			var initDatatable = function () {
+				// Set date data order
+				const tableRows = table.querySelectorAll('tbody tr');
+
+				// tableRows.forEach(row => {
+				// 	const dateRow = row.querySelectorAll('td');
+				// 	const realDate = moment(dateRow[3].innerHTML, "DD MMM YYYY, LT").format(); // select date from 4th column in table
+				// 	dateRow[3].setAttribute('data-order', realDate);
+				// });
+
+				// Init datatable --- more info on datatables: https://datatables.net/manual/
+				datatable = $(table).DataTable({
+					"info": false,
+					'order': [],
+					'pageLength': 10,
+				});
+			}
+
+			// Hook export buttons
+			var exportButtons = () => {
+				const documentTitle = 'Customer Orders Report';
+				var buttons = new $.fn.dataTable.Buttons(table, {
+					buttons: [{
+						extend: 'copyHtml5',
+						title: documentTitle
+					},
+					{
+						extend: 'excelHtml5',
+						title: documentTitle
+					},
+					{
+						extend: 'csvHtml5',
+						title: documentTitle
+					},
+					{
+						extend: 'pdfHtml5',
+						title: documentTitle
+					}
+					]
+				}).container().appendTo($('#kt_datatable_example_buttons'));
+
+				// Hook dropdown menu click event to datatable export buttons
+				const exportButtons = document.querySelectorAll('#kt_datatable_example_export_menu [data-kt-export]');
+				exportButtons.forEach(exportButton => {
+					exportButton.addEventListener('click', e => {
+						e.preventDefault();
+
+						// Get clicked export value
+						const exportValue = e.target.getAttribute('data-kt-export');
+						console.log(exportValue);
+						const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
+						console.log(target);
+
+						// Trigger click event on hidden datatable export buttons
+						// target.click();
+					});
+				});
+			}
+
+			// Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+			var handleSearchDatatable = () => {
+				const filterSearch = document.querySelector('[data-kt-filter="search"]');
+				filterSearch.addEventListener('keyup', function (e) {
+					datatable.search(e.target.value).draw();
+				});
+			}
+
+			// Public methods
+			return {
+				init: function () {
+					table = document.querySelector('#kt_datatable_example');
+
+					if (!table) {
+						return;
+					}
+
+					initDatatable();
+					exportButtons();
+					handleSearchDatatable();
+				}
+			};
+		}();
+
+		// On document ready
+		KTUtil.onDOMContentLoaded(function () {
+			KTDatatablesExample.init();
+		});
+	</script>
+	<!--end::Page Javascript-->
+
+</body>
+<!--end::Body-->
+
+
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Omni Channel Retail</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="assets/css/vendor_reg.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css">
+	<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/js/angular-bootstrap.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+
+			var current_fs, next_fs, previous_fs; //fieldsets
+			var opacity;
+
+			$(".next").click(function () {
+
+				current_fs = $(this).parent();
+				next_fs = $(this).parent().next();
+
+				//Add Class Active
+				$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+				//show the next fieldset
+				next_fs.show();
+				//hide the current fieldset with style
+				current_fs.animate({
+					opacity: 0
+				}, {
+					step: function (now) {
+						// for making fielset appear animation
+						opacity = 1 - now;
+
+						current_fs.css({
+							'display': 'none',
+							'position': 'relative'
+						});
+						next_fs.css({
+							'opacity': opacity
+						});
+					},
+					duration: 600
+				});
+			});
+
+			$(".previous").click(function () {
+
+				current_fs = $(this).parent();
+				previous_fs = $(this).parent().prev();
+
+				//Remove class active
+				$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+				//show the previous fieldset
+				previous_fs.show();
+
+				//hide the current fieldset with style
+				current_fs.animate({
+					opacity: 0
+				}, {
+					step: function (now) {
+						// for making fielset appear animation
+						opacity = 1 - now;
+
+						current_fs.css({
+							'display': 'none',
+							'position': 'relative'
+						});
+						previous_fs.css({
+							'opacity': opacity
+						});
+					},
+					duration: 600
+				});
+			});
+
+
+
+			$(".submit").click(function () {
+				return false;
+			})
+
+		});
+	</script>
+</head>
+
+<body ng-app="VendorOnbardingManagment" ng-controller="VendorRegisterOnboardingController" style="height: 100%;">
+
+	<!-- MultiStep Form -->
+	<div class="container-fluid" id="grad1" style="height: 100%;">
+		<div class="row justify-content-center mt-0">
+			<div class="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+				<div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+					<h2><strong>Vendor Registration</strong></h2>
+					<p>Fill all form field to go to next step</p>
+					<div class="row">
+						<div class="col-md-12 mx-0">
+							<form id="msform" class="form" ng-submit="addSaveVendorRegOnboarding()">
+								<!-- progressbar -->
+								<ul id="progressbar">
+									<li class="active" id="account"><strong>Personnel Details</strong></li>
+									<li id="confirm"><strong>Basic Details</strong></li>
+									<!-- <li id="confirm"><strong>Account Details</strong></li> -->
+								</ul>
+								<!-- fieldsets -->
+								<fieldset>
+									<div class="form-card">
+
+										<h2 class="fs-title">Personnel Details</h2>
+										<br>
+										<div class="row">
+											<div class="col-sm-4">
+												<input type="text" ng-model="form.name" name="name"
+													placeholder="Vendor Name" id="vendorName" />
+												<input type="text" hidden ng-model="form.invitee" name="invitee"
+													id="invitee" />
+												<span class="invalid-feedback" id="vendor_name_error_msg"></span>
+											</div>
+											<div class="col-sm-4">
+												<input type="text" ng-model="form.username" placeholder="Username"
+													name="username" ng-change="checkUsername(form.username)"
+													id="username" />
+												<span style="color: red;display:none;" id="username_msg">Username
+													already exist! Please try another one</span>
+												<span class="invalid-feedback" id="username_error_msg"></span>
+											</div>
+											<div class="col-sm-4"><input type="text" ng-model="form.password"
+													name="password" placeholder="Password" id="password" />
+												<span class="invalid-feedback" id="password_error_msg"></span>
+											</div>
+										</div>
+										<div class="row">
+
+
+											<div class="col-sm-4"><input type="text" ng-model="form.add1"
+													placeholder="Address 1" name="add1" id="address1" />
+												<span class="invalid-feedback" id="address1_error_msg"></span>
+											</div>
+											<div class="col-sm-4"><input type="text" ng-model="form.add2" name="add2"
+													placeholder="Address2" id="address2" />
+												<span class="invalid-feedback" id="address3_error_msg"></span>
+											</div>
+											<div class="col-sm-4"> <input type="text" ng-model="form.add3"
+													name="Address3" placeholder=" Address3" id="address3" />
+												<span class="invalid-feedback" id="address2_error_msg"></span>
+											</div>
+										</div>
+										<div class="row">
+
+											<div class="col-sm-4">
+												<!-- <input type="text" name="Country" placeholder="Country" /> -->
+												<select class="" ng-model="form.locationid" name="locationid"
+													ng-options="location.id as location.name for location in locations"
+													ng-change="fetchLocationsDetailsById(form.locationid)">
+													<option value="">--Location--</option>
+												</select>
+											</div>
+											<div class="col-sm-4">
+												<!-- <input type="text" name="Country" placeholder="Country" /> -->
+												<select class="" ng-model="form.countrycode" name="countrycode"
+													ng-change="fetchState(form.countrycode)"
+													ng-options="country.id as country.name for country in countries">
+													<option value="">--Country--</option>
+												</select>
+											</div>
+											<div class="col-sm-4">
+												<!-- <input type="text" name="Country" placeholder="Country" /> -->
+												<select class="" ng-model="form.stateid" name="stateid"
+													ng-options="state.id as state.state for state in states">
+													<option value="">--State--</option>
+												</select>
+											</div>
+										</div>
+										<div class="row">
+
+											<div class="col-sm-4"><input type="text" name="pin" ng-model="form.pin"
+													placeholder="Pincode" /></div>
+											<div class="col-sm-4"><input type="text" name="mobile"
+													ng-model="form.mobile" placeholder="Mobile " /></div>
+											<div class="col-sm-4"> <input type="text" name="phone" ng-model="form.phone"
+													placeholder=" Phone" /></div>
+										</div>
+										<div class="row">
+
+											<div class="col-sm-4"><input type="text" name="fax" ng-model="form.fax"
+													placeholder="Fax" /></div>
+											<div class="col-sm-4"><input type="email" name="email1 "
+													ng-model="form.email1" placeholder="Primary Email " />
+											</div>
+											<div class="col-sm-4"><input type="email" name="email2 "
+													ng-model="form.email2" placeholder="Finance SPOC" /></div>
+										</div>
+										<div class="row">
+
+										</div>
+
+
+									</div>
+									<input type="button" name="next" class="next action-button" value="Next Step" />
+								</fieldset>
+								<fieldset>
+									<div class="form-card">
+										<h2 class="fs-title">Basic Details</h2>
+										<br>
+										<div class="row">
+											<div class="col-sm-4"> <input required type="text" name="gst_no"
+													ng-model="form.gst_no"
+													placeholder=" GST NO. Like 22AAAAA0000A1Z5" /></div>
+											<div class="col-sm-4"><input type="text" name="credit_days"
+													ng-model="form.credit_days" placeholder="Credit Days" /></div>
+											<div class="col-sm-4">
+												<!-- <input type="text" name="Country" placeholder="Country" /> -->
+												<select class="list-dt" ng-model="form.paym_mode_id" name="paym_mode_id"
+													ng-options="payment_mode.id as payment_mode.paymentmode for payment_mode in payment_modes"
+													required>
+													<option value="">--Payment Mode--</option>
+												</select>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4"> <input type="text" name="cont_pers"
+													ng-model="form.cont_pers" placeholder="Contact Person" /></div>
+											<div class="col-sm-4"><input type="number" minlength="10" maxlength="12"
+													name="cont_mobile" ng-model="form.cont_mobile"
+													placeholder="Contact Mobile" /></div>
+											<div class="col-sm-4"><input type="text" name="order_sch"
+													ng-model="form.order_sch" placeholder="Order Schedule " /></div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4"> <input type="text" name="delv_sch"
+													ng-model="form.delv_sch" placeholder=" Delivery Dchedule" /></div>
+											<div class="col-sm-4"><input type="text" name="lead_time"
+													ng-model="form.lead_time" placeholder="Lead Time" /></div>
+											<div class="col-sm-4"><input type="text" name="min_ord_qty"
+													ng-model="form.min_ord_qty" placeholder="Min Order Quantity " />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4"> <input type="text" name="min_ord_val"
+													ng-model="form.min_ord_val" placeholder="Min Order Value" /></div>
+											<div class="col-sm-4"> <input type="text" name="paym_terms"
+													ng-model="form.paym_terms" placeholder="Payment Terms" /></div>
+											<!-- <div class="col-sm-4"><input type="text" name="pan_no" ng-model="form.pan_no" placeholder="Pan No." /></div> -->
+											<!-- <div class="col-sm-4"><input type="text" name="fssai_no" ng-model="form.fssai_no" placeholder="FSSAI No." /></div> -->
+										</div>
+										<div class="row">
+											<!-- <div class="col-sm-4"> <input type="text" name="fsa_no" ng-model="form.fsa_no" placeholder="FSA No." /></div> -->
+											<!-- <div class="col-sm-4"><input type="text" name="tin_no" ng-model="form.tin_no" placeholder="TIN No." /></div> -->
+										</div>
+									</div>
+									<input type="button" name="previous" class="previous action-button-previous"
+										value="Previous" />
+									<!-- <input type="button" name="next" class="next action-button" value="Next Step" /> -->
+									<button type="submit" class="action-button">
+										<span class="indicator-label">Submit</span>
+									</button>
+								</fieldset>
+								<!-- <fieldset>
+                                    <div class="form-card">
+                                        <h2 class="fs-title">Account Details</h2>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-4"> <input type="text" name="bank_ac_no" ng-model="form.bank_ac_no" placeholder="Bank Account No." /></div>
+                                            <div class="col-sm-4"><input type="text" name="bank_nm" ng-model="form.bank_nm" placeholder="Bank Name" /></div>
+                                            <div class="col-sm-4"><input type="text" name="bank_branch" ng-model="form.bank_branch" placeholder="Bank Branch" /></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4"> <input type="text" name="bank_ifsc" ng-model="form.bank_ifsc" placeholder="Bank IFSC" /></div>
+                                            <div class="col-sm-4"><input type="text" name="paym_terms" ng-model="form.paym_terms" placeholder="Payment Terms" /></div>
+                                            <div class="col-sm-4">
+                                                <select class="" ng-model="form.trade" name="trade" required>
+                                                    <option value="" selected>--Trade--</option>
+                                                    <option value="true">Trade</option>
+                                                    <option value="false">Non Trade</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                                    <button type="submit" class="action-button">
+                                        <span class="indicator-label">Submit</span>
+                                    </button>
+                                </fieldset> -->
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="assets/plugins/global/plugins.bundle.js"></script>
+	<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/js/anguler.js"></script>
+	<script src="assets/js/angularModule.js"></script>
+	<script src="assets/js/angular-datatables.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28//angular-route.min.js"></script>
+	<script src="private/onboarding/vendorOnboardingController.js"></script>
+	<script src="assets/js/omni.js" type="text/javascript"></script>
+</body>
+
+</html>

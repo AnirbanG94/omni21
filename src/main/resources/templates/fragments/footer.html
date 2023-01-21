@@ -1,0 +1,67 @@
+<!--begin::Footer footer content-->
+<div id="kt_app_footer" class="app-footer">
+	<!--begin::Footer container-->
+	<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
+		<!--begin::Copyright-->
+		<div class="text-dark order-2 order-md-1">
+			<span class="text-muted fw-semibold me-1">2022©</span> <a href="https://www.vareli.co.in" target="_blank"
+				class="text-gray-800 text-hover-primary">Vareli Techsoft Pvt. Ltd.</a>
+		</div>
+		<!--end::Copyright-->
+		<!--begin::Menu-->
+		<ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
+			<li class="menu-item"><a href="https://www.vareli.co.in" target="_blank" class="menu-link px-2">About</a>
+			</li>
+		</ul>
+		<!--end::Menu-->
+	</div>
+	<!--end::Footer container-->
+</div>
+<!--end::Footer-->
+<!--
+<script>
+	/** 
+	 * Disable right-click of mouse, F12 key, and save key combinations on page 
+	 */
+	document.addEventListener("contextmenu", function(e) {
+		e.preventDefault();
+	}, false);
+	document.addEventListener("keydown", function(e) {
+		//document.onkeydown = function(e) { 
+		// "I" key 
+		if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+			disabledEvent(e);
+		}
+		// "J" key 
+		if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+			disabledEvent(e);
+		}
+		// "S" key + macOS 
+		if (e.keyCode == 83
+				&& (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+			disabledEvent(e);
+		}
+		// "U" key 
+		if (e.ctrlKey && e.keyCode == 85) {
+			disabledEvent(e);
+		}
+		// "F12" key 
+		if (event.keyCode == 123) {
+			disabledEvent(e);
+		}
+		// "C" key 
+		if (e.ctrlKey && event.keyCode == 67) {
+			disabledEvent(e);
+		}
+	}, false);
+	function disabledEvent(e) {
+		if (e.stopPropagation) {
+			e.stopPropagation();
+		} else if (window.event) {
+			window.event.cancelBubble = true;
+		}
+		e.preventDefault();
+		return false;
+	}
+</script>
+-->

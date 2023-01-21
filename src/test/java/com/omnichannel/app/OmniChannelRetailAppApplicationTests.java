@@ -1,0 +1,13 @@
+package com.omnichannel.app;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class OmniChannelRetailAppApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}

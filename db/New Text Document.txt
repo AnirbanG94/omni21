@@ -1,0 +1,181 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `grn_gdnStat`(
+IN  `p_po_no` int(10)
+)
+BEGIN
+declare l_kount int(10);
+begin
+  select count(*) from gdn_hdr into l_kount;
+  if l_kount > 0 then
+     select dtl.po_dtl_id, dtl.active, dtl.article_id, dtl.basic_amt, dtl.cgst_amt, dtl.cp, dtl.ean_cd, 
+     dtl.hsn_cd, dtl.igst_amt, dtl.mrp, dtl.net_amt, fnl.dif_qty as qty, dtl.recd_qty, dtl.sgst_amt, dtl.tax_per, dtl.uom_id, dtl.po_hdr_id
+     from
+     (       
+       select distinct pur.po_id,pur.pur_qty,pur.pur_amt,pur.article,pur.po_dtl_id,grn.grn_qty,grn.grn_amt,pur_qty-(grn_qty+gdn_qty) dif_qty,
+       gdn.gdn_qty,gdn.gdn_amt
+       from
+       (
+         select distinct a.po_hdr_id po_id,c.article_id article,
+         (select sum(b.qty) hqty from pur_po_dtl b
+          where b.po_hdr_id = a.po_hdr_id 
+          and b.article_id = c.article_id
+          #and b.dtl_active='Y'
+          group by b.po_hdr_id,b.article_id) pur_qty,
+         (select sum(b.net_amt) amount from pur_po_dtl b
+          where b.po_hdr_id = a.po_hdr_id 
+          and b.article_id = c.article_id
+          #and b.dtl_active='Y'
+          group by b.po_hdr_id,b.article_id) pur_amt,c.po_dtl_id
+       from pur_po_hdr a
+       inner join pur_po_dtl c on (c.po_hdr_id=a.po_hdr_id)
+       where a.po_hdr_id= p_po_no
+       and a.active = 1
+      ) pur,
+    (
+     select grnd.po_id,grnd.article,sum(grnd.grn_qty) grn_qty,sum(grnd.grn_amt) grn_amt
+     from
+     (
+      select distinct a.po_id po_id,c.article_id article,
+         (select sum(b.qty) hqty from grn_dtl b
+          where b.grn_hdr_id = a.id 
+          and b.article_id = c.article_id
+          #and b.dtl_active='Y'
+          group by b.grn_hdr_id,b.article_id) grn_qty,
+         (select sum(b.net_amt) amount from grn_dtl b
+          where b.grn_hdr_id = a.id 
+          and b.article_id = c.article_id
+          #and b.dtl_active='Y'
+          group by b.grn_hdr_id,b.article_id) grn_amt
+      from grn_hdr a
+      inner join grn_dtl c on (c.grn_hdr_id=a.id)
+	  where a.po_id= p_po_no
+      and a.active = 1
+      ) grnd
+      group by po_id,article
+    ) grn,
+ (
+   select gdnd.po_id,gdnd.article,sum(gdnd.gdn_qty) gdn_qty,sum(gdnd.gdn_amt) gdn_amt
+   from
+   (
+     select distinct a.po_id po_id,c.article_id article,
+        (select sum(b.qty) hqty from gdn_dtl b
+         where b.gdn_hdr_id = a.id 
+         and b.article_id = c.article_id
+         #and b.dtl_active='Y'
+         group by b.gdn_hdr_id,b.article_id) gdn_qty,
+        (select sum(b.net_amt) amount from gdn_dtl b
+         where b.gdn_hdr_id = a.id 
+         and b.article_id = c.article_id
+         #and b.dtl_active='Y'
+          group by b.gdn_hdr_id,b.article_id) gdn_amt
+     from gdn_hdr a
+     inner join gdn_dtl c on (c.gdn_hdr_id=a.id)
+     where a.po_id= p_po_no
+     and a.active = 1
+     ) gdnd
+     group by po_id,article
+    ) gdn
+    where pur.po_id = grn.po_id
+    and pur.article = grn.article
+    and pur.po_id = gdn.po_id
+    and pur.article = gdn.article
+  union all
+  select po_id,pur_qty,pur_amt,article,no_grn.po_dtl_id, 0, 0,pur_qty,0,0
+  from
+  (
+   select distinct a.po_hdr_id po_id,c.article_id article,
+        (select sum(b.qty) hqty from pur_po_dtl b
+         where b.po_hdr_id = a.po_hdr_id 
+         and b.article_id = c.article_id
+         #and b.dtl_active='Y'
+         group by b.po_hdr_id,b.article_id) pur_qty,
+        (select sum(b.net_amt) amount from pur_po_dtl b
+         where b.po_hdr_id = a.po_hdr_id 
+         and b.article_id = c.article_id
+         #and b.dtl_active='Y'
+          group by b.po_hdr_id,b.article_id) pur_amt,c.po_dtl_id
+    from pur_po_hdr a
+    inner join pur_po_dtl c on (c.po_hdr_id=a.po_hdr_id)
+    #where a.po_hdr_id not in (select po_id from grn_hdr)
+    where (a.po_hdr_id,c.article_id) not in (select a.po_id,b.article_id from grn_hdr a inner join grn_dtl b on (b.grn_hdr_id = a.id))
+    and a.active = 1
+    and a.po_hdr_id= p_po_no
+    ) no_grn
+   ) fnl 
+   left join pur_po_dtl dtl on (dtl.po_hdr_id = fnl.po_id and dtl.article_id = fnl.article)
+   where fnl.pur_qty > (fnl.grn_qty + fnl.gdn_qty);
+end if;   
+if l_kount = 0 then
+	  select dtl.po_dtl_id, dtl.active, dtl.article_id, dtl.basic_amt, dtl.cgst_amt, dtl.cp, dtl.ean_cd, 
+     dtl.hsn_cd, dtl.igst_amt, dtl.mrp, dtl.net_amt, fnl.dif_qty as qty, dtl.recd_qty, dtl.sgst_amt, dtl.tax_per, dtl.uom_id, dtl.po_hdr_id
+     from
+     (       
+       select distinct pur.po_id,pur.pur_qty,pur.pur_amt,pur.article,pur.po_dtl_id,grn.grn_qty,grn.grn_amt,pur_qty-grn_qty dif_qty,
+       0 gdn_qty,0 gdn_amt
+       from
+       (
+         select distinct a.po_hdr_id po_id,c.article_id article,
+         (select sum(b.qty) hqty from pur_po_dtl b
+          where b.po_hdr_id = a.po_hdr_id 
+          and b.article_id = c.article_id
+          #and b.dtl_active='Y'
+          group by b.po_hdr_id,b.article_id) pur_qty,
+         (select sum(b.net_amt) amount from pur_po_dtl b
+          where b.po_hdr_id = a.po_hdr_id 
+          and b.article_id = c.article_id
+          #and b.dtl_active='Y'
+          group by b.po_hdr_id,b.article_id) pur_amt,c.po_dtl_id
+       from pur_po_hdr a
+       inner join pur_po_dtl c on (c.po_hdr_id=a.po_hdr_id)
+       where a.po_hdr_id= p_po_no
+       and a.active = 1
+      ) pur,
+    (
+     select grnd.po_id,grnd.article,sum(grnd.grn_qty) grn_qty,sum(grnd.grn_amt) grn_amt
+     from
+     (
+      select distinct a.po_id po_id,c.article_id article,
+         (select sum(b.qty) hqty from grn_dtl b
+          where b.grn_hdr_id = a.id 
+          and b.article_id = c.article_id
+          #and b.dtl_active='Y'
+          group by b.grn_hdr_id,b.article_id) grn_qty,
+         (select sum(b.net_amt) amount from grn_dtl b
+          where b.grn_hdr_id = a.id 
+          and b.article_id = c.article_id
+          #and b.dtl_active='Y'
+          group by b.grn_hdr_id,b.article_id) grn_amt
+      from grn_hdr a
+      inner join grn_dtl c on (c.grn_hdr_id=a.id)
+	  where a.po_id= p_po_no
+      and a.active = 1
+      ) grnd
+      group by po_id,article
+    ) grn
+    union all
+    select po_id,pur_qty,pur_amt,article,no_grn.po_dtl_id, 0, 0,pur_qty,0,0
+    from
+    (
+     select distinct a.po_hdr_id po_id,c.article_id article,
+        (select sum(b.qty) hqty from pur_po_dtl b
+         where b.po_hdr_id = a.po_hdr_id 
+         and b.article_id = c.article_id
+         #and b.dtl_active='Y'
+         group by b.po_hdr_id,b.article_id) pur_qty,
+        (select sum(b.net_amt) amount from pur_po_dtl b
+         where b.po_hdr_id = a.po_hdr_id 
+         and b.article_id = c.article_id
+         #and b.dtl_active='Y'
+          group by b.po_hdr_id,b.article_id) pur_amt,c.po_dtl_id
+      from pur_po_hdr a
+      inner join pur_po_dtl c on (c.po_hdr_id=a.po_hdr_id)
+      #where a.po_hdr_id not in (select po_id from grn_hdr)
+      where (a.po_hdr_id,c.article_id) not in (select a.po_id,b.article_id from grn_hdr a inner join grn_dtl b on (b.grn_hdr_id = a.id))
+      and a.active = 1
+      and a.po_hdr_id= p_po_no
+      ) no_grn
+    ) fnl
+   left join pur_po_dtl dtl on (dtl.po_hdr_id = fnl.po_id and dtl.article_id = fnl.article)
+   where fnl.pur_qty > (fnl.grn_qty + fnl.gdn_qty);
+  end if;
+end;
+END

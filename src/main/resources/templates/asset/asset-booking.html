@@ -1,0 +1,976 @@
+<div th:replace="fragments/head"></div>
+<!--begin::Body-->
+<style>
+	pre {
+		overflow: auto;
+		word-wrap: normal;
+		white-space: pre;
+	}
+
+	[ng\:cloak],
+	[ng-cloak],
+	.ng-cloak {
+		display: none !important;
+	}
+
+	@media (min-width :992px) {
+		.app-container-content {
+			padding-left: 10px !important;
+			padding-right: 10px !important;
+		}
+	}
+
+	@media (max-width :991.98px) {
+		.app-container-content {
+			max-width: none;
+			padding-left: 9px !important;
+			padding-right: 9px !important;
+		}
+	}
+
+	.prime-td {
+		background-color: #f0f0f0 !important;
+		height: 25px !important;
+		padding: 0 0 0 10px !important;
+		margin: 0 0 0 0 !important;
+		vertical-align: middle !important;
+		/* border: 1px #727272 solid !important; */
+	}
+</style>
+
+<body ng-app="AssetManagment" ng-controller="AssetBookingController" data-kt-name="metronic" id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
+
+
+	<!-- Header content top header codes-->
+	<div th:replace="fragments/header"></div>
+	<!--end::Header-->
+
+
+	<!--begin::Wrapper-->
+	<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+		<!--begin::sidebar-->
+		<div th:replace="fragments/side-bar"></div>
+		<!--end::sidebar-->
+
+
+		<!--begin::Main-->
+		<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+
+			<!--========================== Multiple Views Content ==============================-->
+
+			<!-- // List user view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.list">
+				<!--begin::Toolbar-->
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<i class="fa-solid fa-cart-flatbed-suitcase fs-1"></i> Asset
+								Booking
+							</h3>
+							<!--end::Title-->
+						</div>
+
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align: right;">
+							<button style="float: right;" type="button" class="btn btn-primary" ng-click="BookingAssetsVisibility()">Add</button>
+
+							<button style="float: right;" type="button" class="btn btn-light-primary me-3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Export</button>
+							<!--begin::Menu-->
+							<div id="kt_datatable_example_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4" data-kt-menu="true">
+
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<a href="#" class="menu-link px-3" ng-click="exportToExcel('#kt_datatable_example')" data-kt-export="excel"> Export as Excel </a>
+								</div>
+							</div>
+							<div id="kt_datatable_example_buttons" class="d-none"></div>
+
+						</div>
+						<!--end::Page title-->
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+				<!--end::Toolbar-->
+
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+
+					<div id="" class="app-container-content container-xxl">
+
+						<div class="card  card-flush">
+							<div class="card-header border-0">
+								<div class="card-title">
+									<!--begin::Search-->
+									<div class="d-flex align-items-center position-relative my-1">
+										<span class="svg-icon svg-icon-1 position-absolute ms-6">
+											<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor">
+												</rect>
+												<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor"></path>
+											</svg>
+										</span> <input type="text" data-kt-filter="search" ng-model="searchText" class="form-control form-control-solid w-250px ps-15" placeholder="Search Report" />
+									</div>
+
+								</div>
+
+							</div>
+							<div class="card-body">
+								<table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" id="kt_datatable_example" datatable="ng" dt-options="vm.dtOptions">
+									<thead>
+										<!--begin::Table row-->
+										<tr style="font-weight: 700 !important; color: black !important;" class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+											<th class="min-w-100px">Sl.</th>
+											<th class="min-w-100px">Vendor Name</th>
+											<th class="min-w-100px">Asset Type</th>
+											<th class="min-w-100px">Asset No.</th>
+											<th class="min-w-100px">Outlet Name</th>
+											<th class="min-w-100px">Cost</th>
+											<th class="min-w-100px">Amount</th>
+											<th class="min-w-100px">Status</th>
+											<th class="min-w-100px">File</th>
+											<th class="min-w-100px">#</th>
+										</tr>
+										<!--end::Table row-->
+									</thead>
+									<tbody class="fw-semibold text-gray-600">
+										<tr class="odd" ng-repeat="assetbooking in assetsBookings | filter:searchText">
+											<td>{{$index + 1}}</td>
+											<td>{{assetbooking.vendorName}}</td>
+											<td>{{assetbooking.assetsTypeName}}</td>
+											<td>{{assetbooking.assetNo}}</td>
+											<td>{{assetbooking.outletName}}</td>
+											<td><span ng-if="assetbooking.cost == null">N/A</span> <span ng-if="assetbooking.cost != null">{{assetbooking.cost}}</span>
+											</td>
+											<td>{{assetbooking.amount}}</td>
+											<td><span ng-if="assetbooking.status == 'O'" style="color: #e34900;">Pending</span> <span ng-if="assetbooking.status != 'O' && assetbooking.status != 'A' && assetbooking.status != 'D'" style="color: #e34900;">Pending</span> <span ng-if="assetbooking.status == 'A'" style="color: green;">Approved</span>
+												<span ng-if="assetbooking.status == 'D'" style="color: red;">Reject</span>
+											</td>
+											<td>
+												<div class="ror">
+													<div class="col-md-6">
+
+														<div ng-if="assetbooking.details.length > 0" class="btn-group" dropdown>
+															<button type="button" class="border border-secondary btn btn-icon btn-light-primary dropdown-toggle" style="padding: 7px;" title="Primary">
+																<i class="fa fa-download fs-3"></i>
+															</button>
+															<ul class="dropdown-menu" role="menu">
+																<li ng-repeat="files in assetbooking.details track by $index">
+																	<a href="#" ng-click="downloadFile(files.primaryDoc)">{{files.articleName}}</a>
+																</li>
+															</ul>
+														</div>
+													</div>
+													<div class="col-md-6">
+
+														<div ng-if="assetbooking.details.length > 0" class="btn-group" dropdown>
+															<button type="button" class="border border-secondary btn btn-icon btn-light-primary dropdown-toggle" style="padding: 7px;" title="Secondary">
+																<i class="fa fa-download fs-3"></i>
+															</button>
+															<ul class="dropdown-menu" role="menu">
+																<li ng-repeat="files in assetbooking.details track by $index">
+																	<a href="#" ng-click="downloadFile(files.secondaryDoc)">{{files.articleName}}</a>
+																</li>
+															</ul>
+														</div>
+													</div>
+
+												</div>
+											</td>
+
+											<td>
+												<!-- <div class="btn-group" dropdown> -->
+												<button type="button" class="border border-secondary btn btn-icon btn-light-primary" ng-click="editAssetsVisibilityBooking(assetbooking.id)" title="Edit">
+													<i class="fa fa-edit fs-3"></i>
+												</button>
+											</td>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+					<!--end::Content container-->
+				</div>
+			</div>
+
+			<!-- Add user view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.add">
+				<!--begin::Toolbar-->
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<i class="fa-solid fa-cart-flatbed-suitcase fs-1"></i> Asset
+								Booking: Add
+							</h3>
+							<!--end::Title-->
+
+						</div>
+						<!--end::Page title-->
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align: right;">
+							<button class="btn btn-outline-danger" ng-click="changeView('list')" title="Cancel" style="padding: calc(-0.425rem + 1px) calc(-0.5rem + 1px);">
+								<span class="svg-icon svg-icon-muted svg-icon-2hx"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 2.2rem !important; height: 2.5rem !important;">
+										<path d="M9.60001 11H21C21.6 11 22 11.4 22 12C22 12.6 21.6 13 21 13H9.60001V11Z" fill="currentColor" />
+										<path opacity="0.3" d="M9.6 20V4L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L9.6 20Z" fill="currentColor" />
+									</svg>
+								</span>
+							</button>
+						</div>
+
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+				<!--end::Toolbar-->
+				<!--begin::Content-->
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+					<!--begin::Content container-->
+					<div id="kt_app_content_container" class="app-container-content container-xxl">
+						<!--begin::Contacts App- Add New Contact-->
+						<div class="row g-7">
+							<!--begin::Contact groups-->
+
+
+							<!--begin::Content-->
+							<div class="col-xl-12">
+								<!--begin::Contacts-->
+								<div class="card card-flush h-lg-100" id="kt_contacts_main">
+
+									<!--begin::Card body-->
+									<div class="card-body pt-5">
+										<!--begin::Form-->
+										<form id="kt_ecommerce_settings_general_form" class="form" ng-submit="addSaveAssetsVisibilityBooking()">
+
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+												<!--begin::Col-->
+												<div class="col-md-4 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3"> <span class="required"><b>Vendor Name</b></span>
+													</label>
+													<select type="text" class="form-control form-control-solid" ng-model="form.vendorId" ng-options="vendor.id as vendor.name for vendor in vendor_aseet_booking" placeholder="Select Vendor" required>
+
+													</select>
+												</div>
+												<div class="col-md-4 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3"> <span class="required"><b>Store/Warehouse</b></span>
+
+													</label>
+													<select type="text" class="form-control form-control-solid" ng-model="form.type" placeholder="" ng-change="openAssetModal(form.type)" required>
+														<option value="" selected>--Select--</option>
+
+														<option value="S">Store</option>
+														<!-- <option value="W">Warehouse</option> -->
+
+													</select>
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class="required"><b>Asset Type</b></span> </label>
+													<input type="text" readonly ng-model="form.assetsTypeName" class="form-control form-control-solid" />
+
+												</div>
+											</div>
+
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class="required"><b>Family</b></span> </label>
+													<input type="text" readonly ng-model="form.productFamily" class="form-control form-control-solid" />
+
+												</div>
+												
+												<div class="col-md-4 fv-row">
+                                                    <div class="col-md-12">
+
+                                                        <label class="fs-6 fw-semibold form-label mt-3"><span class="required"><b>Asset No</b></span></label>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <input type="text" readonly ng-model="form.assetNo" class="form-control form-control-solid" />
+													
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <a class="border border-secondary btn btn-icon btn-light-primary"
+                                                           ng-click="downloadFile(form.assetFile)" title="Primary"><i class="fa fa-download fs-3"></i></a>
+                                                    </div>
+                                                </div>
+												
+												
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class="required"><b>Display Quantity</b></span> </label>
+													<input type="text" readonly ng-model="form.maxsf" class="form-control form-control-solid" />
+
+												</div>
+
+											</div>
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+
+												<div class="col-md-4 fv-row" ng-if="form.visibilityType == 'P'">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>Rate</b></span> </label>
+													<input type="text" readonly class="form-control form-control-solid" ng-model="form.cost" placeholder="Rate" name="Rate" />
+
+												</div>
+
+												<div class="col-md-4 fv-row" ng-if="form.visibilityType == 'P'">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>Amount</b></span> </label>
+													<input type="text" readonly class="form-control form-control-solid" ng-model="form.amount" placeholder="Enter Amount" name="Amount" />
+
+												</div>
+
+												<div class="col-md-4 fv-row" ng-if="form.visibilityType == 'P'">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>GST(%)</b></span> </label>
+													<input type="text" readonly class="form-control form-control-solid" ng-model="form.gst" placeholder="Enter Amount" name="Amount" />
+
+												</div>
+
+												<div class="col-md-4 fv-row" ng-if="form.visibilityType == 'P'">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>Total Amount</b></span> </label>
+													<input type="text" readonly class="form-control form-control-solid" ng-model="form.totalAmount" placeholder="Enter Amount" name="Amount" />
+
+												</div>
+												
+												<div class="col-md-4 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>Starting Month</b></span> </label>
+													<input type="text" style="height: 42px" ng-model="form.strtMth" class="form-control form-control-solid" required placeholder="Starting Date" id="kt_datepicker_1" name="stdate" />
+												</div>
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>No Of Months:</b></span> </label>
+													<input type="text" class="form-control form-control-solid" ng-model="form.noMth" ng-change="calculateAmount(form.noMth,form.gst);" placeholder="Enter Months" name="No_Of_Months" />
+
+												</div>
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class="required"><b>Remarks</b></span> </label>
+													<input required type="text" class="form-control form-control-solid " pattern="[A-Za-z0-9]+" minlength="0" maxlength="50" ng-model="form.narration" placeholder="Enter Remarks" oninvalid="this.setCustomValidity('Only Letter and number Allowed')" onchange="this.setCustomValidity('')" />
+
+												</div>
+												
+												
+
+
+											</div>
+
+											<br>
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+												<div class="col-md-4 fv-row">
+													<button type="button" class="btn btn-outline-primary me-3" style="float: left;" ng-click="selectArticleModal(form.vendorId, form.productFamily)">SELECT
+														ARTICLE</button>
+
+												</div>
+
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-12 fv-row table-responsive">
+													<table class="table align-middle table-row-dashed table-responsive">
+														<thead>
+															<!--begin::Table row-->
+															<tr style="font-weight: 700 !important; color: black !important;" class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+																<th class="min-w-100px">SL NO</th>
+																<th class="min-w-100px">Article Name</th>
+																<th class="min-w-100px">EAN Code</th>
+																<th class="min-w-100px">Document 1</th>
+																<th class="min-w-100px">Document 2</th>
+
+															</tr>
+															<!--end::Table row-->
+														</thead>
+														<tbody class="fw-semibold text-gray-600">
+															<tr class="odd" ng-repeat="(kee, product) in form.details">
+																<td>{{$index + 1}}</td>
+																<td>{{product.articleName}}</td>
+																<td>{{product.eanCode}}</td>
+																<td><input type="file" class="form-control form-control-solid" placeholder="upload file" file-model="product.primaryDocFile" name="filename">
+																	<a class="border border-secondary btn btn-icon btn-light-primary" ng-click="uploadAnyFile(kee, product.primaryDocFile, 'first')" title="Upload"><i class="fa fa-upload fs-3"></i></a>
+																</td>
+																<td><input type="file" class="form-control form-control-solid" placeholder="upload file" file-model="product.secondaryDocFile" name="filename">
+																	<a class="border border-secondary btn btn-icon btn-light-primary" ng-click="uploadAnyFile(kee, product.secondaryDocFile, 'second')" title="Upload"><i class="fa fa-upload fs-3"></i></a>
+																</td>
+
+																<td>
+																	<div class="btn-group" dropdown>
+																		<button type="button" class="btn btn-outline-danger" ng-click="deleteSelectShowProducts(kee);">
+																			Remove</button>
+
+																	</div>
+																</td>
+
+															</tr>
+
+														</tbody>
+													</table>
+												</div>
+
+											</div>
+
+											<br>
+
+											<!--begin::Separator-->
+											<div class="separator mb-6"></div>
+											<!--end::Separator-->
+											<!--begin::Action buttons-->
+											<div class="" style="margin-bottom: 39px; padding-bottom: 16px;">
+												<div class="col-md-12" style="text-align: center;">
+
+													<button type="submit" class="btn btn-outline-primary me-3">
+														<span class="indicator-label">Submit</span> <span class="indicator-progress">Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+													</button>
+
+													<button type="button" class="btn btn-outline-danger me-3" ng-click="changeView('list')">Cancel</button>
+													<!--end::Button-->
+													<!--begin::Button-->
+												</div>
+
+											</div>
+											<!--end::Action buttons-->
+										</form>
+										<!--end::Form-->
+									</div>
+									<!--end::Card body-->
+								</div>
+								<!--end::Contacts-->
+							</div>
+							<!--end::Content-->
+						</div>
+						<!--end::Contacts App- Add New Contact-->
+					</div>
+					<!--end::Content container-->
+				</div>
+				<!--end::Content-->
+			</div>
+
+			<!-- Edit vendor view -->
+			<div class="d-flex flex-column flex-column-fluid" ng-show="views.edit">
+				<!--begin::Toolbar-->
+				<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+					<!--begin::Toolbar container-->
+					<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+						<!--begin::Page title-->
+						<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+							<!--begin::Title-->
+							<h3 class="">
+								<span> <i class="fa-solid fa-cart-flatbed-suitcase fs-1"></i>
+								</span> Asset Booking: Edit
+							</h3>
+							<!--end::Title-->
+
+						</div>
+						<!--end::Page title-->
+						<div class="card-toolbar flex-row-fluid justify-content-end gap-5" style="text-align: right;">
+							<button class="btn btn-outline-danger" ng-click="changeView('list')" title="Cancel" style="padding: calc(-0.425rem + 1px) calc(-0.5rem + 1px);">
+								<span class="svg-icon svg-icon-muted svg-icon-2hx"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 2.2rem !important; height: 2.5rem !important;">
+										<path d="M9.60001 11H21C21.6 11 22 11.4 22 12C22 12.6 21.6 13 21 13H9.60001V11Z" fill="currentColor" />
+										<path opacity="0.3" d="M9.6 20V4L2.3 11.3C1.9 11.7 1.9 12.3 2.3 12.7L9.6 20Z" fill="currentColor" />
+									</svg>
+								</span>
+							</button>
+						</div>
+
+					</div>
+					<!--end::Toolbar container-->
+				</div>
+				<!--end::Toolbar-->
+				<!--begin::Content-->
+				<div id="kt_app_content" class="app-content flex-column-fluid">
+					<!--begin::Content container-->
+					<div id="kt_app_content_container" class="app-container-content container-xxl">
+						<!--begin::Contacts App- Add New Contact-->
+						<div class="row g-7">
+							<!--begin::Contact groups-->
+
+
+							<!--begin::Content-->
+							<div class="col-xl-12">
+								<!--begin::Contacts-->
+								<div class="card card-flush h-lg-100" id="kt_contacts_main">
+
+									<!--begin::Card body-->
+									<div class="card-body pt-5">
+										<form id="kt_ecommerce_settings_general_form" class="form" ng-submit="editSaveAssetsVisibilityBooking()">
+											<!--begin::Form-->
+											<!--begin::Row-->
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+												<!--begin::Col-->
+												<div class="col-md-4 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3"> <span class="required"><b>Vendor Name</b></span>
+													</label> <select type="text" class="form-control form-control-solid" ng-model="form.vendorId" ng-options="vendor.id as vendor.name for vendor in vendor_aseet_booking" placeholder="Select Vendor" required>
+
+													</select>
+												</div>
+												<div class="col-md-4 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3"> <span class="required"><b>Store/Warehouse</b></span>
+
+													</label> <select type="text" class="form-control form-control-solid" ng-model="form.outletType" placeholder="" ng-change="openAssetModal(form.outletType)" required>
+														<option value="" selected>--Select--</option>
+
+														<option value="S">Store</option>
+														<option value="W">Warehouse</option>
+
+													</select>
+												</div>
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class="required"><b>Asset Type</b></span> </label>
+													<input type="text" readonly ng-model="form.assetsTypeName" class="form-control form-control-solid" />
+
+												</div>
+
+
+
+											</div>
+
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class="required"><b>Family</b></span> </label>
+													<input type="text" readonly ng-model="form.productFamily" class="form-control form-control-solid" />
+
+												</div>
+												<div class="col-md-4 fv-row">
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>Starting Month</b></span> </label>
+													<input type="text" style="height: 42px" ng-model="form.strtMth" class="form-control form-control-solid" required placeholder="Starting Date" id="kt_datepicker_2" name="stdate" />
+												</div>
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>No. Of Months</b></span> </label>
+													<input type="text" class="form-control form-control-solid" ng-model="form.noMth" ng-change="calculateAmount(form.noMth,form.gst)" placeholder="Enter Months" name="No_Of_Months" />
+
+												</div>
+
+												<!-- <div class="col-md-4 fv-row" ng-if="form.visibilityType == 'P'">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>Rate:</b></span> </label>
+													<input type="text" readonly class="form-control form-control-solid" ng-model="form.cost" placeholder="Rate" name="Rate" />
+
+												</div> -->
+
+											</div>
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+
+												<div class="col-md-4 fv-row" ng-if="form.visibilityType == 'P'">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>Rate</b></span> </label>
+													<input type="text" readonly class="form-control form-control-solid" ng-model="form.cost" placeholder="Rate" name="Rate" />
+
+												</div>
+
+												<div class="col-md-4 fv-row" ng-if="form.visibilityType == 'P'">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>Amount</b></span> </label>
+													<input type="text" readonly class="form-control form-control-solid" ng-model="form.amount" placeholder="Enter Amount" name="Amount" />
+
+												</div>
+
+												<div class="col-md-4 fv-row" ng-if="form.visibilityType == 'P'">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>GST(%)</b></span> </label>
+													<input type="text" readonly class="form-control form-control-solid" ng-model="form.gst" placeholder="Enter Amount" name="Amount" />
+
+												</div>
+
+												<div class="col-md-4 fv-row" ng-if="form.visibilityType == 'P'">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class=""><b>Total Amount</b></span> </label>
+													<input type="text" readonly class="form-control form-control-solid" ng-model="form.totalAmount" placeholder="Enter Amount" name="Amount" />
+
+												</div>
+
+												<div class="col-md-4 fv-row">
+
+													<label class="fs-6 fw-semibold form-label mt-3"><span class="required"><b>Naration</b></span> </label> <input required type="text" class="form-control form-control-solid " pattern="[A-Za-z0-9]+" minlength="0" maxlength="50" ng-model="form.narration" placeholder="Enter Naration" oninvalid="this.setCustomValidity('Only Letter and number Allowed')" onchange="this.setCustomValidity('')" />
+
+												</div>
+
+											</div>
+											<br>
+											<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+												<div class="col-md-4 fv-row">
+													<button type="button" class="btn btn-outline-primary me-3" style="float: left;" ng-click="selectArticleModal(form.vendorId, form.productFamily)">SELECT
+														ARTICLE</button>
+
+												</div>
+
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-12 fv-row table-responsive">
+													<table class="table align-middle table-row-dashed table-responsiver">
+														<thead>
+															<!--begin::Table row-->
+															<tr style="font-weight: 700 !important; color: black !important;" class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+																<th class="min-w-100px">SL NO</th>
+																<th class="min-w-100px">Article Name</th>
+																<th class="min-w-100px">EAN Code</th>
+																<th class="min-w-100px">Document 1</th>
+																<th class="min-w-100px">Document 2</th>
+
+															</tr>
+															<!--end::Table row-->
+														</thead>
+														<tbody class="fw-semibold text-gray-600">
+															<tr class="odd" ng-repeat="(kee, product) in form.details">
+																<td>{{$index + 1}}</td>
+																<td>{{product.articleName}}</td>
+																<td>{{product.eanCode}}</td>
+																<td><input type="file" class="form-control form-control-solid" placeholder="upload file" file-model="product.primaryDocFile" name="filename">
+																	<span style="color: red;" ng-if="product.primaryDoc && product.primaryDoc != ''">Already
+																		Uploaded</span> <a href="" ng-click="downloadFile(product.primaryDoc)"><span style="color: blue;" ng-if="product.primaryDoc && product.primaryDoc != ''">Download
+																			File</span></a> <a class="border border-secondary btn btn-icon btn-light-primary" ng-click="uploadAnyFile(kee, product.primaryDocFile, 'first')" title="Upload"><i class="fa fa-upload fs-3"></i></a>
+																</td>
+																<td><input type="file" class="form-control form-control-solid" placeholder="upload file" file-model="product.secondaryDocFile" name="filename">
+																	<span style="color: red;" ng-if="product.secondaryDoc && product.secondaryDoc != ''">Already
+																		Uploaded</span> <a href="" ng-click="downloadFile(product.secondaryDoc)"><span style="color: blue;" ng-if="product.secondaryDoc && product.secondaryDoc != ''">Download
+																			File</span></a> <a class="border border-secondary btn btn-icon btn-light-primary" ng-click="uploadAnyFile(kee, product.secondaryDocFile, 'second')" title="Upload"><i class="fa fa-upload fs-3"></i></a>
+																</td>
+
+																<td>
+																	<div class="btn-group" dropdown>
+																		<button type="button" class="btn btn-outline-danger" ng-click="removeSelectProducts(kee, product);">
+																			Remove</button>
+
+																	</div>
+																</td>
+
+															</tr>
+
+														</tbody>
+													</table>
+												</div>
+
+											</div>
+											</br>
+
+											<div class="" style="margin-bottom: 39px; padding-bottom: 16px;">
+												<div class="col-md-12" style="text-align: center;">
+
+													<button type="submit" data-kt-contacts-type="submit" class="btn btn-outline-primary me-3">
+														<span class="indicator-label">Submit</span> <span class="indicator-progress">Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+													</button>
+
+													<button type="button" ng-click="changeView('list')" data-kt-contacts-type="cancel" class="btn btn-outline-danger me-3">Cancel</button>
+													<!--end::Button-->
+													<!--begin::Button-->
+												</div>
+
+											</div>
+											<!--end::Action buttons-->
+										</form>
+									</div>
+									<!--end::Form-->
+								</div>
+								<!--end::Card body-->
+							</div>
+							<!--end::Contacts-->
+						</div>
+						<!--end::Content-->
+					</div>
+					<!--end::Contacts App- Add New Contact-->
+				</div>
+				<!--end::Content container-->
+			</div>
+
+
+			<!--begin::Footer-->
+			<div th:replace="fragments/footer"></div>
+			<!--end::Footer-->
+		</div>
+		<!--end:::Main-->
+	</div>
+	<!--end::Wrapper-->
+	</div>
+	<!--end::Page-->
+	</div>
+	<!--end::App-->
+
+
+
+
+	<!--begin::Scrolltop-->
+	<div th:replace="fragments/scroll"></div>
+	<!--end::Scrolltop-->
+
+	<!-- ==================Model code content======================= -->
+	<div class="modal fade modal-lg" tabindex="-1" id="assets_item_modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Select Asset</h3>
+
+					<!--begin::Close-->
+					<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+						<span class="svg-icon svg-icon-muted svg-icon-2hx"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path opacity="0.3" d="M6 19.7C5.7 19.7 5.5 19.6 5.3 19.4C4.9 19 4.9 18.4 5.3 18L18 5.3C18.4 4.9 19 4.9 19.4 5.3C19.8 5.7 19.8 6.29999 19.4 6.69999L6.7 19.4C6.5 19.6 6.3 19.7 6 19.7Z" fill="currentColor" />
+								<path d="M18.8 19.7C18.5 19.7 18.3 19.6 18.1 19.4L5.40001 6.69999C5.00001 6.29999 5.00001 5.7 5.40001 5.3C5.80001 4.9 6.40001 4.9 6.80001 5.3L19.5 18C19.9 18.4 19.9 19 19.5 19.4C19.3 19.6 19 19.7 18.8 19.7Z" fill="currentColor" />
+							</svg> </span>
+					</div>
+					<!--end::Close-->
+				</div>
+
+				<form id="kt_ecommerce_settings_general_form" class="form" ng-submit="addSaveReason()">
+					<div class="modal-body">
+
+						<div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-3">
+							<div class="card-body pt-3">
+								<div class="card-body table-responsive" style="width: 100%">
+									<table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+										<thead>
+											<tr style="font-weight: 700 !important; overflow-x: scroll; color: black !important;" class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+												<th class="min-w-100px">SL No</th>
+												<th class="min-w-100px">Name</th>
+												<th class="min-w-100px">Asset Type</th>
+												<th class="min-w-100px">Asset No.</th>
+												<th class="min-w-100px">Year Code.</th>
+												<th class="min-w-100px">Family</th>
+												<th class="min-w-100px">Display Quantity</th>
+												<th class="min-w-100px">File</th>
+												<th class="min-w-100px">Rate</th>
+												<th class="min-w-100px">#</th>
+
+											</tr>
+
+										</thead>
+										<tbody class="fw-semibold text-gray-600">
+											<tr class="odd" ng-repeat="assetdata in assetdata | filter:searchTextItem">
+												<td>{{$index + 1}}</td>
+												<td>{{assetdata.outletName}}</td>
+												<td>{{assetdata.assetsTypeName}}</td>
+												<td>{{assetdata.assetNo}}</td>
+												<td>{{assetdata.year}}</td>
+												<td>{{assetdata.productFamily}}</td>
+												<td>{{assetdata.maxsf}}</td>
+												<td>{{assetdata.assetFile}}</td>
+												<td>{{assetdata.cost}}</td>
+
+												<td><button type="button" class="btn btn-outline-primary" ng-click="selectItemId(assetdata)">Select</button></td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+
+							</div>
+
+
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- ==================End Model code content=================== -->
+	<div class="modal fade modal-lg" tabindex="-1" id="link_article_modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Select Article</h3>
+
+					<!--begin::Close-->
+
+					<div class="d-flex align-items-center position-relative my-1">
+						<span class="svg-icon svg-icon-1 position-absolute ms-6"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor">
+								</rect>
+								<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor"></path>
+							</svg>
+						</span> <input type="text" data-kt-filter="search" ng-model="searchTextSelectPdt" class="form-control form-control-solid w-250px ps-15" placeholder="Search Article" />
+					</div>
+					<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+						<span class="svg-icon svg-icon-muted svg-icon-2hx"><svg style="height: 2rem !important; width: 2rem !important;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path opacity="0.3" d="M6 19.7C5.7 19.7 5.5 19.6 5.3 19.4C4.9 19 4.9 18.4 5.3 18L18 5.3C18.4 4.9 19 4.9 19.4 5.3C19.8 5.7 19.8 6.29999 19.4 6.69999L6.7 19.4C6.5 19.6 6.3 19.7 6 19.7Z" fill="currentColor" />
+								<path d="M18.8 19.7C18.5 19.7 18.3 19.6 18.1 19.4L5.40001 6.69999C5.00001 6.29999 5.00001 5.7 5.40001 5.3C5.80001 4.9 6.40001 4.9 6.80001 5.3L19.5 18C19.9 18.4 19.9 19 19.5 19.4C19.3 19.6 19 19.7 18.8 19.7Z" fill="currentColor" />
+							</svg> </span>
+					</div>
+					<!--end::Close-->
+				</div>
+
+
+				<div class="modal-body">
+					<table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+						<thead>
+							<tr style="font-weight: 700 !important; color: black !important;" class="text-start text-gray-400 fw-bold fs-7 text-uppercase">
+								<th class="min-w-100px"># <input type="checkbox" name="clusterId" hidden ng-model="form.clusterId">
+								</th>
+								<th class="min-w-100px">Name</th>
+								<th class="min-w-100px">Short Name</th>
+								<th class="min-w-100px">EAN Code</th>
+								<th class="min-w-100px">#</th>
+
+
+							</tr>
+						</thead>
+						<tbody class="fw-semibold text-gray-600">
+							<tr class="odd" ng-repeat="product in form.products">
+								<td>{{$index + 1}}</td>
+								<td>{{product.name}}</td>
+								<td>{{product.shortName}}</td>
+								<td>{{product.eanCode}}</td>
+								<td><button type="button" class="btn btn-outline-primary" ng-click="selectShowProducts(product)">Select</button></td>
+
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+					<!-- <button type="submit" class="btn btn-primary">Save</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ==================Model code content======================= -->
+
+
+
+
+	<!-- ==================End Model code content=================== -->
+
+	<!--begin::Page Javascript-->
+	<script src="private/assetController.js"></script>
+	﻿
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr@latest/dist/plugins/monthSelect/index.js"></script>
+	<script>
+		$("#kt_datepicker_1").flatpickr({
+			plugins: [
+				new monthSelectPlugin({
+					shorthand: true, //defaults to false
+					dateFormat: "F.Y", //defaults to "F Y"
+					altFormat: "F Y", //defaults to "F Y"
+					theme: "light" // defaults to "light"
+				})
+			]
+		});
+		$("#kt_datepicker_2").flatpickr({
+			plugins: [
+				new monthSelectPlugin({
+					shorthand: true, //defaults to false
+					dateFormat: "F.Y", //defaults to "F Y"
+					altFormat: "F Y", //defaults to "F Y"
+					theme: "light" // defaults to "light"
+				})
+			]
+		});
+	</script>
+	<script>
+		"use strict";
+
+		// Class definition
+		var KTDatatablesExample = function() {
+			// Shared variables
+			var table;
+			var datatable;
+
+			// Private functions
+			var initDatatable = function() {
+				// Set date data order
+				const tableRows = table.querySelectorAll('tbody tr');
+
+				// tableRows.forEach(row => {
+				// 	const dateRow = row.querySelectorAll('td');
+				// 	const realDate = moment(dateRow[3].innerHTML, "DD MMM YYYY, LT").format(); // select date from 4th column in table
+				// 	dateRow[3].setAttribute('data-order', realDate);
+				// });
+
+				// Init datatable --- more info on datatables: https://datatables.net/manual/
+				datatable = $(table).DataTable({
+					"info": false,
+					'order': [],
+					'pageLength': 10,
+				});
+			}
+
+			// Hook export buttons
+			var exportButtons = () => {
+				const documentTitle = 'Customer Orders Report';
+				var buttons = new $.fn.dataTable.Buttons(table, {
+					buttons: [{
+							extend: 'copyHtml5',
+							title: documentTitle
+						},
+						{
+							extend: 'excelHtml5',
+							title: documentTitle
+						},
+						{
+							extend: 'csvHtml5',
+							title: documentTitle
+						},
+						{
+							extend: 'pdfHtml5',
+							title: documentTitle
+						}
+					]
+				}).container().appendTo($('#kt_datatable_example_buttons'));
+
+				// Hook dropdown menu click event to datatable export buttons
+				const exportButtons = document.querySelectorAll('#kt_datatable_example_export_menu [data-kt-export]');
+				exportButtons.forEach(exportButton => {
+					exportButton.addEventListener('click', e => {
+						e.preventDefault();
+
+						// Get clicked export value
+						const exportValue = e.target.getAttribute('data-kt-export');
+						console.log(exportValue);
+						const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
+						console.log(target);
+
+						// Trigger click event on hidden datatable export buttons
+						// target.click();
+					});
+				});
+			}
+
+			// Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+			var handleSearchDatatable = () => {
+				const filterSearch = document.querySelector('[data-kt-filter="search"]');
+				filterSearch.addEventListener('keyup', function(e) {
+					datatable.search(e.target.value).draw();
+				});
+			}
+
+			// Public methods
+			return {
+				init: function() {
+					table = document.querySelector('#kt_datatable_example');
+
+					if (!table) {
+						return;
+					}
+
+					initDatatable();
+					exportButtons();
+					handleSearchDatatable();
+				}
+			};
+		}();
+
+		// On document ready
+		KTUtil.onDOMContentLoaded(function() {
+			KTDatatablesExample.init();
+		});
+	</script>
+	<!--end::Page Javascript-->
+
+</body>
+<!--end::Body-->
+
+
+</html>
